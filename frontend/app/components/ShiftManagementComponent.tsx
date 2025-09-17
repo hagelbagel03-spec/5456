@@ -812,7 +812,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
     },
     modernModalActions: {
       flexDirection: 'row',
-      gap: 12,
+      justifyContent: 'space-between',
       paddingTop: 20,
       borderTopWidth: 1,
       borderTopColor: colors.border + '30',
