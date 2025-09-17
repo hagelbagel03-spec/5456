@@ -10298,7 +10298,10 @@ Beispielinhalt:
                         
                         <TouchableOpacity 
                           style={[dynamicStyles.premiumActionButton, { backgroundColor: '#EF4444' }]}
-                          onPress={() => handleVacationApproval(vacation.id, 'reject', 'Abgelehnt - siehe Begründung')}
+                          onPress={() => {
+                            setRejectionVacationId(vacation.id);
+                            setShowRejectionModal(true);
+                          }}
                         >
                           <Ionicons name="close-circle" size={18} color="#FFFFFF" />
                           <Text style={dynamicStyles.premiumActionText}>Ablehnen</Text>
