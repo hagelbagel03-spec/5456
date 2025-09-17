@@ -533,6 +533,26 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       flex: 1,
       lineHeight: 18,
     },
+
+    // Rejection Reason Styles
+    rejectionReasonContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      marginTop: 8,
+      backgroundColor: colors.error + '10',
+      borderRadius: 8,
+      padding: 12,
+      borderLeftWidth: 3,
+      borderLeftColor: colors.error,
+    },
+    rejectionReasonText: {
+      fontSize: 13,
+      color: colors.error,
+      marginLeft: 8,
+      flex: 1,
+      lineHeight: 18,
+      fontWeight: '500',
+    },
     vacationActionButton: {
       marginLeft: 12,
     },
