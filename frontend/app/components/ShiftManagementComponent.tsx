@@ -654,17 +654,67 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
             <Text style={dynamicStyles.emptySubtext}>Erstellen Sie Ihren ersten Urlaubsantrag</Text>
           </View>
         ) : (
-          vacations.map((vacation) => (
-            <View key={vacation.id} style={dynamicStyles.vacationCard}>
-              <View style={dynamicStyles.vacationHeader}>
-                <Text style={dynamicStyles.vacationDates}>
-                  {vacation.start_date} - {vacation.end_date}
-                </Text>
-                <View style={[dynamicStyles.statusBadge, { backgroundColor: getStatusColor(vacation.status) }]}>
-                  <Text style={dynamicStyles.statusBadgeText}>{getStatusText(vacation.status)}</Text>
+          vacations.map((vacation, index) => (
+            <View key={vacation.id || index} style={dynamicStyles.modernVacationCard}>
+              <View style={dynamicStyles.modernVacationHeader}>
+                <View style={dynamicStyles.vacationIconContainer}>
+                  <View style={[dynamicStyles.vacationStatusDot, { backgroundColor: getStatusColor(vacation.status) }]}>
+                    <Ionicons 
+                      name={vacation.status === 'approved' ? 'checkmark' : 
+                            vacation.status === 'rejected' ? 'close' : 
+                            'time'}
+                      size={16} 
+                      color="#FFFFFF" 
+                    />
+                  </View>
+                </View>
+                
+                <View style={dynamicStyles.vacationMainContent}>
+                  <View style={dynamicStyles.vacationTopRow}>
+                    <Text style={dynamicStyles.modernVacationTitle}>
+                      📅 Urlaubsantrag
+                    </Text>
+                    <View style={[dynamicStyles.modernStatusChip, { backgroundColor: getStatusColor(vacation.status) + '20', borderColor: getStatusColor(vacation.status) }]}>
+                      <Text style={[dynamicStyles.modernStatusChipText, { color: getStatusColor(vacation.status) }]}>
+                        {getStatusText(vacation.status)}
+                      </Text>
+                    </View>
+                  </View>
+                  
+                  <View style={dynamicStyles.vacationDateRow}>
+                    <View style={dynamicStyles.vacationDateContainer}>
+                      <Ionicons name="calendar-outline" size={14} color={colors.primary} />
+                      <Text style={dynamicStyles.modernVacationDates}>
+                        {vacation.start_date} bis {vacation.end_date}
+                      </Text>
+                    </View>
+                  </View>
+                  
+                  {vacation.reason && (
+                    <View style={dynamicStyles.vacationReasonContainer}>
+                      <Ionicons name="document-text-outline" size={14} color={colors.textMuted} />
+                      <Text style={dynamicStyles.modernVacationReason} numberOfLines={2}>
+                        {vacation.reason}
+                      </Text>
+                    </View>
+                  )}
+                </View>
+
+                <View style={dynamicStyles.vacationActionButton}>
+                  <TouchableOpacity 
+                    style={dynamicStyles.vacationViewButton}
+                    onPress={() => {
+                      Alert.alert(
+                        '📋 Urlaubsantrag Details',
+                        `Status: ${getStatusText(vacation.status)}\nZeitraum: ${vacation.start_date} bis ${vacation.end_date}\n${vacation.reason ? `Grund: ${vacation.reason}` : 'Kein Grund angegeben'}`,
+                        [{ text: 'OK' }]
+                      );
+                    }}
+                  >
+                    <Ionicons name="ellipsis-horizontal" size={16} color={colors.textMuted} />
+                  </TouchableOpacity>
                 </View>
               </View>
-              <Text style={dynamicStyles.vacationReason}>{vacation.reason}</Text>
             </View>
           ))
         )}
