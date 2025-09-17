@@ -482,6 +482,14 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       justifyContent: 'center',
       alignItems: 'center',
     },
+
+    // Lists
+    listContainer: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      paddingVertical: 8,
+      marginBottom: 16,
+    },
     listItem: {
       flexDirection: 'row',
       alignItems: 'center',
