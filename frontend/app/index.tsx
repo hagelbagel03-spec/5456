@@ -3422,6 +3422,71 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       fontSize: 12,
       color: colors.textMuted,
     },
+    userSelectionItemSelected: {
+      backgroundColor: colors.primary + '20',
+      borderColor: colors.primary,
+      borderWidth: 1,
+    },
+    userSelectionAvatar: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    userSelectionAvatarImage: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+    },
+    userSelectionInfo: {
+      flex: 1,
+    },
+    userSelectionName: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    userSelectionBadge: {
+      fontSize: 12,
+      color: colors.textMuted,
+    },
+    userSelectionCheckbox: {
+      marginLeft: 8,
+    },
+    selectedMembersContainer: {
+      marginTop: 16,
+      padding: 16,
+      backgroundColor: colors.background,
+      borderRadius: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    selectedMembersTitle: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    selectedMembersList: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 8,
+    },
+    selectedMemberChip: {
+      backgroundColor: colors.primary,
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 16,
+    },
+    selectedMemberChipText: {
+      fontSize: 12,
+      color: '#FFFFFF',
+      fontWeight: '500',
+    },
     statusHeaderText: {
       fontSize: 14,
       fontWeight: '700',
