@@ -2122,7 +2122,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         Alert.alert('✅ Erfolg', `Team "${newTeamData.name}" wurde erstellt!`);
         
         // Reset form and close modal
-        setNewTeamData({ name: '', description: '', district: '', max_members: 6 });
+        setNewTeamData({ name: '', description: '', district: '', max_members: 6, selectedMembers: [] });
         setShowAddTeamModal(false);
         
         // Reload team data
