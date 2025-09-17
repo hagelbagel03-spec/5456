@@ -1788,9 +1788,14 @@ async def approve_vacation(vacation_id: str, approval_data: VacationApproval, cu
         update_data = {
             "status": "approved" if approval_data.action == "approve" else "rejected",
             "approved_by": current_user.id,
-            "approval_reason": approval_data.reason,
             "approved_at": datetime.utcnow()
         }
+        
+        # Separate handling for approval and rejection reasons
+        if approval_data.action == "approve":
+            update_data["approval_reason"] = approval_data.reason
+        else:
+            update_data["rejection_reason"] = approval_data.reason
         
         # Log vacation approval/rejection
         action_text = "GENEHMIGT" if approval_data.action == "approve" else "ABGELEHNT"
