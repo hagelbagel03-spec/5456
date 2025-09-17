@@ -10779,56 +10779,93 @@ Beispielinhalt:
         animationType="slide"
         onRequestClose={() => setShowAddTeamModal(false)}
       >
-        <KeyboardAvoidingView 
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-          style={{ flex: 1 }}
-        >
-          <View style={dynamicStyles.profileModalOverlay}>
-            <View style={dynamicStyles.profileModalContainer}>
-              <View style={dynamicStyles.profileModalHeader}>
-                <TouchableOpacity 
-                  style={dynamicStyles.profileCloseButton}
-                  onPress={() => setShowAddTeamModal(false)}
-                >
-                  <Ionicons name="close" size={24} color={colors.textMuted} />
-                </TouchableOpacity>
-                <Text style={dynamicStyles.profileModalTitle}>👥 Neues Team erstellen</Text>
-                <View style={{ width: 40 }} />
-              </View>
+      {/* Add Team Modal - AddUserModal Style */}
+      <Modal
+        visible={showAddTeamModal}
+        animationType="slide"
+        onRequestClose={() => setShowAddTeamModal(false)}
+      >
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.profileModalHeader}>
+            <TouchableOpacity 
+              style={dynamicStyles.profileCloseButton}
+              onPress={() => setShowAddTeamModal(false)}
+            >
+              <Ionicons name="close" size={24} color={colors.textMuted} />
+            </TouchableOpacity>
+            <Text style={dynamicStyles.profileModalTitle}>👥 Neues Team erstellen</Text>
+            <View style={{ width: 40 }} />
+          </View>
 
-            <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
-              <View style={dynamicStyles.profileFormGroup}>
-                <Text style={dynamicStyles.profileFormLabel}>📛 Team-Name *</Text>
-                <TextInput
-                  style={dynamicStyles.profileFormInput}
-                  value={newTeamData.name}
-                  onChangeText={(value) => setNewTeamData({...newTeamData, name: value})}
-                  placeholder="z.B. Team Alpha, Streife 1"
-                  placeholderTextColor={colors.textMuted}
-                />
-              </View>
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={dynamicStyles.profileInfoText}>
+                🚔 Erstellen Sie ein neues Polizei-Team mit spezifischen Aufgaben und Bezirkszuweisungen.
+              </Text>
+            </View>
 
-              <View style={dynamicStyles.profileFormGroup}>
-                <Text style={dynamicStyles.profileFormLabel}>📝 Beschreibung</Text>
-                <TextInput
-                  style={[dynamicStyles.profileFormInput, { height: 80, textAlignVertical: 'top' }]}
-                  value={newTeamData.description}
-                  onChangeText={(value) => setNewTeamData({...newTeamData, description: value})}
-                  placeholder="Aufgaben und Verantwortlichkeiten..."
-                  placeholderTextColor={colors.textMuted}
-                  multiline
-                  numberOfLines={3}
-                />
-              </View>
+            <Text style={dynamicStyles.profileSectionTitle}>📝 Team-Informationen</Text>
 
-              <View style={dynamicStyles.profileFormGroup}>
-                <Text style={dynamicStyles.profileFormLabel}>🗺️ Zugewiesener Bezirk</Text>
-                <TextInput
-                  style={dynamicStyles.profileFormInput}
-                  value={newTeamData.district}
-                  onChangeText={(value) => setNewTeamData({...newTeamData, district: value})}
-                  placeholder="z.B. Innenstadt, Nord, Süd"
-                  placeholderTextColor={colors.textMuted}
+            <View style={dynamicStyles.profileFormGroup}>
+              <Text style={dynamicStyles.profileFormLabel}>📛 Team-Name *</Text>
+              <TextInput
+                style={dynamicStyles.profileFormInput}
+                value={newTeamData.name}
+                onChangeText={(value) => setNewTeamData({...newTeamData, name: value})}
+                placeholder="z.B. Streife Alpha, Team Bravo"
+                placeholderTextColor={colors.textMuted}
+              />
+            </View>
+
+            <View style={dynamicStyles.profileFormGroup}>
+              <Text style={dynamicStyles.profileFormLabel}>📝 Beschreibung</Text>
+              <TextInput
+                style={[dynamicStyles.profileFormInput, { height: 80, textAlignVertical: 'top' }]}
+                value={newTeamData.description}
+                onChangeText={(value) => setNewTeamData({...newTeamData, description: value})}
+                placeholder="Spezielle Aufgaben und Verantwortlichkeiten..."
+                placeholderTextColor={colors.textMuted}
+                multiline
+                numberOfLines={3}
+              />
+            </View>
+
+            <View style={dynamicStyles.profileFormGroup}>
+              <Text style={dynamicStyles.profileFormLabel}>🗺️ Zugewiesener Bezirk</Text>
+              <TextInput
+                style={dynamicStyles.profileFormInput}
+                value={newTeamData.district}
+                onChangeText={(value) => setNewTeamData({...newTeamData, district: value})}
+                placeholder="z.B. Innenstadt, Nord, Industriegebiet"
+                placeholderTextColor={colors.textMuted}
+              />
+            </View>
+
+            <View style={dynamicStyles.profileFormGroup}>
+              <Text style={dynamicStyles.profileFormLabel}>👥 Max. Team-Mitglieder</Text>
+              <TextInput
+                style={dynamicStyles.profileFormInput}
+                value={newTeamData.max_members.toString()}
+                onChangeText={(value) => setNewTeamData({...newTeamData, max_members: parseInt(value) || 6})}
+                placeholder="6"
+                placeholderTextColor={colors.textMuted}
+                keyboardType="numeric"
+              />
+              <Text style={dynamicStyles.profileFormHelperText}>
+                💡 Empfohlene Team-Größe: 4-8 Beamte pro Team
+              </Text>
+            </View>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileSaveButton}
+              onPress={createNewTeam}
+            >
+              <Ionicons name="people-circle" size={20} color="#FFFFFF" />
+              <Text style={dynamicStyles.profileSaveButtonText}>Team erstellen</Text>
+            </TouchableOpacity>
+          </ScrollView>
+        </SafeAreaView>
+      </Modal>
                 />
               </View>
 
