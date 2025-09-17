@@ -1102,9 +1102,19 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
                   <TouchableOpacity 
                     style={dynamicStyles.vacationViewButton}
                     onPress={() => {
+                      let alertMessage = `Status: ${getStatusText(vacation.status)}\nZeitraum: ${vacation.start_date} bis ${vacation.end_date}`;
+                      
+                      if (vacation.reason) {
+                        alertMessage += `\nGrund: ${vacation.reason}`;
+                      }
+                      
+                      if (vacation.status === 'rejected' && vacation.rejection_reason) {
+                        alertMessage += `\n\n❌ Ablehnungsgrund:\n${vacation.rejection_reason}`;
+                      }
+                      
                       Alert.alert(
                         '📋 Urlaubsantrag Details',
-                        `Status: ${getStatusText(vacation.status)}\nZeitraum: ${vacation.start_date} bis ${vacation.end_date}\n${vacation.reason ? `Grund: ${vacation.reason}` : 'Kein Grund angegeben'}`,
+                        alertMessage,
                         [{ text: 'OK' }]
                       );
                     }}
