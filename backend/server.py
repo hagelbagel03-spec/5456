@@ -1583,8 +1583,7 @@ async def update_app_configuration(
     
     return AppConfiguration(**updated_config)
 
-# Admin route to assign district and team to user
-@api_router.put("/admin/users/{user_id}/assign", response_model=User)
+@api_router.put("/admin/users/{user_id}/assign")
 async def assign_user_district_team(
     user_id: str, 
     assignment_data: dict,
@@ -1611,7 +1610,7 @@ async def assign_user_district_team(
         raise HTTPException(status_code=404, detail="User not found")
     
     updated_user = await db.users.find_one({"id": user_id})
-    return User(**updated_user)
+    return serialize_mongo_data(updated_user)
 
 # Get all districts
 @api_router.get("/districts")
