@@ -1580,10 +1580,67 @@ async def update_app_configuration(
     
     return AppConfiguration(**updated_config)
 
-# Root route
-@api_router.get("/")
-async def root():
-    return {"message": "Stadtwache API", "version": "1.0.0"}
+# Admin route to assign district and team to user
+@api_router.put("/admin/users/{user_id}/assign", response_model=User)
+async def assign_user_district_team(
+    user_id: str, 
+    assignment_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    """Assign district and team to user (Admin only)"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Only admins can assign districts and teams")
+    
+    update_data = {}
+    if 'assigned_district' in assignment_data:
+        update_data['assigned_district'] = assignment_data['assigned_district']
+    if 'patrol_team' in assignment_data:
+        update_data['patrol_team'] = assignment_data['patrol_team']
+    
+    if not update_data:
+        raise HTTPException(status_code=400, detail="No assignment data provided")
+    
+    update_data['updated_at'] = datetime.utcnow()
+    
+    result = await db.users.update_one({"id": user_id}, {"$set": update_data})
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    updated_user = await db.users.find_one({"id": user_id})
+    return User(**updated_user)
+
+# Get all districts
+@api_router.get("/districts")
+async def get_districts(current_user: User = Depends(get_current_user)):
+    """Get all available districts"""
+    districts = [
+        {"id": "innenstadt", "name": "Innenstadt", "description": "Stadtzentrum und Geschäftsviertel"},
+        {"id": "nord", "name": "Nord", "description": "Nördliche Stadtbezirke"},
+        {"id": "sued", "name": "Süd", "description": "Südliche Stadtbezirke"},
+        {"id": "ost", "name": "Ost", "description": "Östliche Stadtbezirke"},
+        {"id": "west", "name": "West", "description": "Westliche Stadtbezirke"},
+        {"id": "industriegebiet", "name": "Industriegebiet", "description": "Industrielle Bereiche"},
+        {"id": "wohngebiet", "name": "Wohngebiet", "description": "Wohngebiete und Siedlungen"},
+        {"id": "zentrum", "name": "Zentrum", "description": "Zentraler Bereich"}
+    ]
+    return districts
+
+# Get all teams
+@api_router.get("/teams")
+async def get_teams(current_user: User = Depends(get_current_user)):
+    """Get all available teams"""
+    teams = [
+        {"id": "alpha", "name": "Team Alpha", "description": "Streifendienst Alpha"},
+        {"id": "bravo", "name": "Team Bravo", "description": "Streifendienst Bravo"},
+        {"id": "charlie", "name": "Team Charlie", "description": "Streifendienst Charlie"},
+        {"id": "delta", "name": "Team Delta", "description": "Streifendienst Delta"},
+        {"id": "spezial", "name": "Spezialeinheit", "description": "Spezielle Einsätze"},
+        {"id": "verkehr", "name": "Verkehrspolizei", "description": "Verkehrsüberwachung"},
+        {"id": "kripo", "name": "Kriminalpolizei", "description": "Ermittlungsdienst"},
+        {"id": "bereitschaft", "name": "Bereitschaftspolizei", "description": "Bereitschaftsdienst"}
+    ]
+    return teams
 
 # Statische Dateien für Frontend
 static_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend/dist"))
