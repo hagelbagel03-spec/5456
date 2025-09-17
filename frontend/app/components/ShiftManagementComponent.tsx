@@ -655,16 +655,16 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
               numberOfLines={3}
             />
             
-            <View style={{ flexDirection: 'row', gap: 12 }}>
+            <View style={{ flexDirection: 'row', marginTop: 12 }}>
               <TouchableOpacity
-                style={[dynamicStyles.submitButton, { backgroundColor: colors.textMuted, flex: 1 }]}
+                style={[dynamicStyles.submitButton, { backgroundColor: colors.textMuted, flex: 1, marginRight: 6 }]}
                 onPress={() => setShowVacationModal(false)}
               >
                 <Text style={dynamicStyles.submitButtonText}>Abbrechen</Text>
               </TouchableOpacity>
               
               <TouchableOpacity
-                style={[dynamicStyles.submitButton, { flex: 1 }]}
+                style={[dynamicStyles.submitButton, { flex: 1, marginLeft: 6 }]}
                 onPress={requestVacation}
               >
                 <Text style={dynamicStyles.submitButtonText}>Einreichen</Text>
