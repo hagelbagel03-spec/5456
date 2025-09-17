@@ -721,7 +721,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
         </View>
         
         {checkins.length > 0 ? (
-          checkins.slice(0, 5).map((checkin, index) => (
+          checkins.slice(0, 3).map((checkin, index) => (
             <View key={checkin.id || index} style={dynamicStyles.modernCheckinCard}>
               <View style={dynamicStyles.modernCheckinHeader}>
                 <View style={dynamicStyles.checkinIconContainer}>
