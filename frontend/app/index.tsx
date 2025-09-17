@@ -10402,116 +10402,122 @@ Beispielinhalt:
 
       {/* Admin Management Modals - NEU */}
       
-      {/* Urlaubsanträge Admin Modal - Premium Design */}
+      {/* Vacation Management Modal - AddUserModal Style */}
       <Modal
         visible={showVacationManagementModal}
-        transparent={true}
         animationType="slide"
         onRequestClose={() => setShowVacationManagementModal(false)}
       >
-        <SafeAreaView style={dynamicStyles.premiumModalOverlay}>
-          <KeyboardAvoidingView 
-            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={{ flex: 1 }}
-          >
-            <View style={dynamicStyles.premiumModalContainer}>
-              <View style={dynamicStyles.premiumModalHeader}>
-                <TouchableOpacity 
-                  style={dynamicStyles.premiumCloseButton}
-                  onPress={() => setShowVacationManagementModal(false)}
-                >
-                  <Ionicons name="close" size={24} color={colors.textMuted} />
-                </TouchableOpacity>
-                
-                <View style={dynamicStyles.premiumHeaderContent}>
-                  <View style={dynamicStyles.premiumIconContainer}>
-                    <Ionicons name="calendar" size={28} color="#FFFFFF" />
-                  </View>
-                  <View style={dynamicStyles.premiumTitleContainer}>
-                    <Text style={dynamicStyles.premiumModalTitle}>Urlaubsanträge</Text>
-                    <Text style={dynamicStyles.premiumModalSubtitle}>Genehmigen • Ablehnen • Verwalten</Text>
-                  </View>
-                </View>
-              </View>
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.profileModalHeader}>
+            <TouchableOpacity 
+              style={dynamicStyles.profileCloseButton}
+              onPress={() => setShowVacationManagementModal(false)}
+            >
+              <Ionicons name="close" size={24} color={colors.textMuted} />
+            </TouchableOpacity>
+            <Text style={dynamicStyles.profileModalTitle}>📅 Urlaubsanträge</Text>
+            <View style={{ width: 40 }} />
+          </View>
 
-              <ScrollView style={dynamicStyles.modalContent} showsVerticalScrollIndicator={false}>
-                {pendingVacations.map((vacation, index) => (
-                  <View key={vacation.id || index} style={dynamicStyles.premiumVacationCard}>
-                    <View style={dynamicStyles.vacationCardHeader}>
-                      <View style={dynamicStyles.userAvatarContainer}>
-                        <Ionicons name="person" size={20} color={colors.primary} />
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={dynamicStyles.profileInfoText}>
+                📋 Hier können Sie alle eingereichten Urlaubsanträge verwalten, genehmigen oder ablehnen.
+              </Text>
+            </View>
+
+            <Text style={dynamicStyles.profileSectionTitle}>Genehmigen • Ablehnen • Verwalten</Text>
+
+            {pendingVacations.length > 0 ? (
+              pendingVacations.map((vacation, index) => (
+                <View key={vacation.id || index} style={dynamicStyles.profileFormGroup}>
+                  <View style={[dynamicStyles.profileFormInput, { padding: 20, height: 'auto' }]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+                      <View style={[dynamicStyles.profileActionIcon, { marginRight: 16, width: 40, height: 40 }]}>
+                        <Ionicons name="calendar" size={20} color={colors.primary} />
                       </View>
-                      <View style={dynamicStyles.vacationUserInfo}>
-                        <Text style={dynamicStyles.premiumVacationUser}>{vacation.user_name || vacation.username}</Text>
-                        <Text style={dynamicStyles.vacationDepartment}>Stadtwache Mitarbeiter</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={[dynamicStyles.profileFormLabel, { marginBottom: 4 }]}>
+                          {vacation.user_name || vacation.username}
+                        </Text>
+                        <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 0 }]}>
+                          {vacation.start_date} bis {vacation.end_date}
+                        </Text>
                       </View>
-                      <View style={[dynamicStyles.premiumStatusBadge, 
-                        { backgroundColor: vacation.status === 'pending' ? '#F59E0B' : vacation.status === 'approved' ? '#10B981' : '#EF4444' }]}>
-                        <Text style={dynamicStyles.premiumStatusText}>
-                          {vacation.status === 'pending' ? '⏳ Ausstehend' : vacation.status === 'approved' ? '✅ Genehmigt' : '❌ Abgelehnt'}
+                      <View style={[{
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
+                        borderRadius: 12,
+                        backgroundColor: vacation.status === 'approved' ? colors.success : 
+                                       vacation.status === 'rejected' ? colors.error : colors.warning
+                      }]}>
+                        <Text style={[{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }]}>
+                          {vacation.status === 'approved' ? '✅ Genehmigt' : 
+                           vacation.status === 'rejected' ? '❌ Abgelehnt' : '⏳ Ausstehend'}
                         </Text>
                       </View>
                     </View>
                     
-                    <View style={dynamicStyles.vacationDetails}>
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="calendar-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Zeitraum:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>{vacation.start_date} - {vacation.end_date}</Text>
-                      </View>
-                      
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="chatbubble-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Grund:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>{vacation.reason}</Text>
-                      </View>
-                      
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="time-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Eingereicht:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>
-                          {vacation.created_at ? new Date(vacation.created_at).toLocaleDateString('de-DE') : 'Unbekannt'}
+                    {vacation.reason && (
+                      <View style={{ marginBottom: 12 }}>
+                        <Text style={[dynamicStyles.profileFormHelperText, { fontWeight: '600' }]}>
+                          Grund:
+                        </Text>
+                        <Text style={dynamicStyles.profileFormHelperText}>
+                          {vacation.reason}
                         </Text>
                       </View>
-                    </View>
+                    )}
                     
                     {vacation.status === 'pending' && (
-                      <View style={dynamicStyles.premiumVacationActions}>
+                      <View style={{ flexDirection: 'row', borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 12 }}>
                         <TouchableOpacity 
-                          style={[dynamicStyles.premiumActionButton, { backgroundColor: '#10B981' }]}
+                          style={[dynamicStyles.profileSaveButton, { 
+                            backgroundColor: colors.success, 
+                            flex: 1, 
+                            marginRight: 6,
+                            paddingVertical: 12
+                          }]}
                           onPress={() => handleVacationApproval(vacation.id, 'approve', 'Genehmigt durch Admin')}
                         >
-                          <Ionicons name="checkmark-circle" size={18} color="#FFFFFF" />
-                          <Text style={dynamicStyles.premiumActionText}>Genehmigen</Text>
+                          <Ionicons name="checkmark" size={20} color="#FFFFFF" />
+                          <Text style={[dynamicStyles.profileSaveButtonText, { marginLeft: 8 }]}>
+                            Genehmigen
+                          </Text>
                         </TouchableOpacity>
                         
                         <TouchableOpacity 
-                          style={[dynamicStyles.premiumActionButton, { backgroundColor: '#EF4444' }]}
+                          style={[dynamicStyles.profileSaveButton, { 
+                            backgroundColor: colors.error, 
+                            flex: 1, 
+                            marginLeft: 6,
+                            paddingVertical: 12
+                          }]}
                           onPress={() => {
                             setRejectionVacationId(vacation.id);
                             setShowRejectionModal(true);
+                            setShowVacationManagementModal(false);
                           }}
                         >
-                          <Ionicons name="close-circle" size={18} color="#FFFFFF" />
-                          <Text style={dynamicStyles.premiumActionText}>Ablehnen</Text>
+                          <Ionicons name="close" size={20} color="#FFFFFF" />
+                          <Text style={[dynamicStyles.profileSaveButtonText, { marginLeft: 8 }]}>
+                            Ablehnen
+                          </Text>
                         </TouchableOpacity>
                       </View>
                     )}
                   </View>
-                ))}
-                
-                {pendingVacations.length === 0 && (
-                  <View style={dynamicStyles.premiumEmptyState}>
-                    <View style={dynamicStyles.emptyIconContainer}>
-                      <Ionicons name="calendar-outline" size={64} color={colors.textMuted} />
-                    </View>
-                    <Text style={dynamicStyles.emptyTitle}>Keine Urlaubsanträge</Text>
-                    <Text style={dynamicStyles.emptySubtitle}>Alle Anträge wurden bereits bearbeitet</Text>
-                  </View>
-                )}
-              </ScrollView>
-            </View>
-          </KeyboardAvoidingView>
+                </View>
+              ))
+            ) : (
+              <View style={dynamicStyles.profileInfoCard}>
+                <Text style={[dynamicStyles.profileInfoText, { textAlign: 'center' }]}>
+                  📭 Keine Urlaubsanträge vorhanden
+                </Text>
+              </View>
+            )}
+          </ScrollView>
         </SafeAreaView>
       </Modal>
 
