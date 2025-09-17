@@ -3544,6 +3544,41 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       fontWeight: 'bold',
     },
 
+    // SOS Modal Styles
+    sosAlarmCard: {
+      flexDirection: 'row',
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 16,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+      borderWidth: 1,
+      borderColor: colors.border + '30',
+    },
+    sosAlarmIcon: {
+      marginRight: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    sosAlarmContent: {
+      flex: 1,
+    },
+    sosAlarmTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    sosAlarmDescription: {
+      fontSize: 14,
+      color: colors.textMuted,
+      lineHeight: 20,
+    },
+
     // Rejection Modal Styles
     rejectionWarning: {
       backgroundColor: colors.error + '10',
