@@ -5220,6 +5220,53 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       marginBottom: 16,
       marginTop: 24,
     },
+    profileSectionTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 16,
+      marginTop: 24,
+    },
+    
+    // Profile Action Cards (for Admin Dashboard)
+    profileActionCard: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 12,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+      borderWidth: 1,
+      borderColor: colors.border + '30',
+    },
+    profileActionIcon: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: colors.success + '20',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 16,
+    },
+    profileActionContent: {
+      flex: 1,
+    },
+    profileActionTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    profileActionSubtitle: {
+      fontSize: 14,
+      color: colors.textMuted,
+      lineHeight: 18,
+    },
     statusOption: {
       flexDirection: 'row',
       alignItems: 'center',
