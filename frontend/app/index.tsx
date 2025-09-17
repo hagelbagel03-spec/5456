@@ -7461,7 +7461,6 @@ const MainApp = ({ appConfig, setAppConfig }) => {
           </View>
           <View style={dynamicStyles.headerButtons}>
             {/* Admin Settings Button - Only visible for admins */}
-            {console.log('🔍 User Role Debug:', user?.role, typeof user?.role)}
             {user?.role === 'admin' && (
               <TouchableOpacity 
                 style={[dynamicStyles.headerButton, { 
