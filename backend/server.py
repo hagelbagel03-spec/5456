@@ -1331,13 +1331,13 @@ async def get_live_locations(current_user: User = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get live locations: {str(e)}")
 
-@api_router.get("/users", response_model=List[User])
+@api_router.get("/users")
 async def get_users(current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
     users = await db.users.find().to_list(100)
-    return [User(**user) for user in users]
+    return serialize_mongo_data(users)
 
 @api_router.get("/locations/live")
 async def get_live_locations(current_user: User = Depends(get_current_user)):
