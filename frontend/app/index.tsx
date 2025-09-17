@@ -7964,6 +7964,14 @@ const MainApp = ({ appConfig, setAppConfig }) => {
                   <Text style={dynamicStyles.officerBadge}>
                     🆔 Dienstnummer: {officer.service_number || 'N/A'}
                   </Text>
+                  {/* Team-Zugehörigkeit anzeigen */}
+                  <Text style={[dynamicStyles.officerBadge, { color: colors.secondary }]}>
+                    👥 Team: {officer.patrol_team || 'Kein Team'}
+                  </Text>
+                  {/* Zugewiesener Bezirk anzeigen */}
+                  <Text style={[dynamicStyles.officerBadge, { color: colors.warning }]}>
+                    🗺️ Bezirk: {officer.assigned_district || 'Nicht zugewiesen'}
+                  </Text>
                   {officer.is_online && (
                     <Text style={[dynamicStyles.officerBadge, { color: colors.success }]}>
                       🟢 {officer.online_status}
