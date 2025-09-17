@@ -7461,6 +7461,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
           </View>
           <View style={dynamicStyles.headerButtons}>
             {/* Admin Settings Button - Only visible for admins */}
+            {console.log('🔍 User Role Debug:', user?.role, typeof user?.role)}
             {user?.role === 'admin' && (
               <TouchableOpacity 
                 style={[dynamicStyles.headerButton, { 
@@ -7472,7 +7473,10 @@ const MainApp = ({ appConfig, setAppConfig }) => {
                   shadowRadius: 4,
                   elevation: 4,
                 }]} 
-                onPress={() => setShowAdminDashboardModal(true)}
+                onPress={() => {
+                  console.log('🚀 Admin Dashboard Modal öffnen');
+                  setShowAdminDashboardModal(true);
+                }}
                 accessible={true}
                 accessibilityLabel="Admin-Dashboard öffnen"
               >
