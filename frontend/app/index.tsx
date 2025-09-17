@@ -10472,24 +10472,24 @@ Beispielinhalt:
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={{ flex: 1 }}
         >
-          <View style={dynamicStyles.modalOverlay}>
-            <View style={dynamicStyles.modalContainer}>
-              <View style={dynamicStyles.modalHeader}>
+          <View style={dynamicStyles.profileModalOverlay}>
+            <View style={dynamicStyles.profileModalContainer}>
+              <View style={dynamicStyles.profileModalHeader}>
                 <TouchableOpacity 
-                  style={dynamicStyles.closeButton}
+                  style={dynamicStyles.profileCloseButton}
                   onPress={() => setShowAddTeamModal(false)}
                 >
                   <Ionicons name="close" size={24} color={colors.textMuted} />
                 </TouchableOpacity>
-                <Text style={dynamicStyles.modalTitle}>👥 Neues Team erstellen</Text>
+                <Text style={dynamicStyles.profileModalTitle}>👥 Neues Team erstellen</Text>
                 <View style={{ width: 40 }} />
               </View>
 
-            <ScrollView style={dynamicStyles.modalContent} showsVerticalScrollIndicator={false}>
-              <View style={dynamicStyles.formGroup}>
-                <Text style={dynamicStyles.formLabel}>📛 Team-Name *</Text>
+            <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+              <View style={dynamicStyles.profileFormGroup}>
+                <Text style={dynamicStyles.profileFormLabel}>📛 Team-Name *</Text>
                 <TextInput
-                  style={dynamicStyles.formInput}
+                  style={dynamicStyles.profileFormInput}
                   value={newTeamData.name}
                   onChangeText={(value) => setNewTeamData({...newTeamData, name: value})}
                   placeholder="z.B. Team Alpha, Streife 1"
@@ -10497,10 +10497,10 @@ Beispielinhalt:
                 />
               </View>
 
-              <View style={dynamicStyles.formGroup}>
-                <Text style={dynamicStyles.formLabel}>📝 Beschreibung</Text>
+              <View style={dynamicStyles.profileFormGroup}>
+                <Text style={dynamicStyles.profileFormLabel}>📝 Beschreibung</Text>
                 <TextInput
-                  style={[dynamicStyles.formInput, { height: 80, textAlignVertical: 'top' }]}
+                  style={[dynamicStyles.profileFormInput, { height: 80, textAlignVertical: 'top' }]}
                   value={newTeamData.description}
                   onChangeText={(value) => setNewTeamData({...newTeamData, description: value})}
                   placeholder="Aufgaben und Verantwortlichkeiten..."
@@ -10510,10 +10510,10 @@ Beispielinhalt:
                 />
               </View>
 
-              <View style={dynamicStyles.formGroup}>
-                <Text style={dynamicStyles.formLabel}>🗺️ Zugewiesener Bezirk</Text>
+              <View style={dynamicStyles.profileFormGroup}>
+                <Text style={dynamicStyles.profileFormLabel}>🗺️ Zugewiesener Bezirk</Text>
                 <TextInput
-                  style={dynamicStyles.formInput}
+                  style={dynamicStyles.profileFormInput}
                   value={newTeamData.district}
                   onChangeText={(value) => setNewTeamData({...newTeamData, district: value})}
                   placeholder="z.B. Innenstadt, Nord, Süd"
