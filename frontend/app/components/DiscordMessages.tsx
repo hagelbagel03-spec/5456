@@ -47,7 +47,7 @@ const DiscordMessages: React.FC<DiscordMessagesProps> = ({ user, token, selected
   const [unreadMessages, setUnreadMessages] = useState<{[key: string]: number}>({});
   const [socket, setSocket] = useState<Socket | null>(null);
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || "https://ladrunter.preview.emergentagent.com";
+const API_URL = "http://212.227.57.238:8001";
 
   // Initialize Socket.IO connection
   useEffect(() => {

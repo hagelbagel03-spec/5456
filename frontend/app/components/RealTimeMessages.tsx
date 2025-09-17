@@ -80,8 +80,7 @@ const RealTimeMessages: React.FC<RealTimeMessagesProps> = ({ user, token, select
   const [currentChannel, setCurrentChannel] = useState(selectedChannel);
   const scrollViewRef = useRef<ScrollView>(null);
   
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || "https://ladrunter.preview.emergentagent.com";
-
+const API_URL = "http://212.227.57.238:8001";
   // Channel options with modern icons
   const channels = [
     { key: 'general', label: 'Allgemein', icon: 'chatbubbles', color: '#3B82F6' },

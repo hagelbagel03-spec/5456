@@ -91,7 +91,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ visible, onClose, onUserAdd
     max_members: 6
   });
 
-const API_URL = process.env.EXPO_PUBLIC_BACKEND_URL || "https://ladrunter.preview.emergentagent.com";
+const API_URL = "http://212.227.57.238:8001";
 
   // Load teams when modal becomes visible
   useEffect(() => {
