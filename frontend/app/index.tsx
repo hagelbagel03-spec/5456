@@ -8534,19 +8534,39 @@ const MainApp = ({ appConfig, setAppConfig }) => {
                       style={dynamicStyles.deleteReportButton}
                       onPress={async (e) => {
                         e.stopPropagation();
-                        try {
-                          const config = token ? {
-                            headers: { Authorization: `Bearer ${token}` }
-                          } : {};
-                          
-                          await axios.delete(`${API_URL}/api/reports/${report.id}`, config);
-                          if (typeof loadReports === 'function') {
-                            await loadReports(); // Liste neu laden
-                          }
-                          
-                        } catch (error) {
-                          console.error('Fehler beim Löschen des Berichts:', error);
-                        }
+                        
+                        Alert.alert(
+                          '🗑️ Bericht löschen', 
+                          'Sind Sie sicher, dass Sie diesen Bericht löschen möchten?',
+                          [
+                            { text: 'Abbrechen', style: 'cancel' },
+                            { 
+                              text: 'Löschen', 
+                              style: 'destructive',
+                              onPress: async () => {
+                                try {
+                                  const config = token ? {
+                                    headers: { Authorization: `Bearer ${token}` }
+                                  } : {};
+                                  
+                                  console.log('🗑️ Lösche Bericht:', report.id);
+                                  await axios.delete(`${API_URL}/api/reports/${report.id}`, config);
+                                  
+                                  console.log('✅ Bericht gelöscht, lade Liste neu...');
+                                  if (typeof loadReports === 'function') {
+                                    await loadReports();
+                                  }
+                                  
+                                  Alert.alert('✅ Erfolg', 'Bericht wurde gelöscht');
+                                  
+                                } catch (error) {
+                                  console.error('❌ Fehler beim Löschen des Berichts:', error);
+                                  Alert.alert('❌ Fehler', 'Bericht konnte nicht gelöscht werden');
+                                }
+                              }
+                            }
+                          ]
+                        );
                       }}
                     >
                       <Ionicons name="trash" size={18} color="#FFFFFF" />
