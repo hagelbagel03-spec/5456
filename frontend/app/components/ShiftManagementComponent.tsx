@@ -150,6 +150,68 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       margin: 16,
     },
     
+    // User Info Card
+    userInfoCard: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 16,
+      marginHorizontal: 16,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+      borderWidth: 1,
+      borderColor: colors.border + '30',
+    },
+    userInfoHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    userInfoIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.primary + '20',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    userInfoContent: {
+      flex: 1,
+    },
+    userInfoTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    userInfoSubtitle: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginTop: 2,
+    },
+    userInfoDetails: {
+      gap: 12,
+    },
+    userInfoRow: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    userInfoLabel: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginLeft: 8,
+      marginRight: 8,
+    },
+    userInfoValue: {
+      fontSize: 14,
+      color: colors.textMuted,
+      fontWeight: '500',
+    },
+
     // Modern Section Headers
     modernSectionHeader: {
       flexDirection: 'row',
