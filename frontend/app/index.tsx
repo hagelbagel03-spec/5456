@@ -12096,6 +12096,7 @@ Beispielinhalt:
                     <TouchableOpacity
                       style={[dynamicStyles.actionButton, { backgroundColor: colors.primary, marginBottom: 12 }]}
                       onPress={() => {
+                        console.log('🎯 Status-Button gedrückt - IN BEARBEITUNG');
                         Alert.alert(
                           '⚙️ Status ändern',
                           `"${selectedReport.title}" auf "IN BEARBEITUNG" setzen?`,
@@ -12103,7 +12104,10 @@ Beispielinhalt:
                             { text: 'Abbrechen', style: 'cancel' },
                             { 
                               text: 'Ändern', 
-                              onPress: () => updateReportStatus(selectedReport.id, 'in_progress', selectedReport.title)
+                              onPress: async () => {
+                                console.log('🔄 Calling updateReportStatus...');
+                                await updateReportStatus(selectedReport.id, 'in_progress', selectedReport.title);
+                              }
                             }
                           ]
                         );
