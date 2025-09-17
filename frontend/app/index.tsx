@@ -3652,6 +3652,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       marginLeft: 8,
     },
     
+    // Legacy SOS Styles (kept for compatibility)
     sosIconContainer: {
       width: 80,
       height: 80,
