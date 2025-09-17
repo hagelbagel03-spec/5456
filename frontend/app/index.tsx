@@ -1982,15 +1982,20 @@ const MainApp = ({ appConfig, setAppConfig }) => {
   // Neue Admin-Funktionen
   const loadPendingVacations = async () => {
     try {
-      const response = await fetch(`${API_URL}/admin/vacations`, {
+      const response = await fetch(`${API_URL}/api/vacations`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       if (response.ok) {
         const data = await response.json();
-        setPendingVacations(data);
+        console.log('📅 Loaded vacations:', data);
+        setPendingVacations(data || []);
+      } else {
+        console.error('❌ Fehler beim Laden der Urlaubsanträge');
+        setPendingVacations([]);
       }
     } catch (error) {
-      console.error('Fehler beim Laden der Urlaubsanträge:', error);
+      console.error('❌ Network error loading vacations:', error);
+      setPendingVacations([]);
     }
   };
 
