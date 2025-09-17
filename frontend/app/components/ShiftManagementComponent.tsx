@@ -514,26 +514,26 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
         
         <View style={dynamicStyles.statusButtonsContainer}>
           <TouchableOpacity
-            style={[dynamicStyles.statusButton, { backgroundColor: colors.success }]}
+            style={[dynamicStyles.statusButton, { backgroundColor: colors.success, flex: 1, marginRight: 4 }]}
             onPress={() => performCheckIn('ok')}
           >
-            <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
-            <Text style={dynamicStyles.statusButtonText}>✅ Alles OK</Text>
+            <Ionicons name="checkmark-circle" size={20} color="#FFFFFF" />
+            <Text style={dynamicStyles.statusButtonText}>✅ OK</Text>
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={[dynamicStyles.statusButton, { backgroundColor: colors.warning }]}
+            style={[dynamicStyles.statusButton, { backgroundColor: colors.warning, flex: 1, marginHorizontal: 4 }]}
             onPress={() => performCheckIn('help_needed')}
           >
-            <Ionicons name="help-circle" size={24} color="#FFFFFF" />
-            <Text style={dynamicStyles.statusButtonText}>🆘 Hilfe benötigt</Text>
+            <Ionicons name="help-circle" size={20} color="#FFFFFF" />
+            <Text style={dynamicStyles.statusButtonText}>🆘 Hilfe</Text>
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={[dynamicStyles.statusButton, { backgroundColor: colors.error }]}
+            style={[dynamicStyles.statusButton, { backgroundColor: colors.error, flex: 1, marginLeft: 4 }]}
             onPress={() => performCheckIn('emergency')}
           >
-            <Ionicons name="warning" size={24} color="#FFFFFF" />
+            <Ionicons name="warning" size={20} color="#FFFFFF" />
             <Text style={dynamicStyles.statusButtonText}>🚨 Notfall</Text>
           </TouchableOpacity>
         </View>
