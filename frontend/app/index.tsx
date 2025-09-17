@@ -703,6 +703,9 @@ const MainApp = ({ appConfig, setAppConfig }) => {
   const [rejectionVacationId, setRejectionVacationId] = useState(null);
   const [rejectionReason, setRejectionReason] = useState('');
   
+  // Admin Dashboard Modal
+  const [showAdminDashboardModal, setShowAdminDashboardModal] = useState(false);
+  
   // Team Creation (aus Admin-Dashboard)
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   const [newTeamData, setNewTeamData] = useState({
