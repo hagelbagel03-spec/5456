@@ -20,12 +20,34 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
     'Industriegebiet', 'Wohngebiet', 'Zentrum'
   ]);
 
+  const loadUserData = async () => {
+    try {
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      const response = await axios.get(`${API_URL}/api/user/profile`, config);
+      if (response.data) {
+        console.log('🔄 User-Daten aktualisiert:', response.data);
+        // Update user in parent component if callback provided
+        if (typeof user.updateUserData === 'function') {
+          user.updateUserData(response.data);
+        }
+      }
+    } catch (error) {
+      console.error('❌ Fehler beim User-Daten laden:', error);
+    }
+  };
+
   const loadData = async () => {
     setLoading(true);
     try {
       const config = token ? {
         headers: { Authorization: `Bearer ${token}` }
       } : {};
+
+      // Load user data first for real-time updates
+      await loadUserData();
 
       // Load checkins
       try {
