@@ -679,7 +679,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
             </View>
           </View>
         </View>
-      )}
+      </Modal>
     </ScrollView>
   );
 };
