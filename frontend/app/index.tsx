@@ -10599,69 +10599,93 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
-      {/* Team Status Modal - Premium Design */}
+      {/* Team Status Modal - AddUserModal Style */}
       <Modal
         visible={showTeamStatusModal}
-        transparent={true}
         animationType="slide"
         onRequestClose={() => setShowTeamStatusModal(false)}
       >
-        <SafeAreaView style={dynamicStyles.premiumModalOverlay}>
-          <View style={dynamicStyles.premiumModalContainer}>
-            <View style={[dynamicStyles.premiumModalHeader, { backgroundColor: '#F59E0B' }]}>
-              <TouchableOpacity 
-                style={dynamicStyles.premiumCloseButton}
-                onPress={() => setShowTeamStatusModal(false)}
-              >
-                <Ionicons name="close" size={24} color={colors.textMuted} />
-              </TouchableOpacity>
-              
-              <View style={dynamicStyles.premiumHeaderContent}>
-                <View style={dynamicStyles.premiumIconContainer}>
-                  <Ionicons name="shield" size={28} color="#FFFFFF" />
-                </View>
-                <View style={dynamicStyles.premiumTitleContainer}>
-                  <Text style={dynamicStyles.premiumModalTitle}>Gruppenstatusanzeige</Text>
-                  <Text style={dynamicStyles.premiumModalSubtitle}>Team-Status • Einsatzbereitschaft • Verwaltung</Text>
-                </View>
-              </View>
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.profileModalHeader}>
+            <TouchableOpacity 
+              style={dynamicStyles.profileCloseButton}
+              onPress={() => setShowTeamStatusModal(false)}
+            >
+              <Ionicons name="close" size={24} color={colors.textMuted} />
+            </TouchableOpacity>
+            <Text style={dynamicStyles.profileModalTitle}>📊 Gruppenstatus</Text>
+            <View style={{ width: 40 }} />
+          </View>
+
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={dynamicStyles.profileInfoText}>
+                📈 Übersicht über Team-Status, Einsatzbereitschaft und Verwaltung aller Gruppen.
+              </Text>
             </View>
 
-          <ScrollView style={dynamicStyles.modalContent} showsVerticalScrollIndicator={false}>
-            {teamStatusList.map((team, index) => (
-              <View key={team.id || index} style={dynamicStyles.teamCard}>
-                <View style={dynamicStyles.teamHeader}>
-                  <Text style={dynamicStyles.teamName}>{team.name}</Text>
-                  <View style={[dynamicStyles.teamStatusBadge, 
-                    { backgroundColor: getTeamStatusColor(team.status) }]}>
-                    <Text style={dynamicStyles.teamStatusText}>
-                      {getTeamStatusIcon(team.status)} {team.status}
-                    </Text>
+            <Text style={dynamicStyles.profileSectionTitle}>Team-Status • Einsatzbereitschaft • Verwaltung</Text>
+
+            {teamStatusList.length > 0 ? (
+              teamStatusList.map((team, index) => (
+                <View key={team.id || index} style={dynamicStyles.profileFormGroup}>
+                  <View style={[dynamicStyles.profileFormInput, { padding: 20, height: 'auto' }]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+                      <View style={[dynamicStyles.profileActionIcon, { marginRight: 16, width: 40, height: 40 }]}>
+                        <Ionicons name="people" size={20} color={colors.primary} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={[dynamicStyles.profileFormLabel, { marginBottom: 4 }]}>
+                          {team.name || `Team ${index + 1}`}
+                        </Text>
+                        <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 0 }]}>
+                          👥 {team.member_count || 0} Mitglieder
+                        </Text>
+                      </View>
+                      <View style={[{
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
+                        borderRadius: 12,
+                        backgroundColor: team.status === 'active' ? colors.success : 
+                                       team.status === 'busy' ? colors.warning : colors.error
+                      }]}>
+                        <Text style={[{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }]}>
+                          {team.status === 'active' ? '🟢 Aktiv' : 
+                           team.status === 'busy' ? '🟡 Beschäftigt' : '🔴 Nicht verfügbar'}
+                        </Text>
+                      </View>
+                    </View>
+                    
+                    <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 12 }}>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        🗺️ Bezirk: {team.district || 'Nicht zugewiesen'}
+                      </Text>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        📍 Standort: {team.location || 'Unbekannt'}
+                      </Text>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        ⏰ Schicht: {team.shift || 'Nicht festgelegt'}
+                      </Text>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        🎯 Einsätze heute: {team.incidents_today || 0}
+                      </Text>
+                      {team.last_activity && (
+                        <Text style={[dynamicStyles.profileFormHelperText, { fontSize: 11, marginTop: 4 }]}>
+                          🕒 Letzte Aktivität: {new Date(team.last_activity).toLocaleString('de-DE')}
+                        </Text>
+                      )}
+                    </View>
                   </View>
                 </View>
-                
-                <Text style={dynamicStyles.teamDistrict}>🗺️ {team.district}</Text>
-                <Text style={dynamicStyles.teamMembers}>👥 {team.member_count} Mitglieder</Text>
-                
-                <View style={dynamicStyles.statusActions}>
-                  {['Einsatzbereit', 'Im Einsatz', 'Pause', 'Nicht verfügbar'].map((status) => (
-                    <TouchableOpacity 
-                      key={status}
-                      style={[dynamicStyles.statusButton, 
-                        team.status === status && { backgroundColor: colors.primary }]}
-                      onPress={() => updateTeamStatus(team.id, status)}
-                    >
-                      <Text style={[dynamicStyles.statusButtonText,
-                        team.status === status && { color: '#FFFFFF' }]}>
-                        {getTeamStatusIcon(status)} {status}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
+              ))
+            ) : (
+              <View style={dynamicStyles.profileInfoCard}>
+                <Text style={[dynamicStyles.profileInfoText, { textAlign: 'center' }]}>
+                  📭 Keine Teams gefunden
+                </Text>
               </View>
-            ))}
+            )}
           </ScrollView>
-          </View>
         </SafeAreaView>
       </Modal>
 
