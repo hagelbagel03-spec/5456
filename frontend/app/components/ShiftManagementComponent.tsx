@@ -139,7 +139,15 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
 
   useEffect(() => {
     loadData();
-  }, [token]);
+    
+    // Auto-refresh every 30 seconds for real-time updates
+    const interval = setInterval(() => {
+      console.log('🔄 Auto-refresh Schichtdaten');
+      loadData();
+    }, 30000);
+    
+    return () => clearInterval(interval);
+  }, [token, user]);
 
   const dynamicStyles = StyleSheet.create({
     container: {
