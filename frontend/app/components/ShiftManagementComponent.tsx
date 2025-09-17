@@ -193,7 +193,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       marginTop: 2,
     },
     userInfoDetails: {
-      gap: 12,
+      marginTop: 8,
     },
     userInfoRow: {
       flexDirection: 'row',
