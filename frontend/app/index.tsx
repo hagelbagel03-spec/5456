@@ -2145,55 +2145,25 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       });
       if (response.ok) {
         const users = await response.json();
+        console.log('🔍 Raw users data:', users);
         
-        // Erweitere Benutzer-Daten mit Team/Bezirk Info
-        const enhancedUsers = await Promise.all(users.map(async (user) => {
-          let teamName = 'Nicht zugewiesen';
-          let districtName = 'Nicht zugewiesen';
-          
-          // Team-Name abrufen
-          if (user.patrol_team) {
-            try {
-              const teamResponse = await fetch(`${API_URL}/api/admin/teams`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-              });
-              if (teamResponse.ok) {
-                const teams = await teamResponse.json();
-                const team = teams.find(t => t.id === user.patrol_team);
-                if (team) teamName = team.name;
-              }
-            } catch (e) {
-              console.log('Team info nicht verfügbar für', user.username);
-            }
-          }
-          
-          // Bezirks-Name abrufen
-          if (user.assigned_district) {
-            try {
-              const districtResponse = await fetch(`${API_URL}/api/admin/districts`, {
-                headers: { 'Authorization': `Bearer ${token}` }
-              });
-              if (districtResponse.ok) {
-                const districts = await districtResponse.json();
-                const district = districts.find(d => d.id === user.assigned_district);
-                if (district) districtName = district.name;
-              }
-            } catch (e) {
-              console.log('Bezirk info nicht verfügbar für', user.username);
-            }
-          }
-          
+        // Zeige Benutzerdaten direkt an - ohne zusätzliche API-Calls
+        const enhancedUsers = users.map((user) => {
           return {
             ...user,
-            teamName,
-            districtName
+            teamName: user.patrol_team || 'Nicht zugewiesen',
+            districtName: user.assigned_district || 'Nicht zugewiesen',
+            phone: user.phone || 'Nicht angegeben',
+            service_number: user.service_number || 'Nicht angegeben'
           };
-        }));
+        });
         
+        console.log('✅ Enhanced users:', enhancedUsers);
         setUserOverviewList(enhancedUsers);
       }
     } catch (error) {
       console.error('Fehler beim Laden der Benutzerübersicht:', error);
+      setUserOverviewList([]);
     }
   };
 
