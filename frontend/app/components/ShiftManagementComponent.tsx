@@ -776,7 +776,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       marginBottom: 16,
     },
     dateInputsContainer: {
-      gap: 16,
+      marginBottom: 16,
     },
     dateInputWrapper: {
       flex: 1,
