@@ -10739,23 +10739,23 @@ Beispielinhalt:
                         backgroundColor: user.role === 'admin' ? colors.error : colors.success
                       }]}>
                         <Text style={[{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }]}>
-                          {user.role === 'admin' ? '👑 Admin' : '👤 Benutzer'}
+                          {user.role === 'admin' ? '🛡️ ADMIN' : '👮‍♂️ BEAMTER'}
                         </Text>
                       </View>
                     </View>
                     
                     <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 12 }}>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        👥 Team: {user.teamName || 'Nicht zugewiesen'}
+                        👥 Team: {user.teamName || '⚠️ Nicht zugewiesen'}
                       </Text>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        🗺️ Bezirk: {user.districtName || 'Nicht zugewiesen'}
+                        🗺️ Bezirk: {user.districtName || '⚠️ Nicht zugewiesen'}
                       </Text>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        📞 Telefon: {user.phone || 'Nicht angegeben'}
+                        📞 Kontakt: {user.phone || '❌ Nicht verfügbar'}
                       </Text>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        🆔 Dienst-Nr: {user.service_number || 'Nicht angegeben'}
+                        🆔 Dienstnummer: {user.service_number || '❌ Nicht vergeben'}
                       </Text>
                     </View>
                   </View>
