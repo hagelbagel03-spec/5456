@@ -9106,7 +9106,6 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       case 'myteam': return renderMyTeamScreen();
       case 'database': return renderDatabaseScreen();
       case 'schichten': return renderShiftManagementScreen();
-      case 'admin': return renderAdminScreen();
       default: return renderHomeScreen();
     }
   };
