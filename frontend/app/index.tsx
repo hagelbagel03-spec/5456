@@ -2055,6 +2055,20 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     }
   };
 
+  const handleVacationRejection = async () => {
+    if (!rejectionReason.trim()) {
+      Alert.alert('❌ Fehler', 'Bitte geben Sie einen Grund für die Ablehnung an.');
+      return;
+    }
+    
+    await handleVacationApproval(rejectionVacationId, 'reject', rejectionReason);
+    
+    // Reset modal state
+    setShowRejectionModal(false);
+    setRejectionVacationId(null);
+    setRejectionReason('');
+  };
+
   const updateTeamStatus = async (teamId, newStatus) => {
     try {
       const response = await fetch(`${API_URL}/admin/teams/${teamId}/status`, {
