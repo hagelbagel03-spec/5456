@@ -12355,11 +12355,10 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
-      {/* SOS Modal */}
+      {/* SOS Modal - AddUserModal Style */}
       <Modal
         visible={showSOSModal}
         animationType="slide"
-        presentationStyle="pageSheet"
         onRequestClose={() => setShowSOSModal(false)}
       >
         <SafeAreaView style={dynamicStyles.container}>
@@ -12370,42 +12369,68 @@ Beispielinhalt:
             >
               <Ionicons name="close" size={24} color={colors.textMuted} />
             </TouchableOpacity>
-            
-            <View style={dynamicStyles.profileHeaderContent}>
-              <View style={dynamicStyles.sosIconContainer}>
-                <Ionicons name="warning" size={48} color="#FF0000" />
-              </View>
-              <Text style={dynamicStyles.sosModalTitle}>🚨 NOTFALL-ALARM</Text>
-              <Text style={dynamicStyles.sosModalSubtitle}>Alle Team-Mitglieder alarmieren</Text>
-            </View>
+            <Text style={dynamicStyles.profileModalTitle}>🚨 NOTFALL-ALARM</Text>
+            <View style={{ width: 40 }} />
           </View>
 
-          <ScrollView style={dynamicStyles.profileContent}>
-            <View style={dynamicStyles.sosWarningBox}>
-              <Text style={dynamicStyles.sosWarningTitle}>⚠️ WICHTIGER HINWEIS</Text>
-              <Text style={dynamicStyles.sosWarningText}>
-                • Nur bei echten Notfällen verwenden!{'\n'}
-                • Ihr GPS-Standort wird automatisch übertragen{'\n'}
-                • Alle Team-Mitglieder erhalten sofort eine Alarm-Nachricht{'\n'}
-                • Missbrauch kann disziplinäre Maßnahmen zur Folge haben
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            {/* Warning Info Card */}
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={[dynamicStyles.profileInfoText, { color: colors.error }]}>
+                ⚠️ Nur bei echten Notfällen verwenden! Alle Team-Mitglieder werden sofort alarmiert und Ihr GPS-Standort wird übertragen.
               </Text>
             </View>
 
-            <View style={dynamicStyles.sosLocationInfo}>
-              <Text style={dynamicStyles.sosLocationTitle}>📍 Ihr Standort</Text>
-              <Text style={dynamicStyles.sosLocationText}>
-                Wird automatisch ermittelt und an alle Team-Mitglieder gesendet
-              </Text>
+            <Text style={dynamicStyles.profileSectionTitle}>📍 Standort-Information</Text>
+
+            <View style={dynamicStyles.profileFormGroup}>
+              <View style={[dynamicStyles.profileInfoCard, { backgroundColor: colors.success + '10', borderColor: colors.success + '30' }]}>
+                <Text style={[dynamicStyles.profileInfoText, { color: colors.success }]}>
+                  📡 Ihr aktueller Standort wird automatisch ermittelt und an alle Team-Mitglieder gesendet, damit diese schnell Hilfe leisten können.
+                </Text>
+              </View>
             </View>
+
+            <Text style={dynamicStyles.profileSectionTitle}>🚨 Alarm-Details</Text>
+
+            <View style={dynamicStyles.profileFormGroup}>
+              <View style={dynamicStyles.sosAlarmCard}>
+                <View style={dynamicStyles.sosAlarmIcon}>
+                  <Ionicons name="alert-circle" size={32} color={colors.error} />
+                </View>
+                <View style={dynamicStyles.sosAlarmContent}>
+                  <Text style={dynamicStyles.sosAlarmTitle}>Notfall-Broadcast</Text>
+                  <Text style={dynamicStyles.sosAlarmDescription}>
+                    • Sofortige Benachrichtigung aller Team-Mitglieder{'\n'}
+                    • GPS-Koordinaten werden übertragen{'\n'}
+                    • Zeitstempel des Alarms wird gespeichert{'\n'}
+                    • Automatische Protokollierung für Berichte
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <Text style={dynamicStyles.profileSectionTitle}>⚡ Aktion</Text>
 
             <TouchableOpacity 
-              style={dynamicStyles.sosSendButton}
+              style={[dynamicStyles.profileSaveButton, { 
+                backgroundColor: colors.error,
+                paddingVertical: 20,
+                marginTop: 16,
+              }]}
               onPress={sendSOSAlarm}
             >
-              <Ionicons name="alert-circle" size={32} color="#FFFFFF" />
-              <Text style={dynamicStyles.sosSendButtonText}>🚨 NOTFALL-ALARM SENDEN</Text>
-              <Text style={dynamicStyles.sosSendButtonSubtext}>Alle Team-Mitglieder werden sofort alarmiert</Text>
+              <Ionicons name="warning" size={24} color="#FFFFFF" />
+              <Text style={[dynamicStyles.profileSaveButtonText, { marginLeft: 12 }]}>
+                🚨 NOTFALL-ALARM SENDEN
+              </Text>
             </TouchableOpacity>
+
+            <View style={[dynamicStyles.profileInfoCard, { marginTop: 16, backgroundColor: colors.textMuted + '10' }]}>
+              <Text style={[dynamicStyles.profileInfoText, { fontSize: 12, color: colors.textMuted }]}>
+                💡 Der Alarm wird sofort an alle verfügbaren Team-Mitglieder gesendet. Missbrauch kann disziplinäre Maßnahmen zur Folge haben.
+              </Text>
+            </View>
           </ScrollView>
         </SafeAreaView>
       </Modal>
