@@ -11982,6 +11982,90 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
+      {/* Vacation Rejection Modal */}
+      <Modal
+        visible={showRejectionModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowRejectionModal(false)}
+      >
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <View style={dynamicStyles.profileModalOverlay}>
+            <View style={dynamicStyles.profileModalContainer}>
+              <View style={dynamicStyles.profileModalHeader}>
+                <TouchableOpacity 
+                  style={dynamicStyles.profileCloseButton}
+                  onPress={() => {
+                    setShowRejectionModal(false);
+                    setRejectionReason('');
+                  }}
+                >
+                  <Ionicons name="close" size={24} color={colors.textMuted} />
+                </TouchableOpacity>
+                <Text style={dynamicStyles.profileModalTitle}>❌ Urlaubsantrag ablehnen</Text>
+                <View style={{ width: 40 }} />
+              </View>
+
+              <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+                <View style={dynamicStyles.rejectionWarning}>
+                  <View style={dynamicStyles.rejectionWarningIcon}>
+                    <Ionicons name="warning" size={32} color={colors.error} />
+                  </View>
+                  <Text style={dynamicStyles.rejectionWarningTitle}>Ablehnungsgrund erforderlich</Text>
+                  <Text style={dynamicStyles.rejectionWarningText}>
+                    Geben Sie bitte einen nachvollziehbaren Grund für die Ablehnung des Urlaubsantrags an.
+                  </Text>
+                </View>
+
+                <View style={dynamicStyles.profileFormGroup}>
+                  <Text style={dynamicStyles.profileFormLabel}>📝 Grund für Ablehnung *</Text>
+                  <TextInput
+                    style={[dynamicStyles.profileFormInput, { 
+                      height: 120, 
+                      textAlignVertical: 'top',
+                      paddingTop: 16
+                    }]}
+                    value={rejectionReason}
+                    onChangeText={setRejectionReason}
+                    placeholder="z.B. Personalengpass im gewünschten Zeitraum, bereits zu viele Urlaubsanträge genehmigt..."
+                    placeholderTextColor={colors.textMuted}
+                    multiline
+                    numberOfLines={5}
+                  />
+                  <Text style={dynamicStyles.rejectionHint}>
+                    💡 Der Grund wird dem Antragsteller mitgeteilt
+                  </Text>
+                </View>
+              </ScrollView>
+
+              <View style={dynamicStyles.rejectionButtonRow}>
+                <TouchableOpacity
+                  style={[dynamicStyles.rejectionCancelButton]}
+                  onPress={() => {
+                    setShowRejectionModal(false);
+                    setRejectionReason('');
+                  }}
+                >
+                  <Text style={dynamicStyles.rejectionCancelButtonText}>Abbrechen</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={[dynamicStyles.rejectionSubmitButton]}
+                  onPress={handleVacationRejection}
+                  disabled={!rejectionReason.trim()}
+                >
+                  <Ionicons name="close-circle" size={20} color="#FFFFFF" />
+                  <Text style={dynamicStyles.rejectionSubmitButtonText}>Antrag ablehnen</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
+
       {/* SOS Modal */}
       <Modal
         visible={showSOSModal}
