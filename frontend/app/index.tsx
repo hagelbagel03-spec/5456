@@ -12141,6 +12141,165 @@ Beispielinhalt:
         </KeyboardAvoidingView>
       </Modal>
 
+      {/* Admin Dashboard Modal - Same style as AddUserModal */}
+      <Modal 
+        visible={showAdminDashboardModal} 
+        animationType="slide" 
+        onRequestClose={() => setShowAdminDashboardModal(false)}
+      >
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.profileModalHeader}>
+            <TouchableOpacity 
+              style={dynamicStyles.profileCloseButton}
+              onPress={() => setShowAdminDashboardModal(false)}
+            >
+              <Ionicons name="close" size={24} color={colors.textMuted} />
+            </TouchableOpacity>
+            <Text style={dynamicStyles.profileModalTitle}>⚙️ Admin-Dashboard</Text>
+            <View style={{ width: 40 }} />
+          </View>
+
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={dynamicStyles.profileInfoText}>
+                🔧 Zentrale Verwaltung des Stadtwache-Systems. 
+                Hier können Sie Benutzer verwalten, Einstellungen anpassen und Berichte einsehen.
+              </Text>
+            </View>
+
+            <Text style={dynamicStyles.profileSectionTitle}>👥 Benutzerverwaltung</Text>
+
+            {/* User Management Cards */}
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowAddUserModal(true);
+              }}
+            >
+              <View style={dynamicStyles.profileActionIcon}>
+                <Ionicons name="person-add" size={24} color={colors.success} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>👤 Benutzer hinzufügen</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Neue Team-Mitglieder registrieren</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowUserOverviewModal(true);
+                loadUserOverview();
+              }}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.primary + '20' }]}>
+                <Ionicons name="people" size={24} color={colors.primary} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>Benutzerübersicht</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Team-Zuordnungen • Bezirke • Statistiken</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowAddTeamModal(true);
+              }}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.warning + '20' }]}>
+                <Ionicons name="people-circle" size={24} color={colors.warning} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>👥 Neues Team erstellen</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Teams und Patrouillen verwalten</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <Text style={dynamicStyles.profileSectionTitle}>📋 Verwaltung & Berichte</Text>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowVacationManagementModal(true);
+                loadPendingVacations();
+              }}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.secondary + '20' }]}>
+                <Ionicons name="calendar" size={24} color={colors.secondary} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>Urlaubsanträge</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Genehmigen • Ablehnen • Verwalten</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowAttendanceModal(true);
+                loadUsersByStatus();
+              }}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.success + '20' }]}>
+                <Ionicons name="checkmark-circle" size={24} color={colors.success} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>👥 Anwesenheitsliste</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Wer ist gerade im Dienst</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowTeamStatusModal(true);
+                loadUsersByStatus();
+              }}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.error + '20' }]}>
+                <Ionicons name="stats-chart" size={24} color={colors.error} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>Gruppenstatus</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Team-Status • Einsatzbereitschaft • Verwaltung</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
+            <Text style={dynamicStyles.profileSectionTitle}>⚙️ System</Text>
+
+            <TouchableOpacity 
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                setShowAdminDashboardModal(false);
+                setShowAdminSettingsModal(true);
+              }}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.textMuted + '20' }]}>
+                <Ionicons name="settings" size={24} color={colors.textMuted} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>Admin Einstellungen</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>App-Konfiguration verwalten</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+          </ScrollView>
+        </SafeAreaView>
+      </Modal>
+
       {/* SOS Modal */}
       <Modal
         visible={showSOSModal}
