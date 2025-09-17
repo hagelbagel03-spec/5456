@@ -10710,11 +10710,11 @@ Beispielinhalt:
           <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
             <View style={dynamicStyles.profileInfoCard}>
               <Text style={dynamicStyles.profileInfoText}>
-                📊 Übersicht aller registrierten Benutzer mit Team-Zuordnungen, Bezirken und Statistiken.
+                👮‍♂️ Verwalten Sie alle registrierten Polizei-Beamten mit Team-Zuordnungen, Bezirken und aktuellen Einsatzstatistiken.
               </Text>
             </View>
 
-            <Text style={dynamicStyles.profileSectionTitle}>👥 Team-Zuordnungen • Bezirke • Statistiken</Text>
+            <Text style={dynamicStyles.profileSectionTitle}>🚔 Team-Zuordnungen • Bezirke • Einsatzstatistiken</Text>
 
             {userOverviewList.length > 0 ? (
               userOverviewList.map((user, index) => (
