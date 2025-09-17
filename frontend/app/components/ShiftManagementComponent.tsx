@@ -1,0 +1,511 @@
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
+
+const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, isSmallScreen, isMediumScreen }) => {
+  const [checkins, setCheckins] = useState([]);
+  const [vacations, setVacations] = useState([]);
+  const [showVacationModal, setShowVacationModal] = useState(false);
+  const [vacationFormData, setVacationFormData] = useState({
+    start_date: '',
+    end_date: '',
+    reason: ''
+  });
+
+  const loadData = async () => {
+    try {
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      // Load checkins
+      const checkinsResponse = await axios.get(`${API_URL}/api/checkins`, config);
+      if (checkinsResponse.data) {
+        setCheckins(checkinsResponse.data);
+      }
+
+      // Load vacations
+      const vacationsResponse = await axios.get(`${API_URL}/api/vacations`, config);
+      if (vacationsResponse.data) {
+        setVacations(vacationsResponse.data);
+      }
+    } catch (error) {
+      console.error('Error loading shift data:', error);
+      setCheckins([]);
+      setVacations([]);
+    }
+  };
+
+  const performCheckIn = async (status = 'ok') => {
+    try {
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      const checkInData = {
+        status: status,
+        message: getStatusText(status),
+        timestamp: new Date().toISOString()
+      };
+
+      await axios.post(`${API_URL}/api/checkin`, checkInData, config);
+      
+      Alert.alert('✅ Check-In erfolgreich!', `Status: ${getStatusText(status)}`);
+      await loadData();
+    } catch (error) {
+      console.error('Check-in error:', error);
+      Alert.alert('❌ Fehler', 'Check-In konnte nicht übertragen werden.');
+    }
+  };
+
+  const requestVacation = async () => {
+    if (!vacationFormData.start_date || !vacationFormData.end_date || !vacationFormData.reason) {
+      Alert.alert('❌ Fehler', 'Bitte alle Felder ausfüllen.');
+      return;
+    }
+
+    try {
+      const config = token ? {
+        headers: { Authorization: `Bearer ${token}` }
+      } : {};
+
+      const vacationData = {
+        start_date: vacationFormData.start_date,
+        end_date: vacationFormData.end_date,
+        reason: vacationFormData.reason
+      };
+
+      const response = await axios.post(`${API_URL}/api/vacations`, vacationData, config);
+      
+      if (response.data) {
+        Alert.alert('✅ Erfolg', 'Urlaubsantrag wurde eingereicht!');
+        
+        setVacationFormData({ start_date: '', end_date: '', reason: '' });
+        setShowVacationModal(false);
+        
+        console.log('🔄 Lade Urlaubsanträge neu...');
+        await loadData();
+      }
+    } catch (error) {
+      console.error('❌ Vacation request error:', error);
+      Alert.alert('❌ Fehler', 'Urlaubsantrag konnte nicht eingereicht werden.');
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'approved': return colors.success;
+      case 'rejected': return colors.error;
+      case 'pending': return colors.warning;
+      case 'ok': return colors.success;
+      case 'help_needed': return colors.warning;
+      case 'emergency': return colors.error;
+      default: return colors.textMuted;
+    }
+  };
+
+  const getStatusText = (status) => {
+    switch (status) {
+      case 'approved': return 'Genehmigt';
+      case 'rejected': return 'Abgelehnt';
+      case 'pending': return 'Ausstehend';
+      case 'ok': return 'Alles OK';
+      case 'help_needed': return 'Hilfe benötigt';
+      case 'emergency': return 'Notfall';
+      default: return status;
+    }
+  };
+
+  useEffect(() => {
+    loadData();
+  }, [token]);
+
+  const dynamicStyles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: colors.background,
+    },
+    section: {
+      margin: 16,
+    },
+    
+    // Modern Section Headers
+    modernSectionHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      borderRadius: 16,
+      marginBottom: 16,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+    },
+    sectionIconContainer: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: colors.primary,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 16,
+    },
+    sectionTextContainer: {
+      flex: 1,
+    },
+    modernSectionTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 2,
+    },
+    modernSectionSubtitle: {
+      fontSize: 14,
+      color: colors.textMuted,
+      fontWeight: '500',
+    },
+    modernQuickButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.primary + '15',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    // Status Buttons
+    statusButtonsContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      gap: 12,
+      marginBottom: 24,
+    },
+    statusButton: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 14,
+      paddingHorizontal: 18,
+      borderRadius: 12,
+      minHeight: 48,
+      flex: 1,
+    },
+    statusButtonText: {
+      color: '#FFFFFF',
+      fontSize: 14,
+      fontWeight: '600',
+      marginLeft: 8,
+    },
+
+    // Check-ins
+    checkinCard: {
+      backgroundColor: colors.surface,
+      padding: 16,
+      borderRadius: 12,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    checkinHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    checkinTime: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    statusBadge: {
+      paddingHorizontal: 8,
+      paddingVertical: 4,
+      borderRadius: 8,
+    },
+    statusBadgeText: {
+      fontSize: 12,
+      color: '#FFFFFF',
+      fontWeight: '500',
+    },
+    checkinMessage: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+
+    // Vacations
+    vacationCard: {
+      backgroundColor: colors.surface,
+      padding: 16,
+      borderRadius: 12,
+      marginBottom: 12,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    vacationHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    vacationDates: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+    },
+    vacationReason: {
+      fontSize: 14,
+      color: colors.textSecondary,
+    },
+
+    // Empty States
+    emptyCheckins: {
+      alignItems: 'center',
+      paddingVertical: 40,
+      paddingHorizontal: 20,
+    },
+    emptyText: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.textMuted,
+      marginTop: 12,
+      textAlign: 'center',
+    },
+    emptySubtext: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginTop: 4,
+      textAlign: 'center',
+    },
+
+    // Modal styles
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.6)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContainer: {
+      backgroundColor: colors.background,
+      borderRadius: 20,
+      width: '90%',
+      maxWidth: 400,
+      padding: 20,
+    },
+    modalTitle: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text,
+      textAlign: 'center',
+      marginBottom: 20,
+    },
+    input: {
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 8,
+      padding: 12,
+      fontSize: 16,
+      backgroundColor: colors.background,
+      color: colors.text,
+      marginBottom: 16,
+    },
+    multilineInput: {
+      height: 80,
+      textAlignVertical: 'top',
+    },
+    submitButton: {
+      backgroundColor: colors.primary,
+      padding: 16,
+      borderRadius: 8,
+      alignItems: 'center',
+      marginTop: 16,
+    },
+    submitButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+      fontWeight: '600',
+    },
+  });
+
+  return (
+    <ScrollView style={dynamicStyles.container}>
+      {/* Status Check-In Buttons */}
+      <View style={dynamicStyles.section}>
+        <View style={dynamicStyles.modernSectionHeader}>
+          <View style={dynamicStyles.sectionIconContainer}>
+            <Ionicons name="shield-checkmark" size={24} color="#FFFFFF" />
+          </View>
+          <View style={dynamicStyles.sectionTextContainer}>
+            <Text style={dynamicStyles.modernSectionTitle}>Status Check-In</Text>
+            <Text style={dynamicStyles.modernSectionSubtitle}>Aktueller Dienststatus</Text>
+          </View>
+        </View>
+        
+        <View style={dynamicStyles.statusButtonsContainer}>
+          <TouchableOpacity
+            style={[dynamicStyles.statusButton, { backgroundColor: colors.success }]}
+            onPress={() => performCheckIn('ok')}
+          >
+            <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+            <Text style={dynamicStyles.statusButtonText}>✅ Alles OK</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={[dynamicStyles.statusButton, { backgroundColor: colors.warning }]}
+            onPress={() => performCheckIn('help_needed')}
+          >
+            <Ionicons name="help-circle" size={24} color="#FFFFFF" />
+            <Text style={dynamicStyles.statusButtonText}>🆘 Hilfe benötigt</Text>
+          </TouchableOpacity>
+          
+          <TouchableOpacity
+            style={[dynamicStyles.statusButton, { backgroundColor: colors.error }]}
+            onPress={() => performCheckIn('emergency')}
+          >
+            <Ionicons name="warning" size={24} color="#FFFFFF" />
+            <Text style={dynamicStyles.statusButtonText}>🚨 Notfall</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* Recent Check-Ins */}
+      <View style={dynamicStyles.section}>
+        <View style={dynamicStyles.modernSectionHeader}>
+          <View style={dynamicStyles.sectionIconContainer}>
+            <Ionicons name="time" size={24} color="#FFFFFF" />
+          </View>
+          <View style={dynamicStyles.sectionTextContainer}>
+            <Text style={dynamicStyles.modernSectionTitle}>Letzte Check-Ins</Text>
+            <Text style={dynamicStyles.modernSectionSubtitle}>Aktivitäten und Status</Text>
+          </View>
+          <TouchableOpacity 
+            style={dynamicStyles.modernQuickButton}
+            onPress={() => performCheckIn('ok')}
+          >
+            <Ionicons name="add-circle" size={20} color={colors.primary} />
+          </TouchableOpacity>
+        </View>
+        
+        {checkins.length > 0 ? (
+          checkins.slice(0, 5).map((checkin) => (
+            <View key={checkin.id} style={dynamicStyles.checkinCard}>
+              <View style={dynamicStyles.checkinHeader}>
+                <Text style={dynamicStyles.checkinTime}>
+                  {new Date(checkin.timestamp).toLocaleString('de-DE')}
+                </Text>
+                <View style={[dynamicStyles.statusBadge, { backgroundColor: getStatusColor(checkin.status) }]}>
+                  <Text style={dynamicStyles.statusBadgeText}>{getStatusText(checkin.status)}</Text>
+                </View>
+              </View>
+              {checkin.message && (
+                <Text style={dynamicStyles.checkinMessage}>{checkin.message}</Text>
+              )}
+            </View>
+          ))
+        ) : (
+          <View style={dynamicStyles.emptyCheckins}>
+            <Ionicons name="time-outline" size={48} color={colors.textMuted} />
+            <Text style={dynamicStyles.emptyText}>Noch keine Check-Ins vorhanden</Text>
+            <Text style={dynamicStyles.emptySubtext}>Klicken Sie auf Check-In um zu beginnen</Text>
+          </View>
+        )}
+      </View>
+
+      {/* Vacation Requests */}
+      <View style={dynamicStyles.section}>
+        <View style={dynamicStyles.modernSectionHeader}>
+          <View style={dynamicStyles.sectionIconContainer}>
+            <Ionicons name="calendar" size={24} color="#FFFFFF" />
+          </View>
+          <View style={dynamicStyles.sectionTextContainer}>
+            <Text style={dynamicStyles.modernSectionTitle}>Meine Urlaubsanträge</Text>
+            <Text style={dynamicStyles.modernSectionSubtitle}>Status und Verwaltung</Text>
+          </View>
+          <TouchableOpacity 
+            style={dynamicStyles.modernQuickButton}
+            onPress={() => setShowVacationModal(true)}
+          >
+            <Ionicons name="add-circle" size={20} color={colors.primary} />
+          </TouchableOpacity>
+        </View>
+        
+        {vacations.length === 0 ? (
+          <View style={dynamicStyles.emptyCheckins}>
+            <Ionicons name="calendar-outline" size={48} color={colors.textMuted} />
+            <Text style={dynamicStyles.emptyText}>Keine Urlaubsanträge vorhanden</Text>
+            <Text style={dynamicStyles.emptySubtext}>Erstellen Sie Ihren ersten Urlaubsantrag</Text>
+          </View>
+        ) : (
+          vacations.map((vacation) => (
+            <View key={vacation.id} style={dynamicStyles.vacationCard}>
+              <View style={dynamicStyles.vacationHeader}>
+                <Text style={dynamicStyles.vacationDates}>
+                  {vacation.start_date} - {vacation.end_date}
+                </Text>
+                <View style={[dynamicStyles.statusBadge, { backgroundColor: getStatusColor(vacation.status) }]}>
+                  <Text style={dynamicStyles.statusBadgeText}>{getStatusText(vacation.status)}</Text>
+                </View>
+              </View>
+              <Text style={dynamicStyles.vacationReason}>{vacation.reason}</Text>
+            </View>
+          ))
+        )}
+      </View>
+
+      {/* Vacation Request Modal */}
+      {showVacationModal && (
+        <View style={dynamicStyles.modalOverlay}>
+          <View style={dynamicStyles.modalContainer}>
+            <Text style={dynamicStyles.modalTitle}>📅 Urlaubsantrag</Text>
+            
+            <TextInput
+              style={dynamicStyles.input}
+              value={vacationFormData.start_date}
+              onChangeText={(value) => setVacationFormData({...vacationFormData, start_date: value})}
+              placeholder="Startdatum (YYYY-MM-DD)"
+              placeholderTextColor={colors.textMuted}
+            />
+            
+            <TextInput
+              style={dynamicStyles.input}
+              value={vacationFormData.end_date}
+              onChangeText={(value) => setVacationFormData({...vacationFormData, end_date: value})}
+              placeholder="Enddatum (YYYY-MM-DD)"
+              placeholderTextColor={colors.textMuted}
+            />
+            
+            <TextInput
+              style={[dynamicStyles.input, dynamicStyles.multilineInput]}
+              value={vacationFormData.reason}
+              onChangeText={(value) => setVacationFormData({...vacationFormData, reason: value})}
+              placeholder="Grund für den Urlaubsantrag"
+              placeholderTextColor={colors.textMuted}
+              multiline
+              numberOfLines={3}
+            />
+            
+            <View style={{ flexDirection: 'row', gap: 12 }}>
+              <TouchableOpacity
+                style={[dynamicStyles.submitButton, { backgroundColor: colors.textMuted, flex: 1 }]}
+                onPress={() => setShowVacationModal(false)}
+              >
+                <Text style={dynamicStyles.submitButtonText}>Abbrechen</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+                style={[dynamicStyles.submitButton, { flex: 1 }]}
+                onPress={requestVacation}
+              >
+                <Text style={dynamicStyles.submitButtonText}>Einreichen</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      )}
+    </ScrollView>
+  );
+};
+
+export default ShiftManagementComponent;
