@@ -549,7 +549,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
           </View>
           <View style={dynamicStyles.sectionTextContainer}>
             <Text style={dynamicStyles.modernSectionTitle}>Letzte Check-Ins</Text>
-            <Text style={dynamicStyles.modernSectionSubtitle}>Aktivitäten und Status</Text>
+            <Text style={[dynamicStyles.modernSectionSubtitle, { color: colors.text, opacity: 0.8 }]}>Aktivitäten und Status</Text>
           </View>
           <TouchableOpacity 
             style={dynamicStyles.modernQuickButton}
