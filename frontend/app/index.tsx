@@ -2029,7 +2029,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
 
   const handleVacationApproval = async (vacationId, action, reason) => {
     try {
-      const response = await fetch(`${API_URL}/admin/vacations/${vacationId}/approve`, {
+      const response = await fetch(`${API_URL}/api/admin/vacations/${vacationId}/approve`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -2046,7 +2046,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       }
     } catch (error) {
       console.error('Fehler bei Urlaubsgenehmigung:', error);
-      Alert.alert('❌ Fehler', 'Netzwerkfehler');
+      Alert.alert('❌ Fehler', 'Netzwerkfehler beim Bearbeiten des Antrags');
     }
   };
 
