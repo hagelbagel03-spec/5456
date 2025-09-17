@@ -974,60 +974,124 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
         )}
       </View>
 
-      {/* Vacation Request Modal */}
+      {/* Modern Vacation Request Modal */}
       <Modal
         visible={showVacationModal}
         transparent={true}
         animationType="slide"
         onRequestClose={() => setShowVacationModal(false)}
       >
-        <View style={dynamicStyles.modalOverlay}>
-          <View style={dynamicStyles.modalContainer}>
-            <Text style={dynamicStyles.modalTitle}>📅 Urlaubsantrag</Text>
-            
-            <TextInput
-              style={dynamicStyles.input}
-              value={vacationFormData.start_date}
-              onChangeText={(value) => setVacationFormData({...vacationFormData, start_date: value})}
-              placeholder="Startdatum (YYYY-MM-DD)"
-              placeholderTextColor={colors.textMuted}
-            />
-            
-            <TextInput
-              style={dynamicStyles.input}
-              value={vacationFormData.end_date}
-              onChangeText={(value) => setVacationFormData({...vacationFormData, end_date: value})}
-              placeholder="Enddatum (YYYY-MM-DD)"
-              placeholderTextColor={colors.textMuted}
-            />
-            
-            <TextInput
-              style={[dynamicStyles.input, dynamicStyles.multilineInput]}
-              value={vacationFormData.reason}
-              onChangeText={(value) => setVacationFormData({...vacationFormData, reason: value})}
-              placeholder="Grund für den Urlaubsantrag"
-              placeholderTextColor={colors.textMuted}
-              multiline
-              numberOfLines={3}
-            />
-            
-            <View style={{ flexDirection: 'row', marginTop: 12 }}>
-              <TouchableOpacity
-                style={[dynamicStyles.submitButton, { backgroundColor: colors.textMuted, flex: 1, marginRight: 6 }]}
-                onPress={() => setShowVacationModal(false)}
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <View style={dynamicStyles.modalOverlay}>
+            <View style={[dynamicStyles.modalContainer, { maxHeight: '80%' }]}>
+              {/* Modern Header */}
+              <View style={dynamicStyles.modernModalHeader}>
+                <View style={dynamicStyles.modernModalIconContainer}>
+                  <Ionicons name="calendar" size={28} color={colors.primary} />
+                </View>
+                <View style={dynamicStyles.modernModalTitleContainer}>
+                  <Text style={dynamicStyles.modernModalTitle}>📅 Urlaubsantrag</Text>
+                  <Text style={dynamicStyles.modernModalSubtitle}>Neuen Urlaub beantragen</Text>
+                </View>
+                <TouchableOpacity
+                  style={dynamicStyles.modernModalCloseButton}
+                  onPress={() => setShowVacationModal(false)}
+                >
+                  <Ionicons name="close" size={24} color={colors.textMuted} />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView 
+                style={dynamicStyles.modernModalContent}
+                showsVerticalScrollIndicator={false}
               >
-                <Text style={dynamicStyles.submitButtonText}>Abbrechen</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity
-                style={[dynamicStyles.submitButton, { flex: 1, marginLeft: 6 }]}
-                onPress={requestVacation}
-              >
-                <Text style={dynamicStyles.submitButtonText}>Einreichen</Text>
-              </TouchableOpacity>
+                {/* Date Selection */}
+                <View style={dynamicStyles.modernFormSection}>
+                  <Text style={dynamicStyles.modernSectionLabel}>📅 Urlaubszeitraum</Text>
+                  
+                  <View style={dynamicStyles.dateInputsContainer}>
+                    <View style={dynamicStyles.dateInputWrapper}>
+                      <Text style={dynamicStyles.modernInputLabel}>Von *</Text>
+                      <View style={dynamicStyles.modernInputContainer}>
+                        <Ionicons name="calendar-outline" size={20} color={colors.primary} />
+                        <TextInput
+                          style={dynamicStyles.modernInput}
+                          value={vacationFormData.start_date}
+                          onChangeText={(value) => setVacationFormData({...vacationFormData, start_date: value})}
+                          placeholder="YYYY-MM-DD"
+                          placeholderTextColor={colors.textMuted}
+                        />
+                      </View>
+                    </View>
+                    
+                    <View style={dynamicStyles.dateInputWrapper}>
+                      <Text style={dynamicStyles.modernInputLabel}>Bis *</Text>
+                      <View style={dynamicStyles.modernInputContainer}>
+                        <Ionicons name="calendar-outline" size={20} color={colors.primary} />
+                        <TextInput
+                          style={dynamicStyles.modernInput}
+                          value={vacationFormData.end_date}
+                          onChangeText={(value) => setVacationFormData({...vacationFormData, end_date: value})}
+                          placeholder="YYYY-MM-DD"
+                          placeholderTextColor={colors.textMuted}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+
+                {/* Reason Section */}
+                <View style={dynamicStyles.modernFormSection}>
+                  <Text style={dynamicStyles.modernSectionLabel}>📝 Begründung</Text>
+                  <View style={dynamicStyles.modernInputContainer}>
+                    <Ionicons name="document-text-outline" size={20} color={colors.primary} />
+                    <TextInput
+                      style={[dynamicStyles.modernInput, { 
+                        height: 100, 
+                        textAlignVertical: 'top',
+                        paddingTop: 16
+                      }]}
+                      value={vacationFormData.reason}
+                      onChangeText={(value) => setVacationFormData({...vacationFormData, reason: value})}
+                      placeholder="z.B. Familienurlaub, Erholung, persönliche Angelegenheiten..."
+                      placeholderTextColor={colors.textMuted}
+                      multiline
+                      numberOfLines={4}
+                    />
+                  </View>
+                  <Text style={dynamicStyles.inputHint}>
+                    💡 Eine Begründung hilft bei der schnelleren Bearbeitung
+                  </Text>
+                </View>
+              </ScrollView>
+
+              {/* Modern Action Buttons */}
+              <View style={dynamicStyles.modernModalActions}>
+                <TouchableOpacity
+                  style={[dynamicStyles.modernActionButton, { backgroundColor: colors.textMuted + '20' }]}
+                  onPress={() => setShowVacationModal(false)}
+                >
+                  <Text style={[dynamicStyles.modernActionButtonText, { color: colors.textMuted }]}>
+                    Abbrechen
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={[dynamicStyles.modernActionButton, { backgroundColor: colors.primary }]}
+                  onPress={requestVacation}
+                >
+                  <Ionicons name="send" size={18} color="#FFFFFF" />
+                  <Text style={[dynamicStyles.modernActionButtonText, { color: '#FFFFFF', marginLeft: 8 }]}>
+                    Antrag einreichen
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </Modal>
     </ScrollView>
   );
