@@ -10639,92 +10639,86 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
-      {/* Benutzerübersicht Modal - Premium Design */}
+      {/* Benutzerübersicht Modal - AddUserModal Style */}
       <Modal
         visible={showUserOverviewModal}
-        transparent={true}
         animationType="slide"
         onRequestClose={() => setShowUserOverviewModal(false)}
       >
-        <SafeAreaView style={dynamicStyles.premiumModalOverlay}>
-          <View style={dynamicStyles.premiumModalContainer}>
-            <View style={[dynamicStyles.premiumModalHeader, { backgroundColor: '#EF4444' }]}>
-              <TouchableOpacity 
-                style={dynamicStyles.premiumCloseButton}
-                onPress={() => setShowUserOverviewModal(false)}
-              >
-                <Ionicons name="close" size={24} color={colors.textMuted} />
-              </TouchableOpacity>
-              
-              <View style={dynamicStyles.premiumHeaderContent}>
-                <View style={dynamicStyles.premiumIconContainer}>
-                  <Ionicons name="analytics" size={28} color="#FFFFFF" />
-                </View>
-                <View style={dynamicStyles.premiumTitleContainer}>
-                  <Text style={dynamicStyles.premiumModalTitle}>Benutzerübersicht</Text>
-                  <Text style={dynamicStyles.premiumModalSubtitle}>Team-Zuordnungen • Bezirke • Statistiken</Text>
-                </View>
-              </View>
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.profileModalHeader}>
+            <TouchableOpacity 
+              style={dynamicStyles.profileCloseButton}
+              onPress={() => setShowUserOverviewModal(false)}
+            >
+              <Ionicons name="close" size={24} color={colors.textMuted} />
+            </TouchableOpacity>
+            <Text style={dynamicStyles.profileModalTitle}>👥 Benutzerübersicht</Text>
+            <View style={{ width: 40 }} />
+          </View>
+
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={dynamicStyles.profileInfoText}>
+                📊 Übersicht aller registrierten Benutzer mit Team-Zuordnungen, Bezirken und Statistiken.
+              </Text>
             </View>
 
-              <ScrollView style={dynamicStyles.modalContent} showsVerticalScrollIndicator={false}>
-                {userOverviewList.map((user, index) => (
-                  <View key={user.id || index} style={dynamicStyles.premiumVacationCard}>
-                    <View style={dynamicStyles.vacationCardHeader}>
-                      <View style={dynamicStyles.userAvatarContainer}>
+            <Text style={dynamicStyles.profileSectionTitle}>👥 Team-Zuordnungen • Bezirke • Statistiken</Text>
+
+            {userOverviewList.length > 0 ? (
+              userOverviewList.map((user, index) => (
+                <View key={user.id || index} style={dynamicStyles.profileFormGroup}>
+                  <View style={[dynamicStyles.profileFormInput, { padding: 20, height: 'auto' }]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
+                      <View style={[dynamicStyles.profileActionIcon, { marginRight: 16, width: 40, height: 40 }]}>
                         <Ionicons name="person" size={20} color={colors.primary} />
                       </View>
-                      <View style={dynamicStyles.vacationUserInfo}>
-                        <Text style={dynamicStyles.premiumVacationUser}>{user.username}</Text>
-                        <Text style={dynamicStyles.vacationDepartment}>{user.email}</Text>
+                      <View style={{ flex: 1 }}>
+                        <Text style={[dynamicStyles.profileFormLabel, { marginBottom: 4 }]}>
+                          {user.username}
+                        </Text>
+                        <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 0 }]}>
+                          {user.email}
+                        </Text>
                       </View>
-                      <View style={[dynamicStyles.premiumStatusBadge, 
-                        { backgroundColor: user.role === 'admin' ? '#EF4444' : '#10B981' }]}>
-                        <Text style={dynamicStyles.premiumStatusText}>
+                      <View style={[{
+                        paddingHorizontal: 8,
+                        paddingVertical: 4,
+                        borderRadius: 12,
+                        backgroundColor: user.role === 'admin' ? colors.error : colors.success
+                      }]}>
+                        <Text style={[{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }]}>
                           {user.role === 'admin' ? '👑 Admin' : '👤 Benutzer'}
                         </Text>
                       </View>
                     </View>
                     
-                    <View style={dynamicStyles.vacationDetails}>
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="shield-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Team:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>{user.teamName || 'Nicht zugewiesen'}</Text>
-                      </View>
-                      
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="map-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Bezirk:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>{user.districtName || 'Nicht zugewiesen'}</Text>
-                      </View>
-                      
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="call-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Telefon:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>{user.phone || 'Nicht angegeben'}</Text>
-                      </View>
-                      
-                      <View style={dynamicStyles.vacationInfoRow}>
-                        <Ionicons name="id-card-outline" size={16} color={colors.primary} />
-                        <Text style={dynamicStyles.vacationInfoLabel}>Dienst-Nr:</Text>
-                        <Text style={dynamicStyles.vacationInfoValue}>{user.service_number || 'Nicht angegeben'}</Text>
-                      </View>
+                    <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 12 }}>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        👥 Team: {user.teamName || 'Nicht zugewiesen'}
+                      </Text>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        🗺️ Bezirk: {user.districtName || 'Nicht zugewiesen'}
+                      </Text>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        📞 Telefon: {user.phone || 'Nicht angegeben'}
+                      </Text>
+                      <Text style={dynamicStyles.profileFormHelperText}>
+                        🆔 Dienst-Nr: {user.service_number || 'Nicht angegeben'}
+                      </Text>
                     </View>
                   </View>
-                ))}
-                
-                {userOverviewList.length === 0 && (
-                  <View style={dynamicStyles.premiumEmptyState}>
-                    <View style={dynamicStyles.emptyIconContainer}>
-                      <Ionicons name="people-outline" size={64} color={colors.textMuted} />
-                    </View>
-                    <Text style={dynamicStyles.emptyTitle}>Keine Benutzer</Text>
-                    <Text style={dynamicStyles.emptySubtitle}>Noch keine Benutzer in der Datenbank gefunden</Text>
-                  </View>
-                )}
-              </ScrollView>
-          </View>
+                </View>
+              ))
+            ) : (
+              <View style={dynamicStyles.profileInfoCard}>
+                <Text style={[dynamicStyles.profileInfoText, { textAlign: 'center' }]}>
+                  📭 Keine Benutzer gefunden
+                </Text>
+              </View>
+            )}
+          </ScrollView>
         </SafeAreaView>
       </Modal>
 
