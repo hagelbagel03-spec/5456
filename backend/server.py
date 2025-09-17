@@ -652,7 +652,10 @@ async def get_users_by_status(current_user: User = Depends(get_current_user)):
             "status": user_status,
             "is_online": is_online,
             "online_status": "Online" if is_online else "Offline",
-            "last_activity": last_activity.isoformat() if last_activity else None
+            "last_activity": last_activity.isoformat() if last_activity else None,
+            "patrol_team": user_doc.get("patrol_team"),
+            "assigned_district": user_doc.get("assigned_district"),
+            "photo": user_doc.get("photo")
         }
         users_by_status[user_status].append(user_data)
     
