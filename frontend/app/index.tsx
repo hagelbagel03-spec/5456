@@ -11405,6 +11405,7 @@ Beispielinhalt:
                     <TouchableOpacity
                       style={[dynamicStyles.actionButton, { backgroundColor: colors.primary, marginBottom: 12 }]}
                       onPress={() => {
+                        console.log('🎯 Vorfall annehmen Button gedrückt');
                         Alert.alert(
                           '👤 Vorfall annehmen',
                           `"${selectedIncident.title}" annehmen und selbst bearbeiten?`,
@@ -11412,7 +11413,10 @@ Beispielinhalt:
                             { text: 'Abbrechen', style: 'cancel' },
                             { 
                               text: 'Ja, ANNEHMEN', 
-                              onPress: () => assignIncidentToSelf(selectedIncident.id, selectedIncident.title)
+                              onPress: async () => {
+                                console.log('🔄 Calling assignIncidentToSelf...');
+                                await assignIncidentToSelf(selectedIncident.id, selectedIncident.title);
+                              }
                             }
                           ]
                         );
