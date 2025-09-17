@@ -796,7 +796,7 @@ async def get_reports(current_user: User = Depends(get_current_user)):
     
     return [Report(**serialize_mongo_data(report)) for report in reports]
 
-@api_router.put("/users/{user_id}", response_model=User)
+@api_router.put("/users/{user_id}")
 async def update_user(user_id: str, updates: UserUpdate, current_user: User = Depends(get_current_user)):
     """Update user data (admin only)"""
     if current_user.role != UserRole.ADMIN:
@@ -811,7 +811,7 @@ async def update_user(user_id: str, updates: UserUpdate, current_user: User = De
         raise HTTPException(status_code=404, detail="User not found")
     
     updated_user = await db.users.find_one({"id": user_id})
-    return User(**updated_user)
+    return serialize_mongo_data(updated_user)
 
 @api_router.delete("/users/{user_id}")
 async def delete_user(user_id: str, current_user: User = Depends(get_current_user)):
