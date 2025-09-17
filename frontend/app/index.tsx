@@ -704,7 +704,8 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     name: '',
     description: '',
     district: '',
-    max_members: 6
+    max_members: 6,
+    selectedMembers: []
   });
   
   // Benutzer-Auswahl für Team
