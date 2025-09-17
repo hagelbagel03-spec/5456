@@ -1066,6 +1066,16 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
                       </Text>
                     </View>
                   )}
+
+                  {/* Rejection Reason - Show if vacation is rejected */}
+                  {vacation.status === 'rejected' && vacation.rejection_reason && (
+                    <View style={dynamicStyles.rejectionReasonContainer}>
+                      <Ionicons name="warning-outline" size={14} color={colors.error} />
+                      <Text style={dynamicStyles.rejectionReasonText} numberOfLines={3}>
+                        Ablehnungsgrund: {vacation.rejection_reason}
+                      </Text>
+                    </View>
+                  )}
                 </View>
 
                 <View style={dynamicStyles.vacationActionButton}>
