@@ -560,19 +560,64 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
         </View>
         
         {checkins.length > 0 ? (
-          checkins.slice(0, 5).map((checkin) => (
-            <View key={checkin.id} style={dynamicStyles.checkinCard}>
-              <View style={dynamicStyles.checkinHeader}>
-                <Text style={dynamicStyles.checkinTime}>
-                  {new Date(checkin.timestamp).toLocaleString('de-DE')}
-                </Text>
-                <View style={[dynamicStyles.statusBadge, { backgroundColor: getStatusColor(checkin.status) }]}>
-                  <Text style={dynamicStyles.statusBadgeText}>{getStatusText(checkin.status)}</Text>
+          checkins.slice(0, 5).map((checkin, index) => (
+            <View key={checkin.id || index} style={dynamicStyles.modernCheckinCard}>
+              <View style={dynamicStyles.modernCheckinHeader}>
+                <View style={dynamicStyles.checkinIconContainer}>
+                  <View style={[dynamicStyles.checkinStatusDot, { backgroundColor: getStatusColor(checkin.status) }]}>
+                    <Ionicons 
+                      name={checkin.status === 'ok' ? 'checkmark' : 
+                            checkin.status === 'emergency' ? 'warning' : 
+                            checkin.status === 'help_needed' ? 'help-circle' : 'information'}
+                      size={14} 
+                      color="#FFFFFF" 
+                    />
+                  </View>
+                </View>
+                
+                <View style={dynamicStyles.checkinMainContent}>
+                  <View style={dynamicStyles.checkinTopRow}>
+                    <Text style={dynamicStyles.modernCheckinStatus}>
+                      {getStatusText(checkin.status)}
+                    </Text>
+                    <Text style={dynamicStyles.modernCheckinTime}>
+                      {new Date(checkin.timestamp).toLocaleTimeString('de-DE', { 
+                        hour: '2-digit', 
+                        minute: '2-digit' 
+                      })}
+                    </Text>
+                  </View>
+                  
+                  <Text style={dynamicStyles.modernCheckinDate}>
+                    {new Date(checkin.timestamp).toLocaleDateString('de-DE', {
+                      day: '2-digit',
+                      month: '2-digit', 
+                      year: 'numeric'
+                    })}
+                  </Text>
+                  
+                  {checkin.message && (
+                    <Text style={dynamicStyles.modernCheckinMessage}>
+                      💬 {checkin.message}
+                    </Text>
+                  )}
+                </View>
+
+                <View style={dynamicStyles.checkinActionButton}>
+                  <TouchableOpacity 
+                    style={dynamicStyles.checkinViewButton}
+                    onPress={() => {
+                      Alert.alert(
+                        '📋 Check-In Details',
+                        `Status: ${getStatusText(checkin.status)}\nZeit: ${new Date(checkin.timestamp).toLocaleString('de-DE')}\n${checkin.message ? `Nachricht: ${checkin.message}` : 'Keine Nachricht'}`,
+                        [{ text: 'OK' }]
+                      );
+                    }}
+                  >
+                    <Ionicons name="ellipsis-horizontal" size={16} color={colors.textMuted} />
+                  </TouchableOpacity>
                 </View>
               </View>
-              {checkin.message && (
-                <Text style={dynamicStyles.checkinMessage}>{checkin.message}</Text>
-              )}
             </View>
           ))
         ) : (
