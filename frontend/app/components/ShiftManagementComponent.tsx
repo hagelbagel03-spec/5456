@@ -322,12 +322,165 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       marginLeft: 8,
     },
 
-    // Lists
-    listContainer: {
+    // Modern Check-in Cards
+    modernCheckinCard: {
       backgroundColor: colors.surface,
       borderRadius: 16,
-      paddingVertical: 8,
-      marginBottom: 16,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      marginBottom: 12,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 3,
+      borderWidth: 1,
+      borderColor: colors.border + '30',
+    },
+    modernCheckinHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    checkinIconContainer: {
+      marginRight: 16,
+    },
+    checkinStatusDot: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    checkinMainContent: {
+      flex: 1,
+    },
+    checkinTopRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 4,
+    },
+    modernCheckinStatus: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    modernCheckinTime: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+    modernCheckinDate: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginBottom: 6,
+    },
+    modernCheckinMessage: {
+      fontSize: 14,
+      color: colors.text,
+      fontStyle: 'italic',
+      marginTop: 4,
+    },
+    checkinActionButton: {
+      marginLeft: 12,
+    },
+    checkinViewButton: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+
+    // Modern Vacation Cards
+    modernVacationCard: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      marginBottom: 12,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 3,
+      borderWidth: 1,
+      borderColor: colors.border + '30',
+    },
+    modernVacationHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    vacationIconContainer: {
+      marginRight: 16,
+    },
+    vacationStatusDot: {
+      width: 36,
+      height: 36,
+      borderRadius: 18,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    vacationMainContent: {
+      flex: 1,
+    },
+    vacationTopRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 8,
+    },
+    modernVacationTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    modernStatusChip: {
+      paddingHorizontal: 12,
+      paddingVertical: 4,
+      borderRadius: 12,
+      borderWidth: 1,
+    },
+    modernStatusChipText: {
+      fontSize: 12,
+      fontWeight: '600',
+    },
+    vacationDateRow: {
+      marginBottom: 6,
+    },
+    vacationDateContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    modernVacationDates: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginLeft: 6,
+    },
+    vacationReasonContainer: {
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      marginTop: 4,
+    },
+    modernVacationReason: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginLeft: 6,
+      flex: 1,
+      lineHeight: 18,
+    },
+    vacationActionButton: {
+      marginLeft: 12,
+    },
+    vacationViewButton: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      backgroundColor: colors.background,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
     listItem: {
       flexDirection: 'row',
