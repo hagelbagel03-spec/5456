@@ -1229,14 +1229,14 @@ async def update_incident(incident_id: str, updates: Dict[str, Any], current_use
     
     return incident_obj
 
-@api_router.get("/messages", response_model=List[Message])
+@api_router.get("/messages")
 async def get_messages(channel: str = "general", current_user: User = Depends(get_current_user)):
     """Get messages from specified channel"""
     try:
         messages = await db.messages.find({"channel": channel}).sort("timestamp", 1).limit(100).to_list(100)
-        return [Message(**message) for message in messages]
+        return serialize_mongo_data(messages)
     except Exception as e:
-        # Return empty list if no messages found
+        print(f"❌ Fehler beim Laden der Nachrichten: {str(e)}")
         return []
 
 @api_router.get("/messages/private", response_model=List[Message])
