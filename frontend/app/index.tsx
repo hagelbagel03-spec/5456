@@ -7804,8 +7804,9 @@ const MainApp = ({ appConfig, setAppConfig }) => {
             style={[dynamicStyles.modernAdminButton, { backgroundColor: '#06B6D4' }]}
             onPress={() => {
               // Direkt Team-Creation Modal öffnen
-              setNewTeamData({ name: '', description: '', district: '', max_members: 6 });
+              setNewTeamData({ name: '', description: '', district: '', max_members: 6, selectedMembers: [] });
               setShowAddTeamModal(true);
+              loadUserOverview(); // Lade verfügbare Benutzer
             }} 
           >
             <View style={dynamicStyles.modernButtonIcon}>
