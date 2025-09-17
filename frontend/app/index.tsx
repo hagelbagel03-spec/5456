@@ -10521,19 +10521,103 @@ Beispielinhalt:
                 />
               </View>
 
-              <View style={dynamicStyles.formGroup}>
-                <Text style={dynamicStyles.formLabel}>👥 Max. Mitglieder</Text>
+              <View style={dynamicStyles.profileFormGroup}>
+                <Text style={dynamicStyles.profileFormLabel}>👥 Max. Mitglieder</Text>
                 <TextInput
-                  style={dynamicStyles.formInput}
+                  style={dynamicStyles.profileFormInput}
                   value={newTeamData.max_members.toString()}
-                  onChangeText={(value) => {
-                    const num = parseInt(value) || 1;
-                    setNewTeamData({...newTeamData, max_members: Math.max(1, Math.min(20, num))});
-                  }}
+                  onChangeText={(value) => setNewTeamData({...newTeamData, max_members: parseInt(value) || 6})}
                   placeholder="6"
                   placeholderTextColor={colors.textMuted}
-                  keyboardType="number-pad"
+                  keyboardType="numeric"
                 />
+              </View>
+
+              {/* Benutzer-Auswahl Sektion */}
+              <View style={dynamicStyles.profileFormGroup}>
+                <Text style={dynamicStyles.profileFormLabel}>👮‍♂️ Team-Mitglieder auswählen</Text>
+                <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 12 }]}>
+                  Wählen Sie Beamte für dieses Team aus
+                </Text>
+                
+                {/* Benutzer-Liste mit Auswahl */}
+                <View style={dynamicStyles.userSelectionContainer}>
+                  {userOverviewList.slice(0, 8).map((officer, index) => (
+                    <TouchableOpacity
+                      key={officer.id || index}
+                      style={[
+                        dynamicStyles.userSelectionItem,
+                        newTeamData.selectedMembers?.includes(officer.id) && dynamicStyles.userSelectionItemSelected
+                      ]}
+                      onPress={() => {
+                        const currentSelected = newTeamData.selectedMembers || [];
+                        let updatedSelected;
+                        
+                        if (currentSelected.includes(officer.id)) {
+                          updatedSelected = currentSelected.filter(id => id !== officer.id);
+                        } else {
+                          if (currentSelected.length < newTeamData.max_members) {
+                            updatedSelected = [...currentSelected, officer.id];
+                          } else {
+                            Alert.alert('Maximum erreicht', `Es können maximal ${newTeamData.max_members} Mitglieder ausgewählt werden.`);
+                            return;
+                          }
+                        }
+                        
+                        setNewTeamData({...newTeamData, selectedMembers: updatedSelected});
+                      }}
+                    >
+                      <View style={dynamicStyles.userSelectionAvatar}>
+                        {officer.profile_photo ? (
+                          <Image 
+                            source={{ uri: officer.profile_photo }} 
+                            style={dynamicStyles.userSelectionAvatarImage}
+                          />
+                        ) : (
+                          <Ionicons name="person" size={16} color={colors.textMuted} />
+                        )}
+                      </View>
+                      
+                      <View style={dynamicStyles.userSelectionInfo}>
+                        <Text style={dynamicStyles.userSelectionName}>
+                          {officer.display_name || officer.email}
+                        </Text>
+                        <Text style={dynamicStyles.userSelectionBadge}>
+                          {officer.rank || 'Beamter'} • {officer.department || 'Allgemein'}
+                        </Text>
+                      </View>
+                      
+                      <View style={dynamicStyles.userSelectionCheckbox}>
+                        {newTeamData.selectedMembers?.includes(officer.id) ? (
+                          <Ionicons name="checkmark-circle" size={20} color={colors.success} />
+                        ) : (
+                          <Ionicons name="ellipse-outline" size={20} color={colors.textMuted} />
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+                
+                {/* Ausgewählte Mitglieder anzeigen */}
+                {newTeamData.selectedMembers && newTeamData.selectedMembers.length > 0 && (
+                  <View style={dynamicStyles.selectedMembersContainer}>
+                    <Text style={dynamicStyles.selectedMembersTitle}>
+                      ✅ Ausgewählt ({newTeamData.selectedMembers.length}/{newTeamData.max_members})
+                    </Text>
+                    <View style={dynamicStyles.selectedMembersList}>
+                      {newTeamData.selectedMembers.map((memberId) => {
+                        const member = userOverviewList.find(o => o.id === memberId);
+                        return (
+                          <View key={memberId} style={dynamicStyles.selectedMemberChip}>
+                            <Text style={dynamicStyles.selectedMemberChipText}>
+                              {member?.display_name || member?.email || 'Unbekannt'}
+                            </Text>
+                          </View>
+                        );
+                      })}
+                    </View>
+                  </View>
+                )}
               </View>
 
               <View style={dynamicStyles.formGroup}>
