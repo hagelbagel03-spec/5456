@@ -10423,11 +10423,11 @@ Beispielinhalt:
           <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
             <View style={dynamicStyles.profileInfoCard}>
               <Text style={dynamicStyles.profileInfoText}>
-                📋 Hier können Sie alle eingereichten Urlaubsanträge verwalten, genehmigen oder ablehnen.
+                📋 Zentrale Verwaltung aller Urlaubsanträge mit sofortiger Benachrichtigung bei Genehmigung oder Ablehnung.
               </Text>
             </View>
 
-            <Text style={dynamicStyles.profileSectionTitle}>Genehmigen • Ablehnen • Verwalten</Text>
+            <Text style={dynamicStyles.profileSectionTitle}>🚔 Genehmigen • Ablehnen • Verwalten</Text>
 
             {pendingVacations.length > 0 ? (
               pendingVacations.map((vacation, index) => (
