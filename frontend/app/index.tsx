@@ -10521,60 +10521,80 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
-      {/* Anwesenheitsliste Admin Modal */}
+      {/* Anwesenheitsliste Modal - AddUserModal Style */}
       <Modal
         visible={showAttendanceModal}
-        transparent={true}
         animationType="slide"
         onRequestClose={() => setShowAttendanceModal(false)}
       >
-        <SafeAreaView style={dynamicStyles.modalOverlay}>
-          <View style={dynamicStyles.modalHeader}>
+        <SafeAreaView style={dynamicStyles.container}>
+          <View style={dynamicStyles.profileModalHeader}>
             <TouchableOpacity 
-              style={dynamicStyles.closeButton}
+              style={dynamicStyles.profileCloseButton}
               onPress={() => setShowAttendanceModal(false)}
             >
-              <Ionicons name="close" size={24} color={colors.text} />
+              <Ionicons name="close" size={24} color={colors.textMuted} />
             </TouchableOpacity>
-            
-            <View style={dynamicStyles.adminHeaderContent}>
-              <View style={dynamicStyles.adminIconContainer}>
-                <Ionicons name="people" size={isSmallScreen ? 32 : 48} color={colors.primary} />
-              </View>
-              <View style={dynamicStyles.adminTitleContainer}>
-                <Text style={dynamicStyles.adminModalTitle}>👥 Anwesenheitsliste</Text>
-                <Text style={dynamicStyles.adminModalSubtitle}>Wer ist gerade im Dienst</Text>
-              </View>
-            </View>
+            <Text style={dynamicStyles.profileModalTitle}>👥 Anwesenheitsliste</Text>
+            <View style={{ width: 40 }} />
           </View>
 
-          <ScrollView style={dynamicStyles.modalContent} showsVerticalScrollIndicator={false}>
-            {attendanceList.map((user, index) => (
-              <View key={user.id || index} style={dynamicStyles.attendanceCard}>
-                <View style={dynamicStyles.attendanceHeader}>
-                  <Text style={dynamicStyles.attendanceUser}>{user.username}</Text>
-                  <View style={[dynamicStyles.statusIndicator, 
-                    { backgroundColor: user.is_online ? colors.success : colors.error }]}>
+          <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
+            <View style={dynamicStyles.profileInfoCard}>
+              <Text style={dynamicStyles.profileInfoText}>
+                📊 Übersicht aller Beamten, die aktuell im Dienst sind oder sich kürzlich abgemeldet haben.
+              </Text>
+            </View>
+
+            <Text style={dynamicStyles.profileSectionTitle}>Wer ist gerade im Dienst</Text>
+
+            {attendanceList.length > 0 ? (
+              attendanceList.map((user, index) => (
+                <View key={user.id || index} style={dynamicStyles.profileFormGroup}>
+                  <View style={[dynamicStyles.profileFormInput, { padding: 16, height: 'auto' }]}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
+                      <View style={[dynamicStyles.profileActionIcon, { marginRight: 12, width: 36, height: 36 }]}>
+                        <Ionicons name="person" size={18} color={colors.primary} />
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={[dynamicStyles.profileFormLabel, { marginBottom: 2, fontSize: 16 }]}>
+                          {user.username}
+                        </Text>
+                      </View>
+                      <View style={[{
+                        width: 12,
+                        height: 12,
+                        borderRadius: 6,
+                        backgroundColor: user.is_online ? colors.success : colors.error
+                      }]} />
+                    </View>
+                    
+                    <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 }}>
+                      <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 4 }]}>
+                        🏢 Team: {user.team || 'Nicht zugewiesen'}
+                      </Text>
+                      <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 4 }]}>
+                        🗺️ Bezirk: {user.district || 'Nicht zugewiesen'}
+                      </Text>
+                      <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 4 }]}>
+                        📞 Telefon: {user.phone || 'Nicht verfügbar'}
+                      </Text>
+                      {user.last_check_in && (
+                        <Text style={[dynamicStyles.profileFormHelperText, { fontSize: 11 }]}>
+                          ⏰ Letzter Check-in: {new Date(user.last_check_in).toLocaleString('de-DE')}
+                        </Text>
+                      )}
+                    </View>
                   </View>
                 </View>
-                
-                <Text style={dynamicStyles.attendanceDetails}>
-                  🏢 Team: {user.team}
+              ))
+            ) : (
+              <View style={dynamicStyles.profileInfoCard}>
+                <Text style={[dynamicStyles.profileInfoText, { textAlign: 'center' }]}>
+                  📭 Keine Benutzer im Dienst
                 </Text>
-                <Text style={dynamicStyles.attendanceDetails}>
-                  🗺️ Bezirk: {user.district}
-                </Text>
-                <Text style={dynamicStyles.attendanceDetails}>
-                  📞 Telefon: {user.phone || 'Nicht verfügbar'}
-                </Text>
-                
-                {user.last_check_in && (
-                  <Text style={dynamicStyles.attendanceTime}>
-                    ⏰ Letzter Check-in: {new Date(user.last_check_in).toLocaleString('de-DE')}
-                  </Text>
-                )}
               </View>
-            ))}
+            )}
           </ScrollView>
         </SafeAreaView>
       </Modal>
