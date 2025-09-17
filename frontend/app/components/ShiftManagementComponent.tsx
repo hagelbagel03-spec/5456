@@ -197,7 +197,306 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       alignItems: 'center',
     },
 
+    // District Overview Card
+    districtOverviewCard: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      padding: 20,
+      marginBottom: 16,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 4,
+    },
+    districtHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 16,
+    },
+    districtIcon: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.warning + '20',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 12,
+    },
+    districtInfo: {
+      flex: 1,
+    },
+    districtTitle: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+    },
+    districtTeam: {
+      fontSize: 14,
+      color: colors.textMuted,
+      marginTop: 2,
+    },
+
+    // Status Info Cards
+    statusInfoGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      marginBottom: 20,
+    },
+    statusInfoCard: {
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 16,
+      width: '48%',
+      marginBottom: 12,
+      alignItems: 'center',
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
+    statusInfoIcon: {
+      marginBottom: 8,
+    },
+    statusInfoTitle: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      textAlign: 'center',
+    },
+    statusInfoValue: {
+      fontSize: 12,
+      color: colors.textMuted,
+      textAlign: 'center',
+      marginTop: 4,
+    },
+
     // Status Buttons
+    statusButtonGrid: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      justifyContent: 'space-between',
+      marginBottom: 24,
+    },
+    statusButton: {
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      padding: 16,
+      width: '48%',
+      marginBottom: 12,
+      alignItems: 'center',
+      borderWidth: 2,
+      borderColor: colors.border,
+    },
+    statusButtonIcon: {
+      marginBottom: 8,
+    },
+    statusButtonText: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      textAlign: 'center',
+    },
+
+    // Action Buttons
+    actionButton: {
+      backgroundColor: colors.primary,
+      paddingVertical: 16,
+      paddingHorizontal: 24,
+      borderRadius: 12,
+      marginBottom: 16,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 4,
+    },
+    actionButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+      fontWeight: '700',
+      marginLeft: 8,
+    },
+
+    // Lists
+    listContainer: {
+      backgroundColor: colors.surface,
+      borderRadius: 16,
+      paddingVertical: 8,
+      marginBottom: 16,
+    },
+    listItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingHorizontal: 20,
+      paddingVertical: 16,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border + '30',
+    },
+    listItemIcon: {
+      marginRight: 16,
+    },
+    listItemContent: {
+      flex: 1,
+    },
+    listItemTitle: {
+      fontSize: 16,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 4,
+    },
+    listItemSubtitle: {
+      fontSize: 14,
+      color: colors.textMuted,
+    },
+    listItemBadge: {
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 16,
+      backgroundColor: colors.primary + '20',
+    },
+    listItemBadgeText: {
+      fontSize: 12,
+      fontWeight: '600',
+      color: colors.primary,
+    },
+
+    // Modal Styles
+    modalOverlay: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modalContainer: {
+      backgroundColor: colors.surface,
+      borderRadius: 20,
+      padding: 24,
+      width: '90%',
+      maxWidth: 400,
+    },
+    modalHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 24,
+    },
+    modalIconContainer: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: colors.primary + '20',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 16,
+    },
+    modalTitle: {
+      fontSize: 18,
+      fontWeight: '700',
+      color: colors.text,
+      flex: 1,
+    },
+    closeButton: {
+      width: 32,
+      height: 32,
+      borderRadius: 16,
+      backgroundColor: colors.textMuted + '20',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    
+    // Form Styles
+    formGroup: {
+      marginBottom: 20,
+    },
+    formLabel: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    formInput: {
+      backgroundColor: colors.background,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      fontSize: 16,
+      color: colors.text,
+    },
+    formTextArea: {
+      backgroundColor: colors.background,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      fontSize: 16,
+      color: colors.text,
+      height: 100,
+      textAlignVertical: 'top',
+    },
+    
+    // Button Row
+    buttonRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginTop: 24,
+    },
+    cancelButton: {
+      backgroundColor: colors.textMuted + '20',
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 12,
+      flex: 1,
+      marginRight: 12,
+      alignItems: 'center',
+    },
+    cancelButtonText: {
+      color: colors.textMuted,
+      fontSize: 16,
+      fontWeight: '600',
+    },
+    submitButton: {
+      backgroundColor: colors.primary,
+      paddingVertical: 12,
+      paddingHorizontal: 24,
+      borderRadius: 12,
+      flex: 1,
+      marginLeft: 12,
+      alignItems: 'center',
+    },
+    submitButtonText: {
+      color: '#FFFFFF',
+      fontSize: 16,
+      fontWeight: '700',
+    },
+
+    // Empty State
+    emptyContainer: {
+      alignItems: 'center',
+      paddingVertical: 32,
+    },
+    emptyText: {
+      fontSize: 16,
+      color: colors.textMuted,
+      marginTop: 16,
+      textAlign: 'center',
+    },
+
+    // Loading
+    loadingContainer: {
+      alignItems: 'center',
+      paddingVertical: 32,
+    },
+    loadingText: {
+      fontSize: 16,
+      color: colors.textMuted,
+      marginTop: 16,
+    },
+  });
     statusButtonsContainer: {
       flexDirection: 'row',
       flexWrap: 'wrap',
