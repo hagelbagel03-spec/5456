@@ -3422,6 +3422,20 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       fontSize: 12,
       color: colors.textMuted,
     },
+    userSelectionContainer: {
+      marginTop: 8,
+    },
+    userSelectionItem: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.surface,
+      borderRadius: 12,
+      paddingVertical: 12,
+      paddingHorizontal: 16,
+      marginBottom: 8,
+      borderWidth: 1,
+      borderColor: colors.border,
+    },
     userSelectionItemSelected: {
       backgroundColor: colors.primary + '20',
       borderColor: colors.primary,
