@@ -2076,6 +2076,48 @@ else:
 async def api_health():
     return {"message": "Stadtwache API", "version": "1.0.0", "status": "läuft"}
 
+# Create team endpoint
+@api_router.post("/admin/teams")
+async def create_team(team_data: dict, current_user: User = Depends(get_current_user)):
+    """Team erstellen (Admin only)"""
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can create teams")
+    
+    try:
+        team_dict = {
+            "id": str(uuid.uuid4()),
+            "name": team_data.get("name"),
+            "description": team_data.get("description", ""),
+            "district": team_data.get("district", ""),
+            "max_members": team_data.get("max_members", 6),
+            "status": team_data.get("status", "Einsatzbereit"),
+            "members": team_data.get("members", []),
+            "created_at": datetime.utcnow(),
+            "created_by": current_user.id
+        }
+        
+        # Insert team
+        await db.teams.insert_one(team_dict)
+        
+        print(f"✅ Team '{team_dict['name']}' erstellt von {current_user.username}")
+        
+        return serialize_mongo_data(team_dict)
+        
+    except Exception as e:
+        print(f"❌ Fehler beim Team-Erstellen: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Get teams
+@api_router.get("/teams")
+async def get_teams(current_user: User = Depends(get_current_user)):
+    """Get all teams"""
+    try:
+        teams = await db.teams.find().to_list(100)
+        return serialize_mongo_data(teams)
+    except Exception as e:
+        print(f"❌ Fehler beim Laden der Teams: {str(e)}")
+        return []
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
