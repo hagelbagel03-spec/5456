@@ -1642,6 +1642,11 @@ async def get_teams(current_user: User = Depends(get_current_user)):
     ]
     return teams
 
+# Root route
+@api_router.get("/")
+async def root():
+    return {"message": "Stadtwache API", "version": "1.0.0"}
+
 # Statische Dateien für Frontend
 static_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../frontend/dist"))
 expo_static_path = os.path.join(static_path, "_expo")
