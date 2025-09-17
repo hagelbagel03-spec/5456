@@ -626,7 +626,12 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       </View>
 
       {/* Vacation Request Modal */}
-      {showVacationModal && (
+      <Modal
+        visible={showVacationModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowVacationModal(false)}
+      >
         <View style={dynamicStyles.modalOverlay}>
           <View style={dynamicStyles.modalContainer}>
             <Text style={dynamicStyles.modalTitle}>📅 Urlaubsantrag</Text>
