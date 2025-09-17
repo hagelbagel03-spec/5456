@@ -698,6 +698,11 @@ const MainApp = ({ appConfig, setAppConfig }) => {
   const [showUserOverviewModal, setShowUserOverviewModal] = useState(false);
   const [userOverviewList, setUserOverviewList] = useState([]);
   
+  // Rejection Modal für Urlaubsanträge
+  const [showRejectionModal, setShowRejectionModal] = useState(false);
+  const [rejectionVacationId, setRejectionVacationId] = useState(null);
+  const [rejectionReason, setRejectionReason] = useState('');
+  
   // Team Creation (aus Admin-Dashboard)
   const [showAddTeamModal, setShowAddTeamModal] = useState(false);
   const [newTeamData, setNewTeamData] = useState({
