@@ -721,6 +721,120 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       color: colors.textMuted,
       marginTop: 16,
     },
+
+    // Modern Modal Styles
+    modernModalHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingBottom: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: colors.border + '30',
+      marginBottom: 20,
+    },
+    modernModalIconContainer: {
+      width: 48,
+      height: 48,
+      borderRadius: 24,
+      backgroundColor: colors.primary + '20',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginRight: 16,
+    },
+    modernModalTitleContainer: {
+      flex: 1,
+    },
+    modernModalTitle: {
+      fontSize: 20,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 2,
+    },
+    modernModalSubtitle: {
+      fontSize: 14,
+      color: colors.textMuted,
+      fontWeight: '500',
+    },
+    modernModalCloseButton: {
+      width: 40,
+      height: 40,
+      borderRadius: 20,
+      backgroundColor: colors.textMuted + '15',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    modernModalContent: {
+      flex: 1,
+      paddingBottom: 20,
+    },
+    modernFormSection: {
+      marginBottom: 24,
+    },
+    modernSectionLabel: {
+      fontSize: 16,
+      fontWeight: '700',
+      color: colors.text,
+      marginBottom: 16,
+    },
+    dateInputsContainer: {
+      gap: 16,
+    },
+    dateInputWrapper: {
+      flex: 1,
+    },
+    modernInputLabel: {
+      fontSize: 14,
+      fontWeight: '600',
+      color: colors.text,
+      marginBottom: 8,
+    },
+    modernInputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: colors.background,
+      borderWidth: 1,
+      borderColor: colors.border,
+      borderRadius: 12,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+      gap: 12,
+    },
+    modernInput: {
+      flex: 1,
+      fontSize: 16,
+      color: colors.text,
+      padding: 0,
+    },
+    inputHint: {
+      fontSize: 12,
+      color: colors.textMuted,
+      marginTop: 8,
+      fontStyle: 'italic',
+    },
+    modernModalActions: {
+      flexDirection: 'row',
+      gap: 12,
+      paddingTop: 20,
+      borderTopWidth: 1,
+      borderTopColor: colors.border + '30',
+    },
+    modernActionButton: {
+      flex: 1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+      paddingVertical: 16,
+      paddingHorizontal: 20,
+      borderRadius: 12,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    modernActionButtonText: {
+      fontSize: 16,
+      fontWeight: '700',
+    },
   });
 
   return (
