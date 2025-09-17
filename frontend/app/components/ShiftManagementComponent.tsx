@@ -270,30 +270,32 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
       marginTop: 4,
     },
 
-    // Status Buttons
-    statusButtonGrid: {
+    // Status Buttons - Kompakt nebeneinander
+    statusButtonsContainer: {
       flexDirection: 'row',
-      flexWrap: 'wrap',
       justifyContent: 'space-between',
       marginBottom: 24,
+      paddingHorizontal: 4,
     },
     statusButton: {
-      backgroundColor: colors.surface,
-      borderRadius: 12,
-      padding: 16,
-      width: '48%',
-      marginBottom: 12,
+      flexDirection: 'row',
       alignItems: 'center',
-      borderWidth: 2,
-      borderColor: colors.border,
-    },
-    statusButtonIcon: {
-      marginBottom: 8,
+      justifyContent: 'center',
+      paddingVertical: 12,
+      paddingHorizontal: 8,
+      borderRadius: 8,
+      minHeight: 44,
+      shadowColor: colors.shadow,
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.15,
+      shadowRadius: 4,
+      elevation: 3,
     },
     statusButtonText: {
-      fontSize: 14,
-      fontWeight: '600',
-      color: colors.text,
+      color: '#FFFFFF',
+      fontSize: 12,
+      fontWeight: '700',
+      marginLeft: 6,
       textAlign: 'center',
     },
 
