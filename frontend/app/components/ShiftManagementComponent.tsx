@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, TextInput, Alert, StyleSheet, Modal, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
@@ -7,33 +7,53 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
   const [checkins, setCheckins] = useState([]);
   const [vacations, setVacations] = useState([]);
   const [showVacationModal, setShowVacationModal] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [vacationFormData, setVacationFormData] = useState({
     start_date: '',
     end_date: '',
     reason: ''
   });
 
+  // Bezirke und Teams State
+  const [districts] = useState([
+    'Innenstadt', 'Nord', 'Süd', 'Ost', 'West', 
+    'Industriegebiet', 'Wohngebiet', 'Zentrum'
+  ]);
+
   const loadData = async () => {
+    setLoading(true);
     try {
       const config = token ? {
         headers: { Authorization: `Bearer ${token}` }
       } : {};
 
       // Load checkins
-      const checkinsResponse = await axios.get(`${API_URL}/api/checkins`, config);
-      if (checkinsResponse.data) {
-        setCheckins(checkinsResponse.data);
+      try {
+        const checkinsResponse = await axios.get(`${API_URL}/api/checkins`, config);
+        if (checkinsResponse.data) {
+          setCheckins(checkinsResponse.data);
+        }
+      } catch (error) {
+        console.log('Check-ins laden fehlgeschlagen:', error.message);
+        setCheckins([]);
       }
 
       // Load vacations
-      const vacationsResponse = await axios.get(`${API_URL}/api/vacations`, config);
-      if (vacationsResponse.data) {
-        setVacations(vacationsResponse.data);
+      try {
+        const vacationsResponse = await axios.get(`${API_URL}/api/vacations`, config);
+        if (vacationsResponse.data) {
+          setVacations(vacationsResponse.data);
+        }
+      } catch (error) {
+        console.log('Urlaubsanträge laden fehlgeschlagen:', error.message);
+        setVacations([]);
       }
     } catch (error) {
       console.error('Error loading shift data:', error);
       setCheckins([]);
       setVacations([]);
+    } finally {
+      setLoading(false);
     }
   };
 
