@@ -7427,15 +7427,23 @@ const MainApp = ({ appConfig, setAppConfig }) => {
             {/* Admin Settings Button - Only visible for admins */}
             {user?.role === 'admin' && (
               <TouchableOpacity 
-                style={[dynamicStyles.headerButton, { backgroundColor: colors.primary + '20' }]} 
+                style={[dynamicStyles.headerButton, { 
+                  backgroundColor: colors.primary,
+                  marginRight: 8,
+                  shadowColor: colors.shadow,
+                  shadowOffset: { width: 0, height: 2 },
+                  shadowOpacity: 0.25,
+                  shadowRadius: 4,
+                  elevation: 4,
+                }]} 
                 onPress={() => setShowAdminDashboardModal(true)}
                 accessible={true}
                 accessibilityLabel="Admin-Dashboard öffnen"
               >
                 <Ionicons 
                   name="settings" 
-                  size={20} 
-                  color={colors.primary} 
+                  size={22} 
+                  color="#FFFFFF" 
                 />
               </TouchableOpacity>
             )}
