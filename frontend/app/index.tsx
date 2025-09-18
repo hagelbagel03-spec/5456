@@ -10349,30 +10349,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
             </View>
 
             <View style={dynamicStyles.formGroup}>
-              <Text style={dynamicStyles.formLabel}>🗺️ Zugewiesener Bezirk</Text>
-              <TextInput
-                style={dynamicStyles.formInput}
-                value={profileData.assigned_district}
-                onChangeText={(text) => setProfileData({...profileData, assigned_district: text})}
-                placeholder="z.B. Zentrum, Nord, Süd"
-                placeholderTextColor={colors.textMuted}
-              />
-            </View>
-
-            <View style={dynamicStyles.formGroup}>
-              <Text style={dynamicStyles.formLabel}>👥 Patrouille/Team</Text>
-              <TextInput
-                style={dynamicStyles.formInput}
-                value={profileData.patrol_team}
-                onChangeText={(text) => setProfileData({...profileData, patrol_team: text})}
-                placeholder="z.B. Team Alpha, Streife 1"
-                placeholderTextColor={colors.textMuted}
-              />
-            </View>
-
-            {/* Quick Navigation Links */}
-            <View style={dynamicStyles.formGroup}>
-              <Text style={dynamicStyles.formLabel}>🚀 Schnellzugriff</Text>
+              <Text style={dynamicStyles.formLabel}>🔔 Benachrichtigungseinstellungen</Text>
               <View style={dynamicStyles.quickLinksContainer}>
                 <TouchableOpacity 
                   style={dynamicStyles.quickLinkButton}
