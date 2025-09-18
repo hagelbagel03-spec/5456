@@ -686,6 +686,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
   const [showDistrictAssignmentModal, setShowDistrictAssignmentModal] = useState(false);
   const [showDistrictDetailModal, setShowDistrictDetailModal] = useState(false); // ✅ NEU: Detail-Modal State
   const [showTeamDetailModal, setShowTeamDetailModal] = useState(false); // ✅ NEU: Team-Detail-Modal State
+  const [showTeamAssignmentModal, setShowTeamAssignmentModal] = useState(false); // ✅ NEU: Team-Assignment-Modal State
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [availableDistricts, setAvailableDistricts] = useState([]);
