@@ -13642,6 +13642,316 @@ Beispielinhalt:
         </KeyboardAvoidingView>
       </Modal>
 
+      {/* ✅ TEAM DETAIL MODAL - ZEIGT TEAM-MEMBER AN */}
+      <Modal
+        visible={showTeamDetailModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowTeamDetailModal(false)}
+      >
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <View style={{ 
+            flex: 1, 
+            backgroundColor: 'rgba(0,0,0,0.5)', 
+            justifyContent: 'center', 
+            alignItems: 'center' 
+          }}>
+            <View style={{
+              backgroundColor: colors.surface,
+              borderRadius: 20,
+              padding: 24,
+              margin: 16,
+              width: '92%',
+              maxHeight: '85%',
+              shadowColor: colors.shadow,
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 12
+            }}>
+              
+              {/* Header */}
+              <View style={{ 
+                flexDirection: 'row', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: 24,
+                paddingBottom: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.border
+              }}>
+                <Text style={{
+                  fontSize: 22,
+                  fontWeight: 'bold',
+                  color: colors.text,
+                  flex: 1
+                }}>
+                  👥 Mein Team
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setShowTeamDetailModal(false)}
+                  style={{
+                    padding: 12,
+                    backgroundColor: colors.card,
+                    borderRadius: 12,
+                    minWidth: 44,
+                    minHeight: 44,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="close" size={24} color={colors.text} />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView showsVerticalScrollIndicator={false}>
+                
+                {/* Team-Status-Banner */}
+                <View style={{
+                  backgroundColor: (profileData.patrol_team || user?.patrol_team) ? colors.success + '20' : colors.warning + '20',
+                  borderColor: (profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning,
+                  borderWidth: 2,
+                  borderRadius: 16,
+                  padding: 20,
+                  marginBottom: 24,
+                  alignItems: 'center'
+                }}>
+                  <Ionicons 
+                    name={(profileData.patrol_team || user?.patrol_team) ? "people" : "warning"} 
+                    size={48} 
+                    color={(profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning}
+                    style={{ marginBottom: 12 }}
+                  />
+                  <Text style={{
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    color: colors.text,
+                    textAlign: 'center',
+                    marginBottom: 8
+                  }}>
+                    {(profileData.patrol_team || user?.patrol_team) ? 
+                      `Team: ${profileData.patrol_team || user?.patrol_team}` :
+                      'Kein Team zugewiesen'
+                    }
+                  </Text>
+                  <Text style={{
+                    fontSize: 14,
+                    color: colors.textSecondary,
+                    textAlign: 'center'
+                  }}>
+                    {(profileData.patrol_team || user?.patrol_team) ? 
+                      'Sie sind einem Team zugeordnet' :
+                      'Bitte wenden Sie sich an Ihren Administrator'
+                    }
+                  </Text>
+                </View>
+
+                {/* Team-Member-Liste */}
+                {(profileData.patrol_team || user?.patrol_team) && (
+                  <View style={{
+                    backgroundColor: colors.card,
+                    borderRadius: 16,
+                    padding: 20,
+                    borderWidth: 1,
+                    borderColor: colors.border,
+                    marginBottom: 16
+                  }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                      <Ionicons name="people" size={24} color={colors.primary} />
+                      <Text style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: colors.text,
+                        marginLeft: 12
+                      }}>
+                        Team-Mitglieder
+                      </Text>
+                    </View>
+
+                    {/* ✅ FIX: Team-Member aus usersByStatus laden */}
+                    {usersByStatus.filter(u => u.patrol_team === (profileData.patrol_team || user?.patrol_team)).length > 0 ? (
+                      <View style={{ gap: 12 }}>
+                        {usersByStatus
+                          .filter(u => u.patrol_team === (profileData.patrol_team || user?.patrol_team))
+                          .map((teamMember, index) => (
+                            <View key={teamMember.id || index} style={{
+                              flexDirection: 'row',
+                              alignItems: 'center',
+                              padding: 12,
+                              backgroundColor: teamMember.id === user?.id ? colors.primary + '20' : colors.surface,
+                              borderRadius: 12,
+                              borderWidth: 1,
+                              borderColor: teamMember.id === user?.id ? colors.primary : colors.border + '40'
+                            }}>
+                              <View style={{
+                                width: 40,
+                                height: 40,
+                                borderRadius: 20,
+                                backgroundColor: colors.primary,
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                marginRight: 12
+                              }}>
+                                <Text style={{
+                                  color: '#FFFFFF',
+                                  fontWeight: 'bold',
+                                  fontSize: 16
+                                }}>
+                                  {teamMember.username?.charAt(0).toUpperCase() || '?'}
+                                </Text>
+                              </View>
+                              
+                              <View style={{ flex: 1 }}>
+                                <Text style={{
+                                  fontSize: 16,
+                                  fontWeight: '600',
+                                  color: colors.text
+                                }}>
+                                  {teamMember.username}
+                                  {teamMember.id === user?.id && ' (Sie)'}
+                                </Text>
+                                <Text style={{
+                                  fontSize: 14,
+                                  color: colors.textMuted
+                                }}>
+                                  {teamMember.rank || 'Kein Rang'} • {teamMember.department || 'Keine Abteilung'}
+                                </Text>
+                              </View>
+                              
+                              <View style={{
+                                paddingHorizontal: 8,
+                                paddingVertical: 4,
+                                borderRadius: 8,
+                                backgroundColor: teamMember.status === 'Im Dienst' ? colors.success + '20' : colors.warning + '20'
+                              }}>
+                                <Text style={{
+                                  fontSize: 12,
+                                  fontWeight: '600',
+                                  color: teamMember.status === 'Im Dienst' ? colors.success : colors.warning
+                                }}>
+                                  {teamMember.status || 'Unbekannt'}
+                                </Text>
+                              </View>
+                            </View>
+                          ))
+                        }
+                      </View>
+                    ) : (
+                      <View style={{
+                        padding: 20,
+                        alignItems: 'center'
+                      }}>
+                        <Ionicons name="people-outline" size={48} color={colors.textMuted} />
+                        <Text style={{
+                          fontSize: 16,
+                          color: colors.textMuted,
+                          marginTop: 12,
+                          textAlign: 'center'
+                        }}>
+                          Keine Team-Mitglieder gefunden
+                        </Text>
+                        <Text style={{
+                          fontSize: 14,
+                          color: colors.textMuted,
+                          marginTop: 4,
+                          textAlign: 'center'
+                        }}>
+                          Das Team wird möglicherweise noch zusammengestellt
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                )}
+
+                {/* Team-Info-Karte */}
+                <View style={{
+                  backgroundColor: colors.card,
+                  borderRadius: 16,
+                  padding: 20,
+                  borderWidth: 1,
+                  borderColor: colors.border
+                }}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                    <Ionicons name="information-circle" size={24} color={colors.primary} />
+                    <Text style={{
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                      color: colors.text,
+                      marginLeft: 12
+                    }}>
+                      Team-Information
+                    </Text>
+                  </View>
+                  
+                  <View style={{ gap: 12 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Team-Name:</Text>
+                      <Text style={{ color: colors.text, fontWeight: '600' }}>
+                        {profileData.patrol_team || user?.patrol_team || 'Nicht zugewiesen'}
+                      </Text>
+                    </View>
+                    
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Meine Rolle:</Text>
+                      <Text style={{ color: colors.text, fontWeight: '600' }}>
+                        {user?.team_role || 'Teammitglied'}
+                      </Text>
+                    </View>
+                    
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Einsatzgebiet:</Text>
+                      <Text style={{ color: colors.text, fontWeight: '600' }}>
+                        {user?.assigned_district || 'Nicht zugewiesen'}
+                      </Text>
+                    </View>
+                    
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                      <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Team-Status:</Text>
+                      <Text style={{ color: colors.success, fontWeight: '600' }}>
+                        {(profileData.patrol_team || user?.patrol_team) ? 'Aktiv' : 'Inaktiv'}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+
+              </ScrollView>
+
+              {/* Action Button */}
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.primary,
+                  paddingVertical: 16,
+                  paddingHorizontal: 24,
+                  borderRadius: 16,
+                  marginTop: 20,
+                  alignItems: 'center',
+                  minHeight: 54
+                }}
+                onPress={() => setShowTeamDetailModal(false)}
+                activeOpacity={0.8}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="checkmark" size={20} color="#FFFFFF" />
+                  <Text style={{
+                    color: '#FFFFFF',
+                    fontWeight: '600',
+                    fontSize: 16,
+                    marginLeft: 8
+                  }}>
+                    Verstanden
+                  </Text>
+                </View>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
+
       {/* Anwesenheitsliste Modal - Exact Style like Urlaubsantrag */}
       <Modal
         visible={showAttendanceModal}
