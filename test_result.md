@@ -205,17 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Modern UI Design Updates"
+  - task: "UI Restructuring - Mein Bezirk"
     implemented: true
     working: true
     file: "frontend/app/index.tsx"
     stuck_count: 0
-    priority: "high"
+    priority: "medium"
     needs_retesting: true
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ MODERNES SCROLL-DESIGN: Benutzer-ScrollView komplett modernisiert mit 1) Checkmark-Indikatoren für Auswahl 2) Transform-Animationen (scale 1.05) 3) Schatten-Effekte und Elevation 4) Snap-to-center Verhalten 5) Moderne Gradient-Effekte 6) Scroll-Indikatoren unten 7) Robuste Triple-Fallback für Bezirks-Anzeige mit Debug-Logging"
+          comment: "✅ MEIN BEZIRK VERSCHOBEN: 1) Komplett aus der Übersicht entfernt (ca. 70 Zeilen Code) 2) In ⏰ Schichtverwaltung hinzugefügt mit ScrollView-Wrapper 3) Verbessertes Design mit Status-Indikator 'bereit für Schicht' 4) Mobile-optimiert mit ScrollView für bessere Navigation 5) Logisch passender Ort - Bezirk gehört zur Schichtverwaltung"
 
   - task: "Team-Management UI"
     implemented: false
