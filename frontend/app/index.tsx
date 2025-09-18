@@ -13553,11 +13553,37 @@ const AppContent = () => {
     },
   });
 
+  // Loading screen with emergency timeout
   if (loading) {
+    // ✅ EMERGENCY FIX: Auto-timeout after 3 seconds
+    setTimeout(() => {
+      console.log('🚨 Loading timeout - force show login');
+      setLoading(false);
+    }, 3000);
+    
     return (
       <SafeAreaView style={dynamicStyles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
         <Text style={dynamicStyles.loadingText}>Stadtwache wird geladen...</Text>
+        <TouchableOpacity 
+          onPress={() => {
+            console.log('🚨 User manually skipped loading');
+            setLoading(false);
+          }}
+          style={{
+            marginTop: 30,
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            backgroundColor: colors.primary + '20',
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: colors.primary
+          }}
+        >
+          <Text style={{ color: colors.primary, fontWeight: '600' }}>
+            Login überspringen →
+          </Text>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
