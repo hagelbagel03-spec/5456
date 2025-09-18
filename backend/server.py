@@ -1634,6 +1634,46 @@ async def assign_user_district_team(
         print(f"❌ Assignment error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Profile endpoint for getting current user data
+@api_router.get("/auth/profile")
+async def get_user_profile(current_user: User = Depends(get_current_user)):
+    """Get current user's profile data"""
+    try:
+        # Get user from database to get latest data
+        user = await db.users.find_one({"id": current_user.id})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # Return serialized user data
+        return serialize_mongo_data(user)
+    except Exception as e:
+        print(f"❌ Profile fetch error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# Profile update endpoint  
+@api_router.put("/auth/profile")
+async def update_user_profile(
+    profile_updates: dict,
+    current_user: User = Depends(get_current_user)
+):
+    """Update current user's profile"""
+    try:
+        # Update user in database
+        await db.users.update_one(
+            {"id": current_user.id}, 
+            {"$set": profile_updates}
+        )
+        
+        # Get updated user data
+        updated_user = await db.users.find_one({"id": current_user.id})
+        if not updated_user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        return serialize_mongo_data(updated_user)
+    except Exception as e:
+        print(f"❌ Profile update error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Get all districts
 @api_router.get("/districts")
 async def get_districts(current_user: User = Depends(get_current_user)):
