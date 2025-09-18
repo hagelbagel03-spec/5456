@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Repository-Fixes für Stadtwache App: 1) Urlaubsanträge im Admin-Bereich mit Genehmigung/Ablehnung, 2) Zugewiesener Bezirk Management, 3) Patrouille/Team Management, 4) Benutzerübersicht mit Bezirk/Team, 5) Anwesenheitsliste im Admin, 6) Gruppenstatusanzeige, 7) Status-Aktionen Buttons reparieren. Alle Demos entfernen. NEUE ANFRAGE: Schichtverwaltung deaktivieren, Status-Aktionen Buttons reparieren, Admin Einstellungen mobile Anpassung."
+user_problem_statement: "1. Mein Bezirk zeigt nicht die richtigen zugeordneten Bezirke aus dem Admin-Dashboard. 2. Urlaubsanträge verschwinden nicht aus der Liste nachdem sie genehmigt/abgelehnt wurden."
 
 backend:
   - task: "Urlaubsanträge Admin-Management"
