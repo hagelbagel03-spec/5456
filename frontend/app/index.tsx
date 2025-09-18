@@ -1046,32 +1046,52 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     }
   }, [selectedChannel]);
 
+  // ✅ CRITICAL WHITE SCREEN FIX: Prevent infinite loops
   useEffect(() => {
-    loadData();
-    loadRecentMessages();
-    loadChatList();
-    // Load initial channel messages
-    loadChannelMessages('general');
-    loadChannelMessages('emergency');  
-    loadChannelMessages('service');
+    console.log('🚀 App started, user:', user ? user.username : 'none');
+    
+    // Always set loading to false after 2 seconds to prevent white screen
+    const emergencyTimer = setTimeout(() => {
+      console.log('🚨 Emergency: Force loading to false');
+      setLoading(false);
+    }, 2000);
+    
     if (user) {
+      console.log('✅ User found, setting up app');
       setUserStatus(user.status || 'Im Dienst');
       setProfileData({
         username: user.username || '',
         phone: user.phone || '',
         service_number: user.service_number || '',
         rank: user.rank || '',
-        department: user.department || ''
+        department: user.department || '',
+        photo: user.photo || '',
+        notification_sound: user.notification_sound || 'default',
+        vibration_pattern: user.vibration_pattern || 'standard',
+        battery_saver_mode: user.battery_saver_mode || false,
+        check_in_interval: user.check_in_interval || 30,
+        assigned_district: user.assigned_district || '',
+        patrol_team: user.patrol_team || ''
       });
       
-      // Starte automatische Aktualisierung
-      startAutoRefresh();
+      // Load data without blocking UI
+      setTimeout(async () => {
+        try {
+          await loadData();
+          await loadRecentMessages();
+          clearTimeout(emergencyTimer); // Cancel emergency timer if successful
+        } catch (error) {
+          console.error('Data loading error:', error);
+        }
+      }, 500);
+    } else {
+      console.log('⚠️ No user found');
+      setLoading(false);
+      clearTimeout(emergencyTimer);
     }
     
-    return () => {
-      stopAutoRefresh();
-    };
-  }, [user]);
+    return () => clearTimeout(emergencyTimer);
+  }, [user?.id]);
 
   // Auto-refresh Setup
   const [autoRefreshInterval, setAutoRefreshInterval] = useState(null);
