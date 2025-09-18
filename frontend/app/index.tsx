@@ -9140,15 +9140,109 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         </View>
       </View>
 
-      <ShiftManagementComponent 
-        user={user}
-        token={token}
-        API_URL={API_URL}
-        colors={colors}
-        isDarkMode={isDarkMode}
-        isSmallScreen={isSmallScreen}
-        isMediumScreen={isMediumScreen}
-      />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        {/* ✅ MEIN BEZIRK - VON ÜBERSICHT HIERHER VERSCHOBEN */}
+        <View style={{ paddingHorizontal: 16, paddingTop: 16 }}>
+          <TouchableOpacity 
+            style={[dynamicStyles.card, {
+              minHeight: 100,
+              backgroundColor: (profileData.assigned_district || user?.assigned_district) ? colors.surface : colors.warning + '10',
+              marginBottom: 16
+            }]}
+            onPress={() => {
+              console.log('🗺️ Mein Bezirk clicked in Schichtverwaltung');
+              console.log('📊 Debug - profileData.assigned_district:', profileData.assigned_district);
+              console.log('📊 Debug - user.assigned_district:', user?.assigned_district);
+              
+              setShowDistrictDetailModal(true);
+            }}
+            activeOpacity={0.8}
+          >
+            <View style={dynamicStyles.cardHeader}>
+              <Ionicons name="location" size={24} color={colors.primary} />
+              <Text style={dynamicStyles.cardTitle}>🗺️ Mein Arbeitsbezirk</Text>
+              <View style={dynamicStyles.cardHeaderRight}>
+                <View style={[dynamicStyles.statusBadge, { 
+                  backgroundColor: (profileData.assigned_district || user?.assigned_district) ? colors.success + '20' : colors.warning + '20', 
+                  borderColor: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning 
+                }]}>
+                  <Text style={[dynamicStyles.statusBadgeText, { 
+                    color: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning 
+                  }]}>
+                    {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+              </View>
+            </View>
+            
+            <View style={dynamicStyles.summaryRow}>
+              <View style={dynamicStyles.summaryItem}>
+                <Text style={[dynamicStyles.summaryNumber, { 
+                  color: (profileData.assigned_district || user?.assigned_district) ? colors.primary : colors.warning, 
+                  fontSize: 14 
+                }]}>
+                  {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
+                </Text>
+                <Text style={dynamicStyles.summaryLabel}>Bezirk</Text>
+              </View>
+              <View style={dynamicStyles.summaryItem}>
+                <Text style={[dynamicStyles.summaryNumber, { color: colors.textSecondary, fontSize: 14 }]}>
+                  {user?.district_area || user?.department || 'Standard-Bereich'}
+                </Text>
+                <Text style={dynamicStyles.summaryLabel}>Arbeitsgebiet</Text>
+              </View>
+              <View style={dynamicStyles.summaryItem}>
+                <Text style={[dynamicStyles.summaryNumber, { color: colors.primary, fontSize: 12 }]}>
+                  Antippen für Details
+                </Text>
+                <Text style={dynamicStyles.summaryLabel}>Info</Text>
+              </View>
+            </View>
+            
+            {/* Status-Indikator */}
+            <View style={{
+              marginTop: 12,
+              paddingTop: 12,
+              borderTopWidth: 1,
+              borderTopColor: colors.border + '40',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Ionicons 
+                name={(profileData.assigned_district || user?.assigned_district) ? "checkmark-circle" : "warning"} 
+                size={16} 
+                color={(profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning}
+              />
+              <Text style={{
+                fontSize: 12,
+                color: colors.textMuted,
+                marginLeft: 6,
+                fontWeight: '500'
+              }}>
+                {(profileData.assigned_district || user?.assigned_district) ? 
+                  'Bezirk zugewiesen - bereit für Schicht' :
+                  'Bezirks-Zuordnung erforderlich'
+                }
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        {/* Original ShiftManagementComponent */}
+        <View style={{ flex: 1 }}>
+          <ShiftManagementComponent 
+            user={user}
+            token={token}
+            API_URL={API_URL}
+            colors={colors}
+            isDarkMode={isDarkMode}
+            isSmallScreen={isSmallScreen}
+            isMediumScreen={isMediumScreen}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 
