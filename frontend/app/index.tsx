@@ -8284,7 +8284,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         </TouchableOpacity>
       )}
 
-      {/* Mein Bezirk Anzeige - FIX: Verwende aktuellen profileData-Staat */}
+      {/* Mein Bezirk Anzeige - EXTRA ROBUST MIT DEBUG */}
       <TouchableOpacity 
         style={[dynamicStyles.card, {
           // ✅ Mobile-optimierte Touch-Targets
@@ -8292,7 +8292,12 @@ const MainApp = ({ appConfig, setAppConfig }) => {
           backgroundColor: (profileData.assigned_district || user?.assigned_district) ? colors.surface : colors.warning + '10'
         }]}
         onPress={() => {
-          // ✅ FIX: Öffne Detail-Modal statt einfachen Alert
+          // ✅ FIX: Debug-Logging hinzufügen
+          console.log('🗺️ Mein Bezirk clicked');
+          console.log('📊 Debug - profileData.assigned_district:', profileData.assigned_district);
+          console.log('📊 Debug - user.assigned_district:', user?.assigned_district);
+          console.log('📊 Debug - user object:', user);
+          
           setShowDistrictDetailModal(true);
         }}
         activeOpacity={0.8}
@@ -8308,6 +8313,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
               <Text style={[dynamicStyles.statusBadgeText, { 
                 color: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning 
               }]}>
+                {/* ✅ TRIPLE FALLBACK für robuste Anzeige */}
                 {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
               </Text>
             </View>
@@ -8317,14 +8323,18 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         
         <View style={dynamicStyles.summaryRow}>
           <View style={dynamicStyles.summaryItem}>
-            <Text style={[dynamicStyles.summaryNumber, { color: colors.primary, fontSize: 14 }]}>
+            <Text style={[dynamicStyles.summaryNumber, { 
+              color: (profileData.assigned_district || user?.assigned_district) ? colors.primary : colors.warning, 
+              fontSize: 14 
+            }]}>
+              {/* ✅ EXTRA ROBUST: Zeige sowohl profileData als auch user-Werte */}
               {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
             </Text>
             <Text style={dynamicStyles.summaryLabel}>Bezirk</Text>
           </View>
           <View style={dynamicStyles.summaryItem}>
             <Text style={[dynamicStyles.summaryNumber, { color: colors.textSecondary, fontSize: 14 }]}>
-              {user?.district_area || 'Standard-Bereich'}
+              {user?.district_area || user?.department || 'Standard-Bereich'}
             </Text>
             <Text style={dynamicStyles.summaryLabel}>Arbeitsgebiet</Text>
           </View>
@@ -8335,6 +8345,15 @@ const MainApp = ({ appConfig, setAppConfig }) => {
             <Text style={dynamicStyles.summaryLabel}>Info</Text>
           </View>
         </View>
+        
+        {/* ✅ DEBUG INFO (nur in Development) */}
+        {__DEV__ && (
+          <View style={{ marginTop: 8, padding: 8, backgroundColor: colors.card, borderRadius: 8 }}>
+            <Text style={{ fontSize: 10, color: colors.textMuted }}>
+              DEBUG: profileData.assigned_district = "{profileData.assigned_district}" | user.assigned_district = "{user?.assigned_district}"
+            </Text>
+          </View>
+        )}
       </TouchableOpacity>
 
       <View style={{ height: 20 }} />
