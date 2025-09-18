@@ -12739,6 +12739,295 @@ Beispielinhalt:
         </KeyboardAvoidingView>
       </Modal>
 
+      {/* ✅ DISTRICT ASSIGNMENT MODAL - FEHLTE KOMPLETT! */}
+      <Modal
+        visible={showDistrictAssignmentModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowDistrictAssignmentModal(false)}
+      >
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <View style={{ 
+            flex: 1, 
+            backgroundColor: 'rgba(0,0,0,0.5)', 
+            justifyContent: 'center', 
+            alignItems: 'center' 
+          }}>
+            <View style={{
+              backgroundColor: colors.surface,
+              borderRadius: 16,
+              padding: 24,
+              margin: 20,
+              width: '90%',
+              maxHeight: '80%',
+              shadowColor: colors.shadow,
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8
+            }}>
+              
+              {/* Header */}
+              <View style={{ 
+                flexDirection: 'row', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: 20,
+                paddingBottom: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.border
+              }}>
+                <Text style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  color: colors.text
+                }}>
+                  🗺️ Bezirk zuordnen
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setShowDistrictAssignmentModal(false)}
+                  style={{
+                    padding: 8,
+                    backgroundColor: colors.card,
+                    borderRadius: 8
+                  }}
+                >
+                  <Ionicons name="close" size={24} color={colors.text} />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView showsVerticalScrollIndicator={false}>
+                {/* Benutzer-Auswahl */}
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: colors.text,
+                  marginBottom: 12
+                }}>
+                  👤 Benutzer auswählen:
+                </Text>
+                
+                <ScrollView 
+                  horizontal 
+                  showsHorizontalScrollIndicator={false}
+                  style={{ marginBottom: 20 }}
+                >
+                  {availableUsers.map((user) => (
+                    <TouchableOpacity
+                      key={user.id}
+                      onPress={() => setSelectedUser(user)}
+                      style={{
+                        backgroundColor: selectedUser?.id === user.id ? colors.primary : colors.card,
+                        padding: 12,
+                        margin: 4,
+                        borderRadius: 12,
+                        minWidth: 120,
+                        alignItems: 'center',
+                        borderWidth: 1,
+                        borderColor: selectedUser?.id === user.id ? colors.primary : colors.border
+                      }}
+                    >
+                      <Text style={{
+                        color: selectedUser?.id === user.id ? '#FFFFFF' : colors.text,
+                        fontWeight: '600',
+                        fontSize: 14,
+                        textAlign: 'center'
+                      }}>
+                        {user.username}
+                      </Text>
+                      <Text style={{
+                        color: selectedUser?.id === user.id ? 'rgba(255,255,255,0.8)' : colors.textMuted,
+                        fontSize: 12,
+                        marginTop: 4,
+                        textAlign: 'center'
+                      }}>
+                        {user.assigned_district || 'Kein Bezirk'}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+
+                {/* Bezirk-Auswahl */}
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: colors.text,
+                  marginBottom: 12
+                }}>
+                  🗺️ Bezirk auswählen:
+                </Text>
+                
+                {[
+                  { id: 'innenstadt', name: 'Innenstadt', description: 'Stadtzentrum und Geschäftsviertel' },
+                  { id: 'nord', name: 'Nord', description: 'Nördliche Stadtbezirke' },
+                  { id: 'sued', name: 'Süd', description: 'Südliche Stadtbezirke' },
+                  { id: 'ost', name: 'Ost', description: 'Östliche Stadtbezirke' },
+                  { id: 'west', name: 'West', description: 'Westliche Stadtbezirke' },
+                  { id: 'industriegebiet', name: 'Industriegebiet', description: 'Industrielle Bereiche' },
+                  { id: 'wohngebiet', name: 'Wohngebiet', description: 'Wohngebiete und Siedlungen' },
+                  { id: 'zentrum', name: 'Zentrum', description: 'Zentraler Bereich' }
+                ].map((district) => (
+                  <TouchableOpacity
+                    key={district.id}
+                    onPress={() => setSelectedDistrict(district.id)}
+                    style={{
+                      backgroundColor: selectedDistrict === district.id ? colors.primary + '20' : colors.card,
+                      padding: 16,
+                      marginVertical: 4,
+                      borderRadius: 12,
+                      borderWidth: 2,
+                      borderColor: selectedDistrict === district.id ? colors.primary : colors.border,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Ionicons 
+                      name={selectedDistrict === district.id ? "radio-button-on" : "radio-button-off"} 
+                      size={20} 
+                      color={selectedDistrict === district.id ? colors.primary : colors.textMuted} 
+                    />
+                    <View style={{ marginLeft: 12, flex: 1 }}>
+                      <Text style={{
+                        color: colors.text,
+                        fontWeight: '600',
+                        fontSize: 16
+                      }}>
+                        {district.name}
+                      </Text>
+                      <Text style={{
+                        color: colors.textMuted,
+                        fontSize: 14,
+                        marginTop: 2
+                      }}>
+                        {district.description}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+
+                {/* Aktuelle Zuordnung anzeigen */}
+                {selectedUser && (
+                  <View style={{
+                    backgroundColor: colors.warning + '20',
+                    padding: 16,
+                    marginTop: 16,
+                    borderRadius: 12,
+                    borderWidth: 1,
+                    borderColor: colors.warning
+                  }}>
+                    <Text style={{
+                      color: colors.text,
+                      fontWeight: '600',
+                      marginBottom: 8
+                    }}>
+                      📋 Aktuelle Zuordnung:
+                    </Text>
+                    <Text style={{
+                      color: colors.textSecondary,
+                      fontSize: 14
+                    }}>
+                      <Text style={{ fontWeight: '600' }}>{selectedUser.username}</Text> ist aktuell dem Bezirk{' '}
+                      <Text style={{ fontWeight: '600', color: colors.warning }}>
+                        "{selectedUser.assigned_district || 'Nicht zugewiesen'}"
+                      </Text> zugeordnet.
+                    </Text>
+                  </View>
+                )}
+
+              </ScrollView>
+
+              {/* Action Buttons */}
+              <View style={{ 
+                flexDirection: 'row', 
+                marginTop: 20,
+                paddingTop: 16,
+                borderTopWidth: 1,
+                borderTopColor: colors.border
+              }}>
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    backgroundColor: colors.textMuted + '20',
+                    paddingVertical: 14,
+                    paddingHorizontal: 20,
+                    borderRadius: 12,
+                    marginRight: 8,
+                    alignItems: 'center'
+                  }}
+                  onPress={() => setShowDistrictAssignmentModal(false)}
+                >
+                  <Text style={{
+                    color: colors.textMuted,
+                    fontWeight: '600',
+                    fontSize: 16
+                  }}>
+                    Abbrechen
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    backgroundColor: selectedUser && selectedDistrict ? colors.primary : colors.textMuted + '40',
+                    paddingVertical: 14,
+                    paddingHorizontal: 20,
+                    borderRadius: 12,
+                    marginLeft: 8,
+                    alignItems: 'center'
+                  }}
+                  onPress={async () => {
+                    if (!selectedUser || !selectedDistrict) {
+                      Alert.alert('⚠️ Fehler', 'Bitte wählen Sie einen Benutzer und einen Bezirk aus.');
+                      return;
+                    }
+                    
+                    try {
+                      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+                      
+                      await axios.put(`${API_URL}/api/admin/users/${selectedUser.id}/assign`, {
+                        assigned_district: selectedDistrict
+                      }, config);
+                      
+                      Alert.alert('✅ Erfolg', `${selectedUser.username} wurde erfolgreich dem Bezirk "${selectedDistrict}" zugeordnet!`);
+                      
+                      // Modal schließen und Daten neu laden
+                      setShowDistrictAssignmentModal(false);
+                      setSelectedUser(null);
+                      setSelectedDistrict(null);
+                      
+                      // User-Liste neu laden
+                      await loadUsersByStatus();
+                      await loadAvailableUsers();
+                      
+                    } catch (error) {
+                      console.error('❌ District assignment error:', error);
+                      Alert.alert('❌ Fehler', 'Bezirks-Zuordnung fehlgeschlagen: ' + (error.response?.data?.detail || error.message));
+                    }
+                  }}
+                  disabled={!selectedUser || !selectedDistrict}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Ionicons name="checkmark" size={18} color="#FFFFFF" />
+                    <Text style={{
+                      color: '#FFFFFF',
+                      fontWeight: '600',
+                      fontSize: 16,
+                      marginLeft: 8
+                    }}>
+                      Zuordnen
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
+
       {/* Anwesenheitsliste Modal - Exact Style like Urlaubsantrag */}
       <Modal
         visible={showAttendanceModal}
