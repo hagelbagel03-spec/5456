@@ -1769,6 +1769,32 @@ async def get_vacations(current_user: User = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.delete("/api/vacations/{vacation_id}")
+async def delete_vacation(vacation_id: str, current_user: User = Depends(get_current_user)):
+    """Urlaubsantrag löschen (nur Eigentümer oder Admin)"""
+    try:
+        # Finde den Urlaubsantrag
+        vacation = await db.vacations.find_one({"id": vacation_id})
+        if not vacation:
+            raise HTTPException(status_code=404, detail="Urlaubsantrag nicht gefunden")
+        
+        # Prüfe Berechtigung: Nur der Ersteller oder Admin kann löschen
+        if vacation["user_id"] != current_user.id and current_user.role != "admin":
+            raise HTTPException(status_code=403, detail="Keine Berechtigung zum Löschen")
+        
+        # Lösche den Urlaubsantrag
+        result = await db.vacations.delete_one({"id": vacation_id})
+        
+        if result.deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Urlaubsantrag nicht gefunden")
+        
+        return {"success": True, "message": "Urlaubsantrag erfolgreich gelöscht"}
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Admin Management Endpoints
 
 # Urlaubsanträge Admin-Endpunkte
@@ -1885,7 +1911,7 @@ async def get_teams(current_user: User = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="Not authorized")
     
     teams = await db.teams.find().to_list(100)
-    return teams
+    return serialize_mongo_data(teams)
 
 @app.put("/api/admin/assign-user")
 async def assign_user_to_team_district(assignment: TeamAssignment, current_user: User = Depends(get_current_user)):
