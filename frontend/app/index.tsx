@@ -1051,78 +1051,44 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     }
   }, [selectedChannel]);
 
+  // ✅ FIX: Simplify useEffect to prevent infinite loops
   useEffect(() => {
-    loadData();
-    loadRecentMessages();
-    loadChatList();
-    // Load initial channel messages
-    loadChannelMessages('general');
-    loadChannelMessages('emergency');  
-    loadChannelMessages('service');
+    console.log('🚀 App initialisiert, user:', user ? user.username : 'nicht vorhanden');
+    
     if (user) {
-      setUserStatus(user.status || 'Im Dienst');
-      
-      // ✅ FIX: profileData vollständig mit user-Daten synchronisieren
-      const initialProfileData = {
-        username: user.username || '',
-        phone: user.phone || '',
-        service_number: user.service_number || '',
-        rank: user.rank || '',
-        department: user.department || '',
-        photo: user.photo || '',
-        // ✅ WICHTIG: assigned_district aus user-Daten übernehmen
-        notification_sound: user.notification_sound || 'default',
-        vibration_pattern: user.vibration_pattern || 'standard',
-        battery_saver_mode: user.battery_saver_mode || false,
-        check_in_interval: user.check_in_interval || 30,
-        assigned_district: user.assigned_district || '',
-        patrol_team: user.patrol_team || ''
-      };
-      
-      setProfileData(initialProfileData);
-      console.log('✅ Initial profile data set, assigned_district:', initialProfileData.assigned_district);
-      console.log('✅ User assigned_district:', user.assigned_district);
-      
-      // ✅ FIX EXTRA: Nach kurzer Verzögerung auch Backend-Profil laden
-      setTimeout(async () => {
-        try {
-          const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
-          const profileResponse = await axios.get(`${API_URL}/api/auth/profile`, config);
-          
-          const backendProfileData = {
-            username: profileResponse.data.username || '',
-            phone: profileResponse.data.phone || '',
-            service_number: profileResponse.data.service_number || '',
-            rank: profileResponse.data.rank || '',
-            department: profileResponse.data.department || '',
-            photo: profileResponse.data.photo || '',
-            notification_sound: profileResponse.data.notification_sound || 'default',
-            vibration_pattern: profileResponse.data.vibration_pattern || 'standard',
-            battery_saver_mode: profileResponse.data.battery_saver_mode || false,
-            check_in_interval: profileResponse.data.check_in_interval || 30,
-            assigned_district: profileResponse.data.assigned_district || '',
-            patrol_team: profileResponse.data.patrol_team || ''
-          };
-          
-          setProfileData(backendProfileData);
-          console.log('✅ Backend profile loaded, assigned_district:', backendProfileData.assigned_district);
-        } catch (error) {
-          console.error('⚠️ Backend profile load error:', error);
-        }
-      }, 1000);
-      
-      // Starte automatische Aktualisierung
-      startAutoRefresh();
+      console.log('✅ Benutzer gefunden, lade App-Daten');
+      // Nur essenzielle Daten laden
+      try {
+        setUserStatus(user.status || 'Im Dienst');
+        setProfileData({
+          username: user.username || '',
+          phone: user.phone || '',
+          service_number: user.service_number || '',
+          rank: user.rank || '',
+          department: user.department || '',
+          photo: user.photo || '',
+          notification_sound: user.notification_sound || 'default',
+          vibration_pattern: user.vibration_pattern || 'standard',
+          battery_saver_mode: user.battery_saver_mode || false,
+          check_in_interval: user.check_in_interval || 30,
+          assigned_district: user.assigned_district || '',
+          patrol_team: user.patrol_team || ''
+        });
+        
+        // Lade Daten asynchron, aber blockiere nicht die UI
+        setTimeout(() => {
+          loadData().catch(e => console.error('loadData error:', e));
+          loadRecentMessages().catch(e => console.error('loadRecentMessages error:', e));
+        }, 100);
+        
+      } catch (error) {
+        console.error('❌ User-Initialisierung Fehler:', error);
+      }
     } else {
-      // ✅ FIX: Wenn kein User vorhanden, setze Loading auf false um Login-Screen zu zeigen
-      console.log('⚠️ Kein Benutzer gefunden - zeige Login-Screen');
+      console.log('⚠️ Kein Benutzer - zeige Login');
       setLoading(false);
     }
-    
-    return () => {
-      stopAutoRefresh();
-    };
-  }, [user]);
+  }, [user?.id]); // ✅ FIX: Nur bei user.id Änderung triggern
 
   // Auto-refresh Setup
   const [autoRefreshInterval, setAutoRefreshInterval] = useState(null);
