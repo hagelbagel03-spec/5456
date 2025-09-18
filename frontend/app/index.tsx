@@ -12448,13 +12448,9 @@ Beispielinhalt:
           </ScrollView>
         </SafeAreaView>
       </Modal>
-    );
-  }
 
-  return (
-    <SafeAreaView style={dynamicStyles.container}>
-      {renderCurrentScreen()}
-    </SafeAreaView>
+      {user ? <MainApp user={user} token={token} setUser={setUser} appConfig={appConfig} /> : <LoginScreen appConfig={appConfig} />}
+    </ThemeProvider>
   );
 };
 
