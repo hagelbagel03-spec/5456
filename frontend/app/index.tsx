@@ -1066,7 +1066,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         rank: user.rank || '',
         department: user.department || '',
         photo: user.photo || '',
-        // Wichtig: assigned_district aus user-Daten übernehmen
+        // ✅ WICHTIG: assigned_district aus user-Daten übernehmen
         notification_sound: user.notification_sound || 'default',
         vibration_pattern: user.vibration_pattern || 'standard',
         battery_saver_mode: user.battery_saver_mode || false,
@@ -1077,6 +1077,35 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       
       setProfileData(initialProfileData);
       console.log('✅ Initial profile data set, assigned_district:', initialProfileData.assigned_district);
+      console.log('✅ User assigned_district:', user.assigned_district);
+      
+      // ✅ FIX EXTRA: Nach kurzer Verzögerung auch Backend-Profil laden
+      setTimeout(async () => {
+        try {
+          const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+          const profileResponse = await axios.get(`${API_URL}/api/auth/profile`, config);
+          
+          const backendProfileData = {
+            username: profileResponse.data.username || '',
+            phone: profileResponse.data.phone || '',
+            service_number: profileResponse.data.service_number || '',
+            rank: profileResponse.data.rank || '',
+            department: profileResponse.data.department || '',
+            photo: profileResponse.data.photo || '',
+            notification_sound: profileResponse.data.notification_sound || 'default',
+            vibration_pattern: profileResponse.data.vibration_pattern || 'standard',
+            battery_saver_mode: profileResponse.data.battery_saver_mode || false,
+            check_in_interval: profileResponse.data.check_in_interval || 30,
+            assigned_district: profileResponse.data.assigned_district || '',
+            patrol_team: profileResponse.data.patrol_team || ''
+          };
+          
+          setProfileData(backendProfileData);
+          console.log('✅ Backend profile loaded, assigned_district:', backendProfileData.assigned_district);
+        } catch (error) {
+          console.error('⚠️ Backend profile load error:', error);
+        }
+      }, 1000);
       
       // Starte automatische Aktualisierung
       startAutoRefresh();
