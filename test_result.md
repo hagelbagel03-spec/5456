@@ -102,9 +102,33 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "1. Mein Bezirk zeigt nicht die richtigen zugeordneten Bezirke aus dem Admin-Dashboard. 2. Urlaubsanträge verschwinden nicht aus der Liste nachdem sie genehmigt/abgelehnt wurden."
+user_problem_statement: "1. Mein Bezirk zeigt nicht die richtigen zugeordneten Bezirke aus dem Admin-Dashboard. 2. Urlaubsanträge verschwinden nicht aus der Liste nachdem sie genehmigt/abgelehnt wurden. 3. Team-Erstellung Button wirft ObjectId-Serialisierungsfehler. 4. Anwesenheitsliste zeigt Offline-Status nicht korrekt an."
 
 backend:
+  - task: "Team Creation API ObjectId Fix"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ OBJECTID-BUG BEHOBEN: POST /api/admin/teams hatte keinen serialize_mongo_data() Call, was zu 'ObjectId object is not iterable' Fehler führte. Jetzt verwendet es serialize_mongo_data(team_dict) für korrekte JSON-Serialisierung."
+
+  - task: "Online Status Management Fix"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high" 
+    needs_retesting: true
+    status_history:
+      - working: true
+        agent: "main"
+        comment: "✅ OFFLINE-STATUS BUG BEHOBEN: Anwesenheitsliste verwendete falsche Logik is_online = (status == 'Im Dienst'). Jetzt korrekte Berechnung basierend auf last_activity + online_users mit 2-Minuten-Schwelle. Heartbeat-Endpunkt aktualisiert auch DB-Feld last_activity."
+
   - task: "Urlaubsanträge Admin-Management"
     implemented: true
     working: true
