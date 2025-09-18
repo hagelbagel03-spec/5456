@@ -12586,6 +12586,25 @@ Beispielinhalt:
               <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
             </TouchableOpacity>
 
+            {/* ✅ NEU: Team zuordnen Button */}
+            <TouchableOpacity
+              style={dynamicStyles.profileActionCard}
+              onPress={() => {
+                console.log('👥 Team zuordnen clicked');
+                setShowTeamAssignmentModal(true);
+              }}
+              activeOpacity={0.7}
+            >
+              <View style={[dynamicStyles.profileActionIcon, { backgroundColor: colors.primary + '20' }]}>
+                <Ionicons name="people" size={24} color={colors.primary} />
+              </View>
+              <View style={dynamicStyles.profileActionContent}>
+                <Text style={dynamicStyles.profileActionTitle}>👥 Team zuordnen</Text>
+                <Text style={dynamicStyles.profileActionSubtitle}>Benutzer zu Teams zuweisen und Rollen vergeben</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+            </TouchableOpacity>
+
             <TouchableOpacity 
               style={dynamicStyles.profileActionCard}
               activeOpacity={0.8}
