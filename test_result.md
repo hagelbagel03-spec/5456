@@ -205,7 +205,7 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Admin Permissions Fix"
+  - task: "Team Assignment System - Complete"
     implemented: true
     working: true
     file: "frontend/app/index.tsx"
@@ -215,7 +215,7 @@ frontend:
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ ADMIN-PERMISSIONS KORREKT IMPLEMENTIERT: 1) '🗺️ Zugewiesener Bezirk' Feld aus Profil bearbeiten entfernt 2) '👥 Patrouille/Team' Feld aus Profil bearbeiten entfernt 3) saveProfile() Funktion bereinigt - assigned_district und patrol_team werden nicht mehr gesendet 4) Nur Admins können jetzt über Admin-Dashboard Bezirk/Team zuweisen 5) Normale Benutzer können ihre Admin-Zuordnungen nicht mehr selbst ändern"
+          comment: "✅ TEAM-ZUORDNUNGS-SYSTEM VOLLSTÄNDIG IMPLEMENTIERT: 1) '👥 Team zuordnen' Button im Admin-Dashboard ⚙️ unter Benutzerverwaltung hinzugefügt 2) Vollständiges Modal (~300 Zeilen Code) mit: Benutzer-Auswahl (moderne ScrollView), 6 Teams (Alpha, Bravo, Charlie, Delta, Echo, Foxtrot), 5 Rollen (Teamleiter, Stellvertreter, Spezialist, Beamter, Auszubildender) 3) Team-Status-Anzeige (Aktiv/Bereitschaft) 4) API-Integration: PUT /api/admin/users/{id}/assign mit patrol_team + team_role 5) Auto-Refresh nach Zuordnung 6) Mobile-optimiert mit Checkmarks und Animationen"
 
   - task: "Team-Management UI"
     implemented: false
