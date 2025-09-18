@@ -8257,17 +8257,14 @@ const MainApp = ({ appConfig, setAppConfig }) => {
 
       {/* Mein Bezirk Anzeige - FIX: Verwende aktuellen profileData-Staat */}
       <TouchableOpacity 
-        style={dynamicStyles.card}
+        style={[dynamicStyles.card, {
+          // ✅ Mobile-optimierte Touch-Targets
+          minHeight: 100,
+          backgroundColor: (profileData.assigned_district || user?.assigned_district) ? colors.surface : colors.warning + '10'
+        }]}
         onPress={() => {
-          // ✅ FIX: Verwende sowohl user als auch profileData für bessere Aktualität
-          const currentDistrict = profileData.assigned_district || user?.assigned_district;
-          Alert.alert(
-            '🗺️ Mein Arbeitsbezirk',
-            currentDistrict ? 
-              `Sie sind aktuell dem Bezirk "${currentDistrict}" zugewiesen.\n\n📍 Arbeitsgebiet: ${user?.district_area || 'Standard-Bereich'}` :
-              'Sie sind aktuell keinem Bezirk zugewiesen.\n\nBitte wenden Sie sich an Ihren Administrator.',
-            [{ text: 'OK' }]
-          );
+          // ✅ FIX: Öffne Detail-Modal statt einfachen Alert
+          setShowDistrictDetailModal(true);
         }}
         activeOpacity={0.8}
       >
@@ -8301,6 +8298,12 @@ const MainApp = ({ appConfig, setAppConfig }) => {
               {user?.district_area || 'Standard-Bereich'}
             </Text>
             <Text style={dynamicStyles.summaryLabel}>Arbeitsgebiet</Text>
+          </View>
+          <View style={dynamicStyles.summaryItem}>
+            <Text style={[dynamicStyles.summaryNumber, { color: colors.primary, fontSize: 12 }]}>
+              Antippen für Details
+            </Text>
+            <Text style={dynamicStyles.summaryLabel}>Info</Text>
           </View>
         </View>
       </TouchableOpacity>
