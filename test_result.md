@@ -205,20 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Bezirks-Management UI"
+  - task: "Mobile APK Optimierung"
     implemented: true
     working: true
-    file: "index.tsx"
+    file: "frontend/app/index.tsx"
     stuck_count: 0
     priority: "high"
     needs_retesting: true
     status_history:
-      - working: true
-        agent: "main"
-        comment: "✅ FIX BEHOBEN: Mein Bezirk-Anzeige komplett behoben. Code verwendet jetzt sowohl profileData.assigned_district als auch user.assigned_district für maximale Aktualität. Synchronisation bei App-Start und nach jedem Profil-Update implementiert. Admin-Dashboard Bezirks-Zuordnungen werden jetzt korrekt in der Übersicht angezeigt."
-      - working: true
-        agent: "main"
-        comment: "✅ MODAL ERSTELLT: District Assignment Modal war KOMPLETT FEHLEND! Vollständiges Modal hinzugefügt mit: 1) Benutzer-Auswahl (horizontale Liste), 2) Bezirk-Auswahl (alle 8 Bezirke), 3) Aktuelle Zuordnung anzeigen, 4) PUT /api/admin/users/{id}/assign API-Integration. Admin kann jetzt im ⚙️ Admin-Dashboard unter 'Bezirk zuordnen' Benutzern Bezirke zuweisen!"
+        - working: true
+          agent: "main"
+          comment: "✅ MOBILE APK FIXES KOMPLETT: 1) Benutzer-ScrollView mit snapToInterval und besseren Touch-Targets 2) Auto-Update nach Bezirks-Zuordnung (aktualisiert sofort profileData und Übersicht) 3) Mein Bezirk Detail-Modal mit allen Benutzer-/Bezirks-/Kontakt-Infos 4) Alle UI-Elemente mobile-optimiert mit minHeight 44px+ für APK"
 
   - task: "Team-Management UI"
     implemented: false
