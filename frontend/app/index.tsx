@@ -10542,11 +10542,11 @@ Beispielinhalt:
           <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
             <View style={dynamicStyles.profileInfoCard}>
               <Text style={dynamicStyles.profileInfoText}>
-                📊 Übersicht aller Beamten, die aktuell im Dienst sind oder sich kürzlich abgemeldet haben.
+                🚔 Echtzeit-Übersicht aller aktiven Polizei-Beamten mit Dienstzeiten und aktuellen Standorten.
               </Text>
             </View>
 
-            <Text style={dynamicStyles.profileSectionTitle}>Wer ist gerade im Dienst</Text>
+            <Text style={dynamicStyles.profileSectionTitle}>🚨 Wer ist gerade im EINSATZ</Text>
 
             {attendanceList.length > 0 ? (
               attendanceList.map((user, index) => (
@@ -10554,11 +10554,11 @@ Beispielinhalt:
                   <View style={[dynamicStyles.profileFormInput, { padding: 16, height: 'auto' }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 8 }}>
                       <View style={[dynamicStyles.profileActionIcon, { marginRight: 12, width: 36, height: 36 }]}>
-                        <Ionicons name="person" size={18} color={colors.primary} />
+                        <Ionicons name="shield-checkmark" size={18} color={colors.primary} />
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={[dynamicStyles.profileFormLabel, { marginBottom: 2, fontSize: 16 }]}>
-                          {user.username}
+                          👮‍♂️ {user.username}
                         </Text>
                       </View>
                       <View style={[{
@@ -10571,17 +10571,17 @@ Beispielinhalt:
                     
                     <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 8 }}>
                       <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 4 }]}>
-                        🏢 Team: {user.team || 'Nicht zugewiesen'}
+                        🚔 Team: {user.team || '⚠️ NICHT ZUGEWIESEN'}
                       </Text>
                       <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 4 }]}>
-                        🗺️ Bezirk: {user.district || 'Nicht zugewiesen'}
+                        🗺️ Bezirk: {user.district || '⚠️ NICHT ZUGEWIESEN'}
                       </Text>
                       <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 4 }]}>
-                        📞 Telefon: {user.phone || 'Nicht verfügbar'}
+                        📞 Funkgerät: {user.phone || '❌ NICHT VERFÜGBAR'}
                       </Text>
                       {user.last_check_in && (
                         <Text style={[dynamicStyles.profileFormHelperText, { fontSize: 11 }]}>
-                          ⏰ Letzter Check-in: {new Date(user.last_check_in).toLocaleString('de-DE')}
+                          ⏰ Letztes Signal: {new Date(user.last_check_in).toLocaleString('de-DE')}
                         </Text>
                       )}
                     </View>
@@ -10591,7 +10591,7 @@ Beispielinhalt:
             ) : (
               <View style={dynamicStyles.profileInfoCard}>
                 <Text style={[dynamicStyles.profileInfoText, { textAlign: 'center' }]}>
-                  📭 Keine Benutzer im Dienst
+                  🚨 KEINE BEAMTEN IM DIENST
                 </Text>
               </View>
             )}
