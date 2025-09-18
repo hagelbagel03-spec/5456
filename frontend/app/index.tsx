@@ -1056,13 +1056,26 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     loadChannelMessages('service');
     if (user) {
       setUserStatus(user.status || 'Im Dienst');
-      setProfileData({
+      
+      // ✅ FIX: profileData vollständig mit user-Daten synchronisieren
+      const initialProfileData = {
         username: user.username || '',
         phone: user.phone || '',
         service_number: user.service_number || '',
         rank: user.rank || '',
-        department: user.department || ''
-      });
+        department: user.department || '',
+        photo: user.photo || '',
+        // Wichtig: assigned_district aus user-Daten übernehmen
+        notification_sound: user.notification_sound || 'default',
+        vibration_pattern: user.vibration_pattern || 'standard',
+        battery_saver_mode: user.battery_saver_mode || false,
+        check_in_interval: user.check_in_interval || 30,
+        assigned_district: user.assigned_district || '',
+        patrol_team: user.patrol_team || ''
+      };
+      
+      setProfileData(initialProfileData);
+      console.log('✅ Initial profile data set, assigned_district:', initialProfileData.assigned_district);
       
       // Starte automatische Aktualisierung
       startAutoRefresh();
