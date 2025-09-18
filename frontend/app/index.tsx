@@ -10425,6 +10425,149 @@ const MainApp = ({ appConfig, setAppConfig }) => {
               </View>
             </View>
 
+            {/* ✅ NEU: MEINE DIENSTINFOS - ÜBERSICHT ALLER ZUORDNUNGEN */}
+            <View style={dynamicStyles.formGroup}>
+              <Text style={dynamicStyles.formLabel}>📋 Meine Dienstinfos</Text>
+              <View style={[dynamicStyles.card, {
+                marginTop: 8,
+                backgroundColor: colors.surface,
+                borderWidth: 1,
+                borderColor: colors.border
+              }]}>
+                
+                {/* Aktuelle Zuordnung Header */}
+                <View style={{
+                  marginBottom: 16,
+                  paddingBottom: 12,
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border + '40'
+                }}>
+                  <Text style={{
+                    fontSize: 16,
+                    fontWeight: '600',
+                    color: colors.text,
+                    textAlign: 'center'
+                  }}>
+                    Aktuelle Zuordnung
+                  </Text>
+                </View>
+                
+                {/* Team Zuordnung */}
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingVertical: 12,
+                  borderBottomWidth: 1,
+                  borderBottomColor: colors.border + '20'
+                }}>
+                  <Text style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: colors.text
+                  }}>
+                    Team:
+                  </Text>
+                  <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}>
+                    <Text style={{
+                      fontSize: 14,
+                      color: (profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning,
+                      fontWeight: '600',
+                      marginRight: 8
+                    }}>
+                      {profileData.patrol_team || user?.patrol_team || user?.team || 'Nicht zugewiesen'}
+                    </Text>
+                    <Ionicons 
+                      name={(profileData.patrol_team || user?.patrol_team) ? "checkmark-circle" : "warning"} 
+                      size={16} 
+                      color={(profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning}
+                    />
+                  </View>
+                </View>
+                
+                {/* Bezirk Zuordnung */}
+                <View style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  paddingVertical: 12
+                }}>
+                  <Text style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: colors.text
+                  }}>
+                    Bezirk:
+                  </Text>
+                  <View style={{
+                    flexDirection: 'row',
+                    alignItems: 'center'
+                  }}>
+                    <Text style={{
+                      fontSize: 14,
+                      color: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning,
+                      fontWeight: '600',
+                      marginRight: 8
+                    }}>
+                      {profileData.assigned_district || user?.assigned_district || user?.district || 'Nicht zugewiesen'}
+                    </Text>
+                    <Ionicons 
+                      name={(profileData.assigned_district || user?.assigned_district) ? "checkmark-circle" : "warning"} 
+                      size={16} 
+                      color={(profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning}
+                    />
+                  </View>
+                </View>
+                
+                {/* Einsatzbereitschaft Status */}
+                <View style={{
+                  marginTop: 16,
+                  padding: 16,
+                  backgroundColor: ((profileData.patrol_team || user?.patrol_team) && (profileData.assigned_district || user?.assigned_district)) ? 
+                    colors.success + '10' : colors.warning + '10',
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: ((profileData.patrol_team || user?.patrol_team) && (profileData.assigned_district || user?.assigned_district)) ? 
+                    colors.success : colors.warning,
+                  alignItems: 'center'
+                }}>
+                  <Ionicons 
+                    name={((profileData.patrol_team || user?.patrol_team) && (profileData.assigned_district || user?.assigned_district)) ? 
+                      "checkmark-circle" : "alert-circle"} 
+                    size={24} 
+                    color={((profileData.patrol_team || user?.patrol_team) && (profileData.assigned_district || user?.assigned_district)) ? 
+                      colors.success : colors.warning}
+                  />
+                  <Text style={{
+                    fontSize: 14,
+                    fontWeight: '600',
+                    color: colors.text,
+                    marginTop: 8,
+                    textAlign: 'center'
+                  }}>
+                    {((profileData.patrol_team || user?.patrol_team) && (profileData.assigned_district || user?.assigned_district)) ? 
+                      '✅ Vollständig zugewiesen - Einsatzbereit' :
+                      '⚠️ Unvollständige Zuordnung - Nicht einsatzbereit'
+                    }
+                  </Text>
+                  <Text style={{
+                    fontSize: 12,
+                    color: colors.textMuted,
+                    marginTop: 4,
+                    textAlign: 'center'
+                  }}>
+                    {((profileData.patrol_team || user?.patrol_team) && (profileData.assigned_district || user?.assigned_district)) ? 
+                      'Alle erforderlichen Zuordnungen sind vorhanden' :
+                      'Bitte wenden Sie sich an Ihren Administrator'
+                    }
+                  </Text>
+                </View>
+              </View>
+            </View>
+
             <View style={{ height: 40 }} />
           </ScrollView>
         </SafeAreaView>
