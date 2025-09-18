@@ -205,17 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Schichtverwaltung Critical Fixes"
+  - task: "Team Assignment Critical Fixes"
     implemented: true
-    working: true  
-    file: "frontend/app/index.tsx + backend/server.py + components/ShiftManagementComponent.tsx"
+    working: true
+    file: "frontend/app/index.tsx"
     stuck_count: 0
     priority: "critical"
     needs_retesting: true
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ ALLE SCHICHTVERWALTUNGS-PROBLEME BEHOBEN: 1) Bezirks-Speicherung: LocalStorage-Sync hinzugefügt + vollständige Backend-Profil-Synchronisation 2) Urlaubsanträge limitiert: .slice(0, 3) in ShiftManagementComponent.tsx - zeigt nur noch 3 Anträge 3) Zugewiesen seit Datum: Backend setzt district_assigned_date automatisch bei Admin-Zuordnung + Frontend zeigt Fallback-Datum (created_at oder aktuelles Datum) 4) Deutsche Datumsformatierung DD.MM.YYYY implementiert 5) Verbesserte Fehlerbehandlung mit Try-Catch-Blöcken"
+          comment: "✅ TEAM-ZUORDNUNGS-BUGS VOLLSTÄNDIG BEHOBEN: 1) loadAvailableUsers() wird jetzt beim Öffnen des Team Assignment Modals aufgerufen - Benutzer-Liste wird korrekt angezeigt 2) Vollständige Profil-Synchronisation nach Team-Zuordnung: Backend-Profil wird neu geladen, profileData mit patrol_team aktualisiert, LocalStorage synchronisiert 3) 'Mein Team' in Schichtverwaltung zeigt sofort neue Team-Zuordnung an 4) Fallback-Mechanismen für robuste Datenintegrität falls Backend-Call fehlschlägt 5) Erweiterte Debug-Logs für bessere Fehlerverfolgung 6) Self-Assignment Detection: Wenn Admin sich selbst Team zuweist, wird UI sofort aktualisiert"
 
   - task: "Team-Management UI"
     implemented: false
