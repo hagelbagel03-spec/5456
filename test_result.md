@@ -205,17 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Team Assignment Critical Fixes"
+  - task: "Critical 404 API Fix"
     implemented: true
     working: true
-    file: "frontend/app/index.tsx"
+    file: "backend/server.py"
     stuck_count: 0
     priority: "critical"
     needs_retesting: true
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ TEAM-ZUORDNUNGS-BUGS VOLLSTÄNDIG BEHOBEN: 1) loadAvailableUsers() wird jetzt beim Öffnen des Team Assignment Modals aufgerufen - Benutzer-Liste wird korrekt angezeigt 2) Vollständige Profil-Synchronisation nach Team-Zuordnung: Backend-Profil wird neu geladen, profileData mit patrol_team aktualisiert, LocalStorage synchronisiert 3) 'Mein Team' in Schichtverwaltung zeigt sofort neue Team-Zuordnung an 4) Fallback-Mechanismen für robuste Datenintegrität falls Backend-Call fehlschlägt 5) Erweiterte Debug-Logs für bessere Fehlerverfolgung 6) Self-Assignment Detection: Wenn Admin sich selbst Team zuweist, wird UI sofort aktualisiert"
+          comment: "✅ KRITISCHER 404-FEHLER BEHOBEN: 1) GET /api/auth/profile Endpunkt war KOMPLETT FEHLEND im Backend - jetzt implementiert 2) PUT /api/auth/profile Endpunkt hinzugefügt für Profil-Updates 3) serialize_mongo_data() für korrekte JSON-Serialisierung der User-Daten 4) Authentifizierung funktioniert: 404 Not Found → 401/403 (Endpunkt existiert) 5) Team-Zuordnung sollte jetzt ohne 404-Fehler funktionieren - Backend-Profil kann nach Assignment neu geladen werden 6) Backend-Log zeigt: 'GET /api/auth/profile HTTP/1.1' 403 Forbidden (korrekte Authentifizierung)"
 
   - task: "Team-Management UI"
     implemented: false
