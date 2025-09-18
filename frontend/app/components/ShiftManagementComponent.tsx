@@ -1042,7 +1042,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
           <View style={dynamicStyles.emptyCheckins}>
             <Ionicons name="time-outline" size={48} color={colors.textMuted} />
             <Text style={dynamicStyles.emptyText}>Noch keine Check-Ins vorhanden</Text>
-            <Text style={dynamicStyles.emptySubtext}>Klicken Sie auf Check-In um zu beginnen</Text>
+         
           </View>
         )}
       </View>
@@ -1069,7 +1069,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
           <View style={dynamicStyles.emptyCheckins}>
             <Ionicons name="calendar-outline" size={48} color={colors.textMuted} />
             <Text style={dynamicStyles.emptyText}>Keine Urlaubsanträge vorhanden</Text>
-            <Text style={dynamicStyles.emptySubtext}>Erstellen Sie Ihren ersten Urlaubsantrag</Text>
+          
           </View>
         ) : (
           vacations.map((vacation, index) => (

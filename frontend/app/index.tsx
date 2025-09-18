@@ -9234,6 +9234,101 @@ const MainApp = ({ appConfig, setAppConfig }) => {
           </TouchableOpacity>
         </View>
 
+        {/* ✅ NEU: MEIN TEAM - ÄHNLICH WIE BEZIRK */}
+        <View style={{ paddingHorizontal: 16 }}>
+          <TouchableOpacity 
+            style={[dynamicStyles.card, {
+              minHeight: 100,
+              backgroundColor: (profileData.patrol_team || user?.patrol_team) ? colors.surface : colors.warning + '10',
+              marginBottom: 16
+            }]}
+            onPress={() => {
+              console.log('👥 Mein Team clicked in Schichtverwaltung');
+              console.log('📊 DEBUG - profileData.patrol_team:', profileData.patrol_team);
+              console.log('📊 DEBUG - user.patrol_team:', user?.patrol_team);
+              
+              Alert.alert(
+                '👥 Mein Team',
+                (profileData.patrol_team || user?.patrol_team) ? 
+                  `Sie sind dem Team "${profileData.patrol_team || user?.patrol_team}" zugewiesen.\n\n👮‍♂️ Teamstatus: Aktiv\n📍 Einsatzgebiet: ${user?.assigned_district || 'Nicht zugewiesen'}` :
+                  'Sie sind aktuell keinem Team zugewiesen.\n\nBitte wenden Sie sich an Ihren Administrator.',
+                [{ text: 'OK' }]
+              );
+            }}
+            activeOpacity={0.8}
+          >
+            <View style={dynamicStyles.cardHeader}>
+              <Ionicons name="people" size={24} color={colors.primary} />
+              <Text style={dynamicStyles.cardTitle}>👥 Mein Team</Text>
+              <View style={dynamicStyles.cardHeaderRight}>
+                <View style={[dynamicStyles.statusBadge, { 
+                  backgroundColor: (profileData.patrol_team || user?.patrol_team) ? colors.success + '20' : colors.warning + '20', 
+                  borderColor: (profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning 
+                }]}>
+                  <Text style={[dynamicStyles.statusBadgeText, { 
+                    color: (profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning 
+                  }]}>
+                    {profileData.patrol_team || user?.patrol_team || user?.team || 'Nicht zugewiesen'}
+                  </Text>
+                </View>
+                <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
+              </View>
+            </View>
+            
+            <View style={dynamicStyles.summaryRow}>
+              <View style={dynamicStyles.summaryItem}>
+                <Text style={[dynamicStyles.summaryNumber, { 
+                  color: (profileData.patrol_team || user?.patrol_team) ? colors.primary : colors.warning, 
+                  fontSize: 14 
+                }]}>
+                  {profileData.patrol_team || user?.patrol_team || user?.team || 'Nicht zugewiesen'}
+                </Text>
+                <Text style={dynamicStyles.summaryLabel}>Team</Text>
+              </View>
+              <View style={dynamicStyles.summaryItem}>
+                <Text style={[dynamicStyles.summaryNumber, { color: colors.textSecondary, fontSize: 14 }]}>
+                  {user?.team_role || 'Teammitglied'}
+                </Text>
+                <Text style={dynamicStyles.summaryLabel}>Rolle</Text>
+              </View>
+              <View style={dynamicStyles.summaryItem}>
+                <Text style={[dynamicStyles.summaryNumber, { color: colors.primary, fontSize: 12 }]}>
+                  Antippen für Details
+                </Text>
+                <Text style={dynamicStyles.summaryLabel}>Info</Text>
+              </View>
+            </View>
+            
+            {/* Status-Indikator */}
+            <View style={{
+              marginTop: 12,
+              paddingTop: 12,
+              borderTopWidth: 1,
+              borderTopColor: colors.border + '40',
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}>
+              <Ionicons 
+                name={(profileData.patrol_team || user?.patrol_team) ? "checkmark-circle" : "warning"} 
+                size={16} 
+                color={(profileData.patrol_team || user?.patrol_team) ? colors.success : colors.warning}
+              />
+              <Text style={{
+                fontSize: 12,
+                color: colors.textMuted,
+                marginLeft: 6,
+                fontWeight: '500'
+              }}>
+                {(profileData.patrol_team || user?.patrol_team) ? 
+                  'Team zugewiesen - einsatzbereit' :
+                  'Team-Zuordnung erforderlich'
+                }
+              </Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
         {/* Original ShiftManagementComponent */}
         <View style={{ flex: 1 }}>
           <ShiftManagementComponent 
