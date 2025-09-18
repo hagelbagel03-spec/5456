@@ -9247,13 +9247,8 @@ const MainApp = ({ appConfig, setAppConfig }) => {
               console.log('📊 DEBUG - profileData.patrol_team:', profileData.patrol_team);
               console.log('📊 DEBUG - user.patrol_team:', user?.patrol_team);
               
-              Alert.alert(
-                '👥 Mein Team',
-                (profileData.patrol_team || user?.patrol_team) ? 
-                  `Sie sind dem Team "${profileData.patrol_team || user?.patrol_team}" zugewiesen.\n\n👮‍♂️ Teamstatus: Aktiv\n📍 Einsatzgebiet: ${user?.assigned_district || 'Nicht zugewiesen'}` :
-                  'Sie sind aktuell keinem Team zugewiesen.\n\nBitte wenden Sie sich an Ihren Administrator.',
-                [{ text: 'OK' }]
-              );
+              // ✅ FIX: Team-Modal anzeigen statt Alert
+              setShowTeamDetailModal(true);
             }}
             activeOpacity={0.8}
           >
