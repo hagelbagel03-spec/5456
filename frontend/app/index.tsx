@@ -12445,26 +12445,6 @@ Beispielinhalt:
                 💡 Der Alarm wird sofort an alle verfügbaren Team-Mitglieder gesendet. Missbrauch kann disziplinäre Maßnahmen zur Folge haben.
               </Text>
             </View>
-          </ScrollView>
-        </SafeAreaView>
-      </Modal>
-
-      {user ? <MainApp user={user} token={token} setUser={setUser} appConfig={appConfig} /> : <LoginScreen appConfig={appConfig} />}
-    </View>
-  );
-};
-
-// Main App Component
-export default function App() {
-  return (
-    <ThemeProvider>
-      <AuthProvider>
-        <AppContent />
-      </AuthProvider>
-    </ThemeProvider>
-  );
-}
-
 const AppContent = () => {
   const { user, loading } = useAuth();
   const { colors } = useTheme();
@@ -12488,6 +12468,22 @@ const AppContent = () => {
     } catch (error) {
       console.error('❌ Failed to load app configuration:', error);
     }
+  };
+
+  useEffect(() => {
+    loadAppConfig();
+  }, []);
+
+  if (loading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  return user ? <MainApp user={user} token={token} setUser={setUser} appConfig={appConfig} /> : <LoginScreen appConfig={appConfig} />;
+};
   };
 
   useEffect(() => {
