@@ -205,17 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Critical Bug Fixes - Final"
+  - task: "Admin Permissions Fix"
     implemented: true
     working: true
     file: "frontend/app/index.tsx"
     stuck_count: 0
-    priority: "critical"
+    priority: "high"
     needs_retesting: true
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ ALLE KRITISCHEN BUGS BEHOBEN: 1) Meine Dienstinfos Sektion gelöscht 2) Team-Modal mit kompletter Team-Member-Liste erstellt (~180 Zeilen Code) zeigt: Team-Status, alle Mitglieder mit Avataren, Status-Indikatoren, Team-Info 3) Bezirks-Anzeige CRITICAL FIX: Vollständige Backend-Synchronisation nach Admin-Zuordnung mit profileData.assigned_district Fallback-Mechanismen 4) Erweiterte Debug-Logs für Troubleshooting 5) Robuste Daten-Bindung mit mehreren Fallbacks"
+          comment: "✅ ADMIN-PERMISSIONS KORREKT IMPLEMENTIERT: 1) '🗺️ Zugewiesener Bezirk' Feld aus Profil bearbeiten entfernt 2) '👥 Patrouille/Team' Feld aus Profil bearbeiten entfernt 3) saveProfile() Funktion bereinigt - assigned_district und patrol_team werden nicht mehr gesendet 4) Nur Admins können jetzt über Admin-Dashboard Bezirk/Team zuweisen 5) Normale Benutzer können ihre Admin-Zuordnungen nicht mehr selbst ändern"
 
   - task: "Team-Management UI"
     implemented: false
