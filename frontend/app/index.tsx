@@ -13343,6 +13343,16 @@ Beispielinhalt:
                           console.log('✅ profileData sofort aktualisiert:', updatedProfileData);
                           console.log('✅ Neuer assigned_district:', updatedProfileData.assigned_district);
                           
+                          // ✅ EXTRA FIX: Auch localStorage/AsyncStorage aktualisieren falls verwendet
+                          try {
+                            if (typeof Storage !== 'undefined') {
+                              localStorage.setItem('user_profile', JSON.stringify(updatedProfileData));
+                              console.log('✅ LocalStorage aktualisiert');
+                            }
+                          } catch (storageError) {
+                            console.log('⚠️ LocalStorage nicht verfügbar:', storageError);
+                          }
+                          
                         } catch (error) {
                           console.error('❌ Fehler beim Aktualisieren des eigenen Profils:', error);
                           
