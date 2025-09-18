@@ -15269,11 +15269,54 @@ const AppContent = () => {
     },
   });
 
-  if (loading) {
+  // ✅ EMERGENCY FIX: Skip loading screen, go directly to login
+  const [forceLogin, setForceLogin] = useState(false);
+  
+  // Auto-trigger after 3 seconds if still loading
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      console.log('🚨 Loading timeout - forcing login screen');
+      setForceLogin(true);
+      setLoading(false);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // ✅ EMERGENCY: Show simple login if app hangs
+  if (loading && !user && !forceLogin) {
     return (
       <SafeAreaView style={dynamicStyles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
         <Text style={dynamicStyles.loadingText}>Stadtwache wird geladen...</Text>
+        <View style={{ width: 200, height: 4, backgroundColor: colors.border, borderRadius: 2, overflow: 'hidden', marginTop: 20 }}>
+          <View style={{ 
+            width: '70%', 
+            height: '100%', 
+            backgroundColor: colors.primary,
+            borderRadius: 2
+          }} />
+        </View>
+        <TouchableOpacity 
+          onPress={() => {
+            console.log('🚨 Benutzer hat Loading übersprungen');
+            setForceLogin(true);
+            setLoading(false);
+          }}
+          style={{
+            marginTop: 30,
+            paddingHorizontal: 20,
+            paddingVertical: 10,
+            backgroundColor: colors.primary + '20',
+            borderRadius: 8,
+            borderWidth: 1,
+            borderColor: colors.primary
+          }}
+        >
+          <Text style={{ color: colors.primary, fontWeight: '600' }}>
+            Login überspringen →
+          </Text>
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
