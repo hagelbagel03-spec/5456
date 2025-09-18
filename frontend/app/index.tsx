@@ -10620,11 +10620,11 @@ Beispielinhalt:
           <ScrollView style={dynamicStyles.profileModalContent} showsVerticalScrollIndicator={false}>
             <View style={dynamicStyles.profileInfoCard}>
               <Text style={dynamicStyles.profileInfoText}>
-                📈 Übersicht über Team-Status, Einsatzbereitschaft und Verwaltung aller Gruppen.
+                📈 LIVE-Status aller Polizei-Teams mit Einsatzbereitschaft und aktuellen Operationen.
               </Text>
             </View>
 
-            <Text style={dynamicStyles.profileSectionTitle}>Team-Status • Einsatzbereitschaft • Verwaltung</Text>
+            <Text style={dynamicStyles.profileSectionTitle}>🚔 Team-Status • EINSATZBEREITSCHAFT • Verwaltung</Text>
 
             {teamStatusList.length > 0 ? (
               teamStatusList.map((team, index) => (
@@ -10632,14 +10632,14 @@ Beispielinhalt:
                   <View style={[dynamicStyles.profileFormInput, { padding: 20, height: 'auto' }]}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 12 }}>
                       <View style={[dynamicStyles.profileActionIcon, { marginRight: 16, width: 40, height: 40 }]}>
-                        <Ionicons name="people" size={20} color={colors.primary} />
+                        <Ionicons name="shield" size={20} color={colors.primary} />
                       </View>
                       <View style={{ flex: 1 }}>
                         <Text style={[dynamicStyles.profileFormLabel, { marginBottom: 4 }]}>
-                          {team.name || `Team ${index + 1}`}
+                          🚔 {team.name || `EINHEIT ${index + 1}`}
                         </Text>
                         <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 0 }]}>
-                          👥 {team.member_count || 0} Mitglieder
+                          👮‍♂️ {team.member_count || 0} BEAMTE
                         </Text>
                       </View>
                       <View style={[{
@@ -10650,28 +10650,28 @@ Beispielinhalt:
                                        team.status === 'busy' ? colors.warning : colors.error
                       }]}>
                         <Text style={[{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }]}>
-                          {team.status === 'active' ? '🟢 Aktiv' : 
-                           team.status === 'busy' ? '🟡 Beschäftigt' : '🔴 Nicht verfügbar'}
+                          {team.status === 'active' ? '🟢 EINSATZBEREIT' : 
+                           team.status === 'busy' ? '🟡 IM EINSATZ' : '🔴 NICHT VERFÜGBAR'}
                         </Text>
                       </View>
                     </View>
                     
                     <View style={{ borderTopWidth: 1, borderTopColor: colors.border, paddingTop: 12 }}>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        🗺️ Bezirk: {team.district || 'Nicht zugewiesen'}
+                        🗺️ Patrouillen-Bezirk: {team.district || '⚠️ NICHT ZUGEWIESEN'}
                       </Text>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        📍 Standort: {team.location || 'Unbekannt'}
+                        📍 Aktueller Standort: {team.location || '❌ UNBEKANNT'}
                       </Text>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        ⏰ Schicht: {team.shift || 'Nicht festgelegt'}
+                        ⏰ Schichtdienst: {team.shift || '❌ NICHT FESTGELEGT'}
                       </Text>
                       <Text style={dynamicStyles.profileFormHelperText}>
-                        🎯 Einsätze heute: {team.incidents_today || 0}
+                        🚨 Einsätze heute: {team.incidents_today || 0} VORFÄLLE
                       </Text>
                       {team.last_activity && (
                         <Text style={[dynamicStyles.profileFormHelperText, { fontSize: 11, marginTop: 4 }]}>
-                          🕒 Letzte Aktivität: {new Date(team.last_activity).toLocaleString('de-DE')}
+                          📡 Letzte Funkverbindung: {new Date(team.last_activity).toLocaleString('de-DE')}
                         </Text>
                       )}
                     </View>
@@ -10681,7 +10681,7 @@ Beispielinhalt:
             ) : (
               <View style={dynamicStyles.profileInfoCard}>
                 <Text style={[dynamicStyles.profileInfoText, { textAlign: 'center' }]}>
-                  📭 Keine Teams gefunden
+                  🚨 KEINE TEAMS VERFÜGBAR
                 </Text>
               </View>
             )}
