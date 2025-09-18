@@ -13545,7 +13545,7 @@ Beispielinhalt:
                       <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
                         <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Zugewiesen seit:</Text>
                         <Text style={{ color: colors.text, fontWeight: '600' }}>
-                          {user?.district_assigned_date || 'Nicht verfügbar'}
+                          {user?.district_assigned_date || user?.created_at || new Date().toLocaleDateString('de-DE')}
                         </Text>
                       </View>
                     </View>
