@@ -706,7 +706,6 @@ const MainApp = ({ appConfig, setAppConfig }) => {
   const [showVacationManagementModal, setShowVacationManagementModal] = useState(false);
   const [showAttendanceModal, setShowAttendanceModal] = useState(false);
   const [showTeamStatusModal, setShowTeamStatusModal] = useState(false);
-  const [showTeamAssignmentModal, setShowTeamAssignmentModal] = useState(false);
   
   // Modal Transition Lock to prevent multiple modals
   const [modalTransitionLock, setModalTransitionLock] = useState(false);
