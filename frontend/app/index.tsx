@@ -1099,6 +1099,9 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     const interval = setInterval(() => {
       console.log('🔄 Auto-Aktualisierung der Daten...');
       
+      // ✅ FIX: Heartbeat-Call hinzufügen für Online-Status-Updates
+      sendHeartbeat();
+      
       // Aktuelle Tab-Daten aktualisieren
       if (activeTab === 'home') {
         loadData();
@@ -1114,6 +1117,22 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     }, 30000); // 30 Sekunden
 
     setAutoRefreshInterval(interval);
+  };
+
+  // ✅ FIX: Heartbeat-Funktion hinzufügen
+  const sendHeartbeat = async () => {
+    if (!token || !user) return;
+    
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      
+      await axios.post(`${API_URL}/api/users/heartbeat`, {}, config);
+      console.log('💓 Heartbeat gesendet');
+    } catch (error) {
+      console.error('❌ Heartbeat-Fehler:', error);
+    }
   };
 
   const stopAutoRefresh = () => {
