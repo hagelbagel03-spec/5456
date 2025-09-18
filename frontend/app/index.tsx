@@ -13318,17 +13318,40 @@ Beispielinhalt:
                         // User-Profil neu laden
                         try {
                           const userResponse = await axios.get(`${API_URL}/api/auth/profile`, config);
+                          console.log('🔄 User-Profil nach Bezirks-Zuordnung neu geladen:', userResponse.data);
+                          
                           await updateUser(userResponse.data);
                           
-                          // profileData mit neuen Bezirks-Daten aktualisieren
+                          // ✅ CRITICAL FIX: profileData sofort mit Backend-Daten synchronisieren
+                          const updatedProfileData = {
+                            username: userResponse.data.username || '',
+                            phone: userResponse.data.phone || '',
+                            service_number: userResponse.data.service_number || '',
+                            rank: userResponse.data.rank || '',
+                            department: userResponse.data.department || '',
+                            photo: userResponse.data.photo || '',
+                            notification_sound: userResponse.data.notification_sound || 'default',
+                            vibration_pattern: userResponse.data.vibration_pattern || 'standard',
+                            battery_saver_mode: userResponse.data.battery_saver_mode || false,
+                            check_in_interval: userResponse.data.check_in_interval || 30,
+                            // ✅ WICHTIGSTER FIX: assigned_district SOFORT aktualisieren
+                            assigned_district: userResponse.data.assigned_district || selectedDistrict,
+                            patrol_team: userResponse.data.patrol_team || ''
+                          };
+                          
+                          setProfileData(updatedProfileData);
+                          console.log('✅ profileData sofort aktualisiert:', updatedProfileData);
+                          console.log('✅ Neuer assigned_district:', updatedProfileData.assigned_district);
+                          
+                        } catch (error) {
+                          console.error('❌ Fehler beim Aktualisieren des eigenen Profils:', error);
+                          
+                          // ✅ FALLBACK: Wenn Backend-Call fehlschlägt, wenigstens lokale Daten aktualisieren
                           setProfileData(prev => ({
                             ...prev,
                             assigned_district: selectedDistrict
                           }));
-                          
-                          console.log('✅ Eigener Bezirk aktualisiert:', selectedDistrict);
-                        } catch (error) {
-                          console.error('❌ Fehler beim Aktualisieren des eigenen Profils:', error);
+                          console.log('✅ Fallback: profileData lokal aktualisiert mit:', selectedDistrict);
                         }
                       }
                       
