@@ -14738,6 +14738,88 @@ Beispielinhalt:
           </ScrollView>
         </SafeAreaView>
       </Modal>
+
+      {/* ✅ NEU: Team Assignment Modal */}
+      <Modal
+        visible={showTeamAssignmentModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowTeamAssignmentModal(false)}
+      >
+        <View style={dynamicStyles.shiftModalOverlay}>
+          <View style={dynamicStyles.shiftModalContainer}>
+            {/* Modern Header */}
+            <View style={dynamicStyles.shiftModernModalHeader}>
+              <View style={[dynamicStyles.shiftModernModalIconContainer, { backgroundColor: colors.primary + '20' }]}>
+                <Ionicons name="people" size={28} color={colors.primary} />
+              </View>
+              <View style={dynamicStyles.shiftModernModalTitleContainer}>
+                <Text style={dynamicStyles.shiftModernModalTitle}>👥 Team zuordnen</Text>
+                <Text style={dynamicStyles.shiftModernModalSubtitle}>Benutzer zu Teams zuweisen und Rollen vergeben</Text>
+              </View>
+              <TouchableOpacity
+                style={dynamicStyles.shiftModernModalCloseButton}
+                onPress={() => setShowTeamAssignmentModal(false)}
+              >
+                <Ionicons name="close" size={24} color={colors.text} />
+              </TouchableOpacity>
+            </View>
+
+            <ScrollView 
+              style={dynamicStyles.shiftModernModalContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {/* Team Assignment Content */}
+              <View style={dynamicStyles.shiftModernFormSection}>
+                <Text style={dynamicStyles.shiftModernSectionLabel}>🎯 Team-Zuordnung</Text>
+                
+                <View>
+                  <Text style={dynamicStyles.shiftModernInputLabel}>Verfügbare Benutzer</Text>
+                  <View style={dynamicStyles.shiftModernInputContainer}>
+                    <Ionicons name="people-outline" size={20} color={colors.primary} />
+                    <Text style={[dynamicStyles.shiftModernInput, { color: colors.textMuted }]}>
+                      Benutzer auswählen und Teams zuweisen
+                    </Text>
+                  </View>
+                </View>
+
+                <View>
+                  <Text style={dynamicStyles.shiftModernInputLabel}>Verfügbare Teams</Text>
+                  <View style={dynamicStyles.shiftModernInputContainer}>
+                    <Ionicons name="flag-outline" size={20} color={colors.success} />
+                    <Text style={[dynamicStyles.shiftModernInput, { color: colors.textMuted }]}>
+                      Teams verwalten und Rollen vergeben
+                    </Text>
+                  </View>
+                </View>
+
+                {/* Placeholder für zukünftige Funktionalität */}
+                <View style={[dynamicStyles.shiftModernInputContainer, { 
+                  backgroundColor: colors.warning + '10',
+                  borderColor: colors.warning + '30'
+                }]}>
+                  <Ionicons name="construct-outline" size={20} color={colors.warning} />
+                  <Text style={[dynamicStyles.shiftModernInput, { color: colors.warning }]}>
+                    🚧 In Entwicklung - Team-Zuordnung wird bald verfügbar sein
+                  </Text>
+                </View>
+              </View>
+            </ScrollView>
+
+            {/* Action Buttons */}
+            <View style={dynamicStyles.shiftModernModalActions}>
+              <TouchableOpacity
+                style={[dynamicStyles.shiftModernActionButton, { backgroundColor: colors.textMuted + '20' }]}
+                onPress={() => setShowTeamAssignmentModal(false)}
+              >
+                <Text style={[dynamicStyles.shiftModernActionButtonText, { color: colors.textMuted }]}>
+                  Schließen
+                </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
     </SafeAreaView>
   );
 };
