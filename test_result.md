@@ -201,6 +201,9 @@ frontend:
       - working: true
         agent: "main"
         comment: "✅ FIX BEHOBEN: Urlaubsanträge-Problem komplett behoben. loadPendingVacations() filtert jetzt nur PENDING Anträge (status === 'pending'). handleVacationApproval() entfernt bearbeitete Anträge sofort aus der UI-Liste. Nach Genehmigung/Ablehnung verschwinden Anträge korrekt aus der Liste."
+      - working: true
+        agent: "main"
+        comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
   - task: "Bezirks-Management UI"
     implemented: true
