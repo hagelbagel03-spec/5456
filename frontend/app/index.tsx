@@ -13586,14 +13586,20 @@ const AppContent = () => {
     },
   });
 
-  // Loading screen with emergency timeout
+  // ✅ WHITE SCREEN FIX: Emergency timeout in separate useEffect
+  useEffect(() => {
+    if (loading) {
+      const emergencyTimer = setTimeout(() => {
+        console.log('🚨 Loading timeout - force show app');
+        setLoading(false);
+      }, 3000);
+      
+      return () => clearTimeout(emergencyTimer);
+    }
+  }, [loading]);
+
+  // Loading screen 
   if (loading) {
-    // ✅ EMERGENCY FIX: Auto-timeout after 3 seconds
-    setTimeout(() => {
-      console.log('🚨 Loading timeout - force show login');
-      setLoading(false);
-    }, 3000);
-    
     return (
       <SafeAreaView style={dynamicStyles.loadingContainer}>
         <ActivityIndicator size="large" color={colors.primary} />
