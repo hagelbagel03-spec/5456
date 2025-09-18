@@ -12448,7 +12448,7 @@ Beispielinhalt:
           </ScrollView>
         </SafeAreaView>
       </Modal>
-    </SafeAreaView>
+    </ThemeProvider>
   );
 };
 
