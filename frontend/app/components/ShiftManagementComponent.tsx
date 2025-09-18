@@ -1132,24 +1132,44 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
                   <TouchableOpacity 
                     style={dynamicStyles.vacationViewButton}
                     onPress={() => {
-                      let alertMessage = `Status: ${getStatusText(vacation.status)}\nZeitraum: ${vacation.start_date} bis ${vacation.end_date}`;
-                      
-                      if (vacation.reason) {
-                        alertMessage += `\nGrund: ${vacation.reason}`;
-                      }
-                      
-                      if (vacation.status === 'rejected' && vacation.rejection_reason) {
-                        alertMessage += `\n\n❌ Ablehnungsgrund:\n${vacation.rejection_reason}`;
-                      }
-                      
                       Alert.alert(
-                        '📋 Urlaubsantrag Details',
-                        alertMessage,
-                        [{ text: 'OK' }]
+                        '🗑️ Urlaubsantrag löschen',
+                        `Möchten Sie diesen Urlaubsantrag wirklich löschen?\n\nZeitraum: ${vacation.start_date} bis ${vacation.end_date}\nStatus: ${getStatusText(vacation.status)}`,
+                        [
+                          { text: 'Abbrechen', style: 'cancel' },
+                          { 
+                            text: 'Löschen', 
+                            style: 'destructive',
+                            onPress: async () => {
+                              try {
+                                const config = token ? {
+                                  headers: { 
+                                    Authorization: `Bearer ${token}`,
+                                    'Content-Type': 'application/json'
+                                  }
+                                } : {};
+                                
+                                await axios.delete(`${API_URL}/api/vacations/${vacation.id}`, config);
+                                
+                                Alert.alert('✅ Erfolg', 'Urlaubsantrag wurde gelöscht');
+                                
+                                // Sofortige UI-Aktualisierung
+                                setVacations(prev => prev.filter(v => v.id !== vacation.id));
+                                
+                                // Liste neu laden für Sicherheit
+                                await loadVacations();
+                                
+                              } catch (error) {
+                                console.error('❌ Error deleting vacation:', error);
+                                Alert.alert('❌ Fehler', 'Urlaubsantrag konnte nicht gelöscht werden');
+                              }
+                            }
+                          }
+                        ]
                       );
                     }}
                   >
-                    <Ionicons name="ellipsis-horizontal" size={16} color={colors.textMuted} />
+                    <Ionicons name="trash" size={16} color={colors.error} />
                   </TouchableOpacity>
                 </View>
               </View>
