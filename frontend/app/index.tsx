@@ -684,6 +684,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
 
   // District Assignment Modal
   const [showDistrictAssignmentModal, setShowDistrictAssignmentModal] = useState(false);
+  const [showDistrictDetailModal, setShowDistrictDetailModal] = useState(false); // ✅ NEU: Detail-Modal State
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [availableDistricts, setAvailableDistricts] = useState([]);
