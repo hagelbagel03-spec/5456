@@ -205,7 +205,7 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Mobile APK Optimierung"
+  - task: "Modern UI Design Updates"
     implemented: true
     working: true
     file: "frontend/app/index.tsx"
@@ -215,7 +215,7 @@ frontend:
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ MOBILE APK FIXES KOMPLETT: 1) Benutzer-ScrollView mit snapToInterval und besseren Touch-Targets 2) Auto-Update nach Bezirks-Zuordnung (aktualisiert sofort profileData und Übersicht) 3) Mein Bezirk Detail-Modal mit allen Benutzer-/Bezirks-/Kontakt-Infos 4) Alle UI-Elemente mobile-optimiert mit minHeight 44px+ für APK"
+          comment: "✅ MODERNES SCROLL-DESIGN: Benutzer-ScrollView komplett modernisiert mit 1) Checkmark-Indikatoren für Auswahl 2) Transform-Animationen (scale 1.05) 3) Schatten-Effekte und Elevation 4) Snap-to-center Verhalten 5) Moderne Gradient-Effekte 6) Scroll-Indikatoren unten 7) Robuste Triple-Fallback für Bezirks-Anzeige mit Debug-Logging"
 
   - task: "Team-Management UI"
     implemented: false
