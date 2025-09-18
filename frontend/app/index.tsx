@@ -8212,14 +8212,16 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         </TouchableOpacity>
       )}
 
-      {/* Mein Bezirk Anzeige */}
+      {/* Mein Bezirk Anzeige - FIX: Verwende aktuellen profileData-Staat */}
       <TouchableOpacity 
         style={dynamicStyles.card}
         onPress={() => {
+          // ✅ FIX: Verwende sowohl user als auch profileData für bessere Aktualität
+          const currentDistrict = profileData.assigned_district || user?.assigned_district;
           Alert.alert(
             '🗺️ Mein Arbeitsbezirk',
-            user?.assigned_district ? 
-              `Sie sind aktuell dem Bezirk "${user.assigned_district}" zugewiesen.\n\n📍 Arbeitsgebiet: ${user.district_area || 'Standard-Bereich'}` :
+            currentDistrict ? 
+              `Sie sind aktuell dem Bezirk "${currentDistrict}" zugewiesen.\n\n📍 Arbeitsgebiet: ${user?.district_area || 'Standard-Bereich'}` :
               'Sie sind aktuell keinem Bezirk zugewiesen.\n\nBitte wenden Sie sich an Ihren Administrator.',
             [{ text: 'OK' }]
           );
@@ -8231,13 +8233,13 @@ const MainApp = ({ appConfig, setAppConfig }) => {
           <Text style={dynamicStyles.cardTitle}>Mein Bezirk</Text>
           <View style={dynamicStyles.cardHeaderRight}>
             <View style={[dynamicStyles.statusBadge, { 
-              backgroundColor: user?.assigned_district ? colors.success + '20' : colors.warning + '20', 
-              borderColor: user?.assigned_district ? colors.success : colors.warning 
+              backgroundColor: (profileData.assigned_district || user?.assigned_district) ? colors.success + '20' : colors.warning + '20', 
+              borderColor: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning 
             }]}>
               <Text style={[dynamicStyles.statusBadgeText, { 
-                color: user?.assigned_district ? colors.success : colors.warning 
+                color: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning 
               }]}>
-                {user?.assigned_district || 'Nicht zugewiesen'}
+                {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
               </Text>
             </View>
             <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
@@ -8247,7 +8249,7 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         <View style={dynamicStyles.summaryRow}>
           <View style={dynamicStyles.summaryItem}>
             <Text style={[dynamicStyles.summaryNumber, { color: colors.primary, fontSize: 14 }]}>
-              {user?.assigned_district || 'Nicht zugewiesen'}
+              {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
             </Text>
             <Text style={dynamicStyles.summaryLabel}>Bezirk</Text>
           </View>
