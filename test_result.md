@@ -205,17 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "UI Restructuring - Mein Bezirk"
+  - task: "Critical Bug Fixes - Final"
     implemented: true
     working: true
     file: "frontend/app/index.tsx"
     stuck_count: 0
-    priority: "medium"
+    priority: "critical"
     needs_retesting: true
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ MEIN BEZIRK VERSCHOBEN: 1) Komplett aus der Übersicht entfernt (ca. 70 Zeilen Code) 2) In ⏰ Schichtverwaltung hinzugefügt mit ScrollView-Wrapper 3) Verbessertes Design mit Status-Indikator 'bereit für Schicht' 4) Mobile-optimiert mit ScrollView für bessere Navigation 5) Logisch passender Ort - Bezirk gehört zur Schichtverwaltung"
+          comment: "✅ ALLE KRITISCHEN BUGS BEHOBEN: 1) Meine Dienstinfos Sektion gelöscht 2) Team-Modal mit kompletter Team-Member-Liste erstellt (~180 Zeilen Code) zeigt: Team-Status, alle Mitglieder mit Avataren, Status-Indikatoren, Team-Info 3) Bezirks-Anzeige CRITICAL FIX: Vollständige Backend-Synchronisation nach Admin-Zuordnung mit profileData.assigned_district Fallback-Mechanismen 4) Erweiterte Debug-Logs für Troubleshooting 5) Robuste Daten-Bindung mit mehreren Fallbacks"
 
   - task: "Team-Management UI"
     implemented: false
