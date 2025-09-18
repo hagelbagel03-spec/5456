@@ -13102,6 +13102,286 @@ Beispielinhalt:
         </KeyboardAvoidingView>
       </Modal>
 
+      {/* ✅ MEIN BEZIRK DETAIL MODAL - MOBILE OPTIMIERT */}
+      <Modal
+        visible={showDistrictDetailModal}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={() => setShowDistrictDetailModal(false)}
+      >
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <View style={{ 
+            flex: 1, 
+            backgroundColor: 'rgba(0,0,0,0.5)', 
+            justifyContent: 'center', 
+            alignItems: 'center' 
+          }}>
+            <View style={{
+              backgroundColor: colors.surface,
+              borderRadius: 20,
+              padding: 24,
+              margin: 16,
+              width: '92%',
+              maxHeight: '85%',
+              shadowColor: colors.shadow,
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 12
+            }}>
+              
+              {/* Header */}
+              <View style={{ 
+                flexDirection: 'row', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: 24,
+                paddingBottom: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.border
+              }}>
+                <Text style={{
+                  fontSize: 22,
+                  fontWeight: 'bold',
+                  color: colors.text,
+                  flex: 1
+                }}>
+                  🗺️ Mein Arbeitsbezirk
+                </Text>
+                <TouchableOpacity
+                  onPress={() => setShowDistrictDetailModal(false)}
+                  style={{
+                    padding: 12,
+                    backgroundColor: colors.card,
+                    borderRadius: 12,
+                    // ✅ Mobile Touch-Optimierung
+                    minWidth: 44,
+                    minHeight: 44,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="close" size={24} color={colors.text} />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView showsVerticalScrollIndicator={false}>
+                
+                {/* Status-Banner */}
+                <View style={{
+                  backgroundColor: (profileData.assigned_district || user?.assigned_district) ? colors.success + '20' : colors.warning + '20',
+                  borderColor: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning,
+                  borderWidth: 2,
+                  borderRadius: 16,
+                  padding: 20,
+                  marginBottom: 24,
+                  alignItems: 'center'
+                }}>
+                  <Ionicons 
+                    name={(profileData.assigned_district || user?.assigned_district) ? "checkmark-circle" : "warning"} 
+                    size={48} 
+                    color={(profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning}
+                    style={{ marginBottom: 12 }}
+                  />
+                  <Text style={{
+                    fontSize: 18,
+                    fontWeight: 'bold',
+                    color: colors.text,
+                    textAlign: 'center',
+                    marginBottom: 8
+                  }}>
+                    {(profileData.assigned_district || user?.assigned_district) ? 
+                      `Zugewiesen: ${profileData.assigned_district || user?.assigned_district}` :
+                      'Kein Bezirk zugewiesen'
+                    }
+                  </Text>
+                  <Text style={{
+                    fontSize: 14,
+                    color: colors.textSecondary,
+                    textAlign: 'center'
+                  }}>
+                    {(profileData.assigned_district || user?.assigned_district) ? 
+                      'Sie sind einem Arbeitsbezirk zugeordnet' :
+                      'Bitte wenden Sie sich an Ihren Administrator'
+                    }
+                  </Text>
+                </View>
+
+                {/* Detail-Karten */}
+                <View style={{ gap: 16 }}>
+                  
+                  {/* Bezirks-Info */}
+                  <View style={{
+                    backgroundColor: colors.card,
+                    borderRadius: 16,
+                    padding: 20,
+                    borderWidth: 1,
+                    borderColor: colors.border
+                  }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                      <Ionicons name="location" size={24} color={colors.primary} />
+                      <Text style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: colors.text,
+                        marginLeft: 12
+                      }}>
+                        Bezirks-Information
+                      </Text>
+                    </View>
+                    
+                    <View style={{ gap: 12 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Zugewiesener Bezirk:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
+                        </Text>
+                      </View>
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Arbeitsgebiet:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.district_area || 'Standard-Bereich'}
+                        </Text>
+                      </View>
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Zugewiesen seit:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.district_assigned_date || 'Nicht verfügbar'}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Benutzer-Info */}
+                  <View style={{
+                    backgroundColor: colors.card,
+                    borderRadius: 16,
+                    padding: 20,
+                    borderWidth: 1,
+                    borderColor: colors.border
+                  }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                      <Ionicons name="person" size={24} color={colors.primary} />
+                      <Text style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: colors.text,
+                        marginLeft: 12
+                      }}>
+                        Meine Daten
+                      </Text>
+                    </View>
+                    
+                    <View style={{ gap: 12 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Name:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.username || 'Nicht verfügbar'}
+                        </Text>
+                      </View>
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Dienstnummer:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.service_number || 'Nicht verfügbar'}
+                        </Text>
+                      </View>
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Rang:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.rank || 'Nicht verfügbar'}
+                        </Text>
+                      </View>
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Abteilung:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.department || 'Nicht verfügbar'}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                  {/* Kontakt-Info */}
+                  <View style={{
+                    backgroundColor: colors.card,
+                    borderRadius: 16,
+                    padding: 20,
+                    borderWidth: 1,
+                    borderColor: colors.border
+                  }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 16 }}>
+                      <Ionicons name="call" size={24} color={colors.primary} />
+                      <Text style={{
+                        fontSize: 18,
+                        fontWeight: 'bold',
+                        color: colors.text,
+                        marginLeft: 12
+                      }}>
+                        Kontakt-Information
+                      </Text>
+                    </View>
+                    
+                    <View style={{ gap: 12 }}>
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Telefon:</Text>
+                        <Text style={{ color: colors.text, fontWeight: '600' }}>
+                          {user?.phone || 'Nicht verfügbar'}
+                        </Text>
+                      </View>
+                      
+                      <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <Text style={{ color: colors.textMuted, fontWeight: '500' }}>Status:</Text>
+                        <Text style={{ color: colors.success, fontWeight: '600' }}>
+                          {user?.status || 'Im Dienst'}
+                        </Text>
+                      </View>
+                    </View>
+                  </View>
+
+                </View>
+              </ScrollView>
+
+              {/* Action Button */}
+              <TouchableOpacity
+                style={{
+                  backgroundColor: colors.primary,
+                  paddingVertical: 16,
+                  paddingHorizontal: 24,
+                  borderRadius: 16,
+                  marginTop: 20,
+                  alignItems: 'center',
+                  // ✅ Mobile Touch-Optimierung
+                  minHeight: 54
+                }}
+                onPress={() => setShowDistrictDetailModal(false)}
+                activeOpacity={0.8}
+              >
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Ionicons name="checkmark" size={20} color="#FFFFFF" />
+                  <Text style={{
+                    color: '#FFFFFF',
+                    fontWeight: '600',
+                    fontSize: 16,
+                    marginLeft: 8
+                  }}>
+                    Verstanden
+                  </Text>
+                </View>
+              </TouchableOpacity>
+
+            </View>
+          </View>
+        </KeyboardAvoidingView>
+      </Modal>
+
       {/* Anwesenheitsliste Modal - Exact Style like Urlaubsantrag */}
       <Modal
         visible={showAttendanceModal}
