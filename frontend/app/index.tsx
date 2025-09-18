@@ -1444,9 +1444,13 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       } else {
         // Normales Profil-Update
         const response = await axios.put(`${API_URL}/api/auth/profile`, updates, config);
+        
+        // ✅ FIX: User-Kontext UND profileData gleichzeitig aktualisieren
         await updateUser(response.data);
         setUserStatus(response.data.status);
-        setProfileData({
+        
+        // ✅ FIX: profileData sofort mit aktuellen Backend-Daten synchronisieren
+        const updatedProfileData = {
           username: response.data.username,
           phone: response.data.phone || '',
           service_number: response.data.service_number || '',
@@ -1460,7 +1464,11 @@ const MainApp = ({ appConfig, setAppConfig }) => {
           check_in_interval: response.data.check_in_interval || 30,
           assigned_district: response.data.assigned_district || '',
           patrol_team: response.data.patrol_team || ''
-        });
+        };
+        
+        setProfileData(updatedProfileData);
+        console.log('✅ Profile updated, new assigned_district:', updatedProfileData.assigned_district);
+        
         Alert.alert('✅ Erfolg', 'Profil wurde erfolgreich aktualisiert!');
       }
       
