@@ -1955,6 +1955,10 @@ async def get_attendance_list(current_user: User = Depends(get_current_user)):
         users = await db.users.find().to_list(100)
         attendance_list = []
         
+        # ✅ FIX: Korrekte Online-Status-Berechnung
+        now = datetime.utcnow()
+        offline_threshold = timedelta(minutes=2)  # 2 Minuten Offline-Schwelle
+        
         for user in users:
             # Team-Name abrufen falls zugewiesen
             team_name = "Nicht zugewiesen"
@@ -1970,6 +1974,28 @@ async def get_attendance_list(current_user: User = Depends(get_current_user)):
                 if district:
                     district_name = district["name"]
             
+            # ✅ FIX: Korrekte Online-Status-Berechnung basierend auf last_activity
+            is_online = False
+            online_status = "Offline"
+            
+            # Prüfe ob Benutzer in online_users ist (aktive Websocket-Verbindung)
+            if user["id"] in online_users:
+                last_seen = online_users[user["id"]]["last_seen"]
+                if now - last_seen < offline_threshold:
+                    is_online = True
+                    online_status = "Online"
+            
+            # Fallback: Prüfe last_activity Feld in der Datenbank
+            elif user.get("last_activity"):
+                try:
+                    last_activity = user["last_activity"]
+                    if isinstance(last_activity, datetime):
+                        if now - last_activity < offline_threshold:
+                            is_online = True
+                            online_status = "Online"
+                except Exception as e:
+                    print(f"⚠️ Last_activity parsing error for {user['username']}: {e}")
+            
             attendance_list.append({
                 "id": user["id"],
                 "username": user["username"],
@@ -1979,7 +2005,10 @@ async def get_attendance_list(current_user: User = Depends(get_current_user)):
                 "last_check_in": user.get("last_check_in"),
                 "phone": user.get("phone"),
                 "service_number": user.get("service_number"),
-                "is_online": user.get("status") == "Im Dienst"
+                # ✅ FIX: Korrekte Online-Status-Werte
+                "is_online": is_online,
+                "online_status": online_status,
+                "last_activity": user.get("last_activity").isoformat() if user.get("last_activity") else None
             })
         
         return attendance_list
