@@ -1599,28 +1599,40 @@ async def assign_user_district_team(
     assignment_data: dict,
     current_user: User = Depends(get_current_user)
 ):
-    """Assign district and team to user (Admin only)"""
-    if current_user.role != UserRole.ADMIN:
-        raise HTTPException(status_code=403, detail="Only admins can assign districts and teams")
+    """Admin: Benutzer Bezirk oder Team zuweisen"""
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Not authorized")
     
-    update_data = {}
-    if 'assigned_district' in assignment_data:
-        update_data['assigned_district'] = assignment_data['assigned_district']
-    if 'patrol_team' in assignment_data:
-        update_data['patrol_team'] = assignment_data['patrol_team']
-    
-    if not update_data:
-        raise HTTPException(status_code=400, detail="No assignment data provided")
-    
-    update_data['updated_at'] = datetime.utcnow()
-    
-    result = await db.users.update_one({"id": user_id}, {"$set": update_data})
-    
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="User not found")
-    
-    updated_user = await db.users.find_one({"id": user_id})
-    return serialize_mongo_data(updated_user)
+    try:
+        user = await db.users.find_one({"id": user_id})
+        if not user:
+            raise HTTPException(status_code=404, detail="User not found")
+        
+        # ✅ FIX: Aktuelles Datum für district_assigned_date setzen
+        update_data = assignment_data.copy()
+        
+        # Wenn assigned_district gesetzt wird, auch das Datum aktualisieren
+        if 'assigned_district' in assignment_data:
+            update_data['district_assigned_date'] = datetime.utcnow().strftime('%d.%m.%Y')
+            print(f"✅ Bezirk '{assignment_data['assigned_district']}' an {user['username']} zugewiesen am {update_data['district_assigned_date']}")
+        
+        # Wenn patrol_team gesetzt wird, auch team_joined_date aktualisieren
+        if 'patrol_team' in assignment_data:
+            update_data['team_joined_date'] = datetime.utcnow().strftime('%d.%m.%Y')
+            print(f"✅ Team '{assignment_data['patrol_team']}' an {user['username']} zugewiesen am {update_data['team_joined_date']}")
+        
+        await db.users.update_one(
+            {"id": user_id}, 
+            {"$set": update_data}
+        )
+        
+        # Updated user zurückgeben
+        updated_user = await db.users.find_one({"id": user_id})
+        return serialize_mongo_data(updated_user)
+        
+    except Exception as e:
+        print(f"❌ Assignment error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # Get all districts
 @api_router.get("/districts")
