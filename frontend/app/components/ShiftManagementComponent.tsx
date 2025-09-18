@@ -1041,7 +1041,7 @@ const ShiftManagementComponent = ({ user, token, API_URL, colors, isDarkMode, is
           
           </View>
         ) : (
-          vacations.map((vacation, index) => (
+          vacations.slice(0, 3).map((vacation, index) => ( // ✅ FIX: Nur 3 Urlaubsanträge anzeigen
             <View key={vacation.id || index} style={dynamicStyles.modernVacationCard}>
               <View style={dynamicStyles.modernVacationHeader}>
                 <View style={dynamicStyles.vacationIconContainer}>
