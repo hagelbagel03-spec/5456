@@ -1046,11 +1046,12 @@ const MainApp = ({ appConfig, setAppConfig }) => {
     }
   }, [selectedChannel]);
 
-  // ✅ CRITICAL WHITE SCREEN FIX: Prevent infinite loops
+  // ✅ ADMIN WHITE SCREEN FIX: Load admin data safely
   useEffect(() => {
     console.log('🚀 App started, user:', user ? user.username : 'none');
+    console.log('👤 User role:', user?.role);
     
-    // Always set loading to false after 2 seconds to prevent white screen
+    // Always set loading to false after 2 seconds for admin users
     const emergencyTimer = setTimeout(() => {
       console.log('🚨 Emergency: Force loading to false');
       setLoading(false);
@@ -1074,16 +1075,48 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         patrol_team: user.patrol_team || ''
       });
       
-      // Load data without blocking UI
-      setTimeout(async () => {
-        try {
-          await loadData();
-          await loadRecentMessages();
-          clearTimeout(emergencyTimer); // Cancel emergency timer if successful
-        } catch (error) {
-          console.error('Data loading error:', error);
-        }
-      }, 500);
+      // ✅ FIX: For admin users, load data more carefully
+      if (user.role === 'admin') {
+        console.log('👑 Admin user detected - loading admin data carefully');
+        
+        // Load admin data in sequence with delays
+        setTimeout(async () => {
+          try {
+            console.log('📊 Loading basic data...');
+            await loadData();
+            
+            setTimeout(async () => {
+              console.log('💬 Loading messages...');
+              await loadRecentMessages();
+              
+              setTimeout(async () => {
+                console.log('👥 Loading user data...');
+                await loadAvailableUsers();
+                await loadUsersByStatus();
+                
+                clearTimeout(emergencyTimer); // Cancel emergency timer
+                console.log('✅ Admin data loaded successfully');
+              }, 500);
+            }, 500);
+          } catch (error) {
+            console.error('❌ Admin data loading error:', error);
+            clearTimeout(emergencyTimer);
+            setLoading(false);
+          }
+        }, 500);
+      } else {
+        // Normal user - load data normally
+        console.log('👤 Normal user - loading standard data');
+        setTimeout(async () => {
+          try {
+            await loadData();
+            await loadRecentMessages();
+            clearTimeout(emergencyTimer);
+          } catch (error) {
+            console.error('❌ Data loading error:', error);
+          }
+        }, 500);
+      }
     } else {
       console.log('⚠️ No user found');
       setLoading(false);
