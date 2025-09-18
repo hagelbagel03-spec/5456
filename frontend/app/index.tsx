@@ -689,6 +689,8 @@ const MainApp = ({ appConfig, setAppConfig }) => {
   const [showTeamAssignmentModal, setShowTeamAssignmentModal] = useState(false); // ✅ NEU: Team-Assignment-Modal State
   const [selectedUser, setSelectedUser] = useState(null);
   const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedTeam, setSelectedTeam] = useState(null); // ✅ NEU: Team-Auswahl State
+  const [selectedRole, setSelectedRole] = useState(null); // ✅ NEU: Rollen-Auswahl State
   const [availableDistricts, setAvailableDistricts] = useState([]);
   const [recentIncidents, setRecentIncidents] = useState([]);
   const [loading, setLoading] = useState(false);
