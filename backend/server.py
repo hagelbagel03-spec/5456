@@ -1634,6 +1634,12 @@ async def assign_user_district_team(
         print(f"❌ Assignment error: {e}")
         raise HTTPException(status_code=500, detail=str(e))
 
+# Health check endpoint
+@app.get("/api/status")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "stadtwache-backend"}
+
 # Profile endpoint for getting current user data
 @api_router.get("/auth/profile")
 async def get_user_profile(current_user: User = Depends(get_current_user)):
