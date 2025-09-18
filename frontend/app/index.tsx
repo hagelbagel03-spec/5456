@@ -12448,7 +12448,13 @@ Beispielinhalt:
           </ScrollView>
         </SafeAreaView>
       </Modal>
-    </View>
+    );
+  }
+
+  return (
+    <SafeAreaView style={dynamicStyles.container}>
+      {renderCurrentScreen()}
+    </SafeAreaView>
   );
 };
 
