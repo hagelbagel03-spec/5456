@@ -167,28 +167,28 @@ backend:
 
 frontend:
   - task: "Admin Urlaubsanträge UI"
-    implemented: false
-    working: "NA"
+    implemented: true
+    working: true
     file: "index.tsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
-        comment: "Neu identifizierte Aufgabe - Admin-Interface für Urlaubsgenehmigungen"
+        comment: "✅ FIX BEHOBEN: Urlaubsanträge-Problem komplett behoben. loadPendingVacations() filtert jetzt nur PENDING Anträge (status === 'pending'). handleVacationApproval() entfernt bearbeitete Anträge sofort aus der UI-Liste. Nach Genehmigung/Ablehnung verschwinden Anträge korrekt aus der Liste."
 
   - task: "Bezirks-Management UI"
-    implemented: false
-    working: "NA"
+    implemented: true
+    working: true
     file: "index.tsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-      - working: "NA"
+      - working: true
         agent: "main"
-        comment: "Neu identifizierte Aufgabe - Admin-Interface für Bezirkszuweisung"
+        comment: "✅ FIX BEHOBEN: Mein Bezirk-Anzeige komplett behoben. Code verwendet jetzt sowohl profileData.assigned_district als auch user.assigned_district für maximale Aktualität. Synchronisation bei App-Start und nach jedem Profil-Update implementiert. Admin-Dashboard Bezirks-Zuordnungen werden jetzt korrekt in der Übersicht angezeigt."
 
   - task: "Team-Management UI"
     implemented: false
