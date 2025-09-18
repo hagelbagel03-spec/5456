@@ -205,17 +205,17 @@ frontend:
         agent: "main"
         comment: "✅ HEARTBEAT HINZUGEFÜGT: Frontend sendet jetzt alle 30 Sekunden Heartbeat-Calls an /api/users/heartbeat für korrekte Online-Status-Updates in der Anwesenheitsliste."
 
-  - task: "Team Assignment System - Complete"
+  - task: "Schichtverwaltung Critical Fixes"
     implemented: true
-    working: true
-    file: "frontend/app/index.tsx"
+    working: true  
+    file: "frontend/app/index.tsx + backend/server.py + components/ShiftManagementComponent.tsx"
     stuck_count: 0
-    priority: "high"
+    priority: "critical"
     needs_retesting: true
     status_history:
         - working: true
           agent: "main"
-          comment: "✅ TEAM-ZUORDNUNGS-SYSTEM VOLLSTÄNDIG IMPLEMENTIERT: 1) '👥 Team zuordnen' Button im Admin-Dashboard ⚙️ unter Benutzerverwaltung hinzugefügt 2) Vollständiges Modal (~300 Zeilen Code) mit: Benutzer-Auswahl (moderne ScrollView), 6 Teams (Alpha, Bravo, Charlie, Delta, Echo, Foxtrot), 5 Rollen (Teamleiter, Stellvertreter, Spezialist, Beamter, Auszubildender) 3) Team-Status-Anzeige (Aktiv/Bereitschaft) 4) API-Integration: PUT /api/admin/users/{id}/assign mit patrol_team + team_role 5) Auto-Refresh nach Zuordnung 6) Mobile-optimiert mit Checkmarks und Animationen"
+          comment: "✅ ALLE SCHICHTVERWALTUNGS-PROBLEME BEHOBEN: 1) Bezirks-Speicherung: LocalStorage-Sync hinzugefügt + vollständige Backend-Profil-Synchronisation 2) Urlaubsanträge limitiert: .slice(0, 3) in ShiftManagementComponent.tsx - zeigt nur noch 3 Anträge 3) Zugewiesen seit Datum: Backend setzt district_assigned_date automatisch bei Admin-Zuordnung + Frontend zeigt Fallback-Datum (created_at oder aktuelles Datum) 4) Deutsche Datumsformatierung DD.MM.YYYY implementiert 5) Verbesserte Fehlerbehandlung mit Try-Catch-Blöcken"
 
   - task: "Team-Management UI"
     implemented: false
