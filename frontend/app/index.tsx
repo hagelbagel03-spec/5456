@@ -327,8 +327,6 @@ const App = () => {
 };
 
 export default App;
-
-// MOBILE RESPONSIVE - NUR DIE WICHTIGSTEN FIXES
 const isSmallScreen = width < 400;
 const isMediumScreen = width >= 400 && width < 600;
 
