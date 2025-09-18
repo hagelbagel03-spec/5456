@@ -12819,7 +12819,7 @@ Beispielinhalt:
               </View>
 
               <ScrollView showsVerticalScrollIndicator={false}>
-                {/* Benutzer-Auswahl */}
+                {/* Benutzer-Auswahl - MOBILE OPTIMIERT */}
                 <Text style={{
                   fontSize: 16,
                   fontWeight: '600',
@@ -12829,45 +12829,70 @@ Beispielinhalt:
                   👤 Benutzer auswählen:
                 </Text>
                 
-                <ScrollView 
-                  horizontal 
-                  showsHorizontalScrollIndicator={false}
-                  style={{ marginBottom: 20 }}
-                >
-                  {availableUsers.map((user) => (
-                    <TouchableOpacity
-                      key={user.id}
-                      onPress={() => setSelectedUser(user)}
-                      style={{
-                        backgroundColor: selectedUser?.id === user.id ? colors.primary : colors.card,
-                        padding: 12,
-                        margin: 4,
-                        borderRadius: 12,
-                        minWidth: 120,
-                        alignItems: 'center',
-                        borderWidth: 1,
-                        borderColor: selectedUser?.id === user.id ? colors.primary : colors.border
-                      }}
-                    >
-                      <Text style={{
-                        color: selectedUser?.id === user.id ? '#FFFFFF' : colors.text,
-                        fontWeight: '600',
-                        fontSize: 14,
-                        textAlign: 'center'
-                      }}>
-                        {user.username}
-                      </Text>
-                      <Text style={{
-                        color: selectedUser?.id === user.id ? 'rgba(255,255,255,0.8)' : colors.textMuted,
-                        fontSize: 12,
-                        marginTop: 4,
-                        textAlign: 'center'
-                      }}>
-                        {user.assigned_district || 'Kein Bezirk'}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
+                {/* ✅ FIX: Bessere ScrollView für Mobile APK */}
+                <View style={{ height: 100, marginBottom: 20 }}>
+                  <ScrollView 
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={true}
+                    contentContainerStyle={{ paddingHorizontal: 4, paddingVertical: 8 }}
+                    decelerationRate="fast"
+                    snapToInterval={130} // Snap zu Benutzer-Karten
+                    snapToAlignment="start"
+                    style={{ 
+                      flexGrow: 0,
+                      backgroundColor: colors.card + '40',
+                      borderRadius: 12,
+                      padding: 8
+                    }}
+                  >
+                    {availableUsers.map((user, index) => (
+                      <TouchableOpacity
+                        key={user.id}
+                        onPress={() => {
+                          setSelectedUser(user);
+                          console.log('👤 Benutzer ausgewählt:', user.username);
+                        }}
+                        style={{
+                          backgroundColor: selectedUser?.id === user.id ? colors.primary : colors.surface,
+                          padding: 16,
+                          marginHorizontal: 6,
+                          borderRadius: 12,
+                          width: 120,
+                          alignItems: 'center',
+                          borderWidth: 2,
+                          borderColor: selectedUser?.id === user.id ? colors.primary : colors.border,
+                          // ✅ Mobile Touch-Optimierung
+                          minHeight: 80,
+                          justifyContent: 'center',
+                          shadowColor: selectedUser?.id === user.id ? colors.primary : colors.shadow,
+                          shadowOffset: { width: 0, height: 2 },
+                          shadowOpacity: selectedUser?.id === user.id ? 0.3 : 0.1,
+                          shadowRadius: 4,
+                          elevation: selectedUser?.id === user.id ? 6 : 2
+                        }}
+                        activeOpacity={0.7}
+                      >
+                        <Text style={{
+                          color: selectedUser?.id === user.id ? '#FFFFFF' : colors.text,
+                          fontWeight: '600',
+                          fontSize: 14,
+                          textAlign: 'center',
+                          marginBottom: 4
+                        }}>
+                          {user.username}
+                        </Text>
+                        <Text style={{
+                          color: selectedUser?.id === user.id ? 'rgba(255,255,255,0.8)' : colors.textMuted,
+                          fontSize: 11,
+                          textAlign: 'center',
+                          fontWeight: '500'
+                        }}>
+                          {user.assigned_district || 'Kein Bezirk'}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
 
                 {/* Bezirk-Auswahl */}
                 <Text style={{
