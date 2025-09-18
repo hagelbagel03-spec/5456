@@ -1489,13 +1489,13 @@ const MainApp = ({ appConfig, setAppConfig }) => {
         department: profileData.department,
         status: userStatus,
         photo: profileData.photo, // Include photo in updates!
+        // ✅ FIX: Admin-Only Felder entfernt - assigned_district und patrol_team
         // Neue Profil-Einstellungen hinzufügen
         notification_sound: profileData.notification_sound,
         vibration_pattern: profileData.vibration_pattern,
         battery_saver_mode: profileData.battery_saver_mode,
-        check_in_interval: profileData.check_in_interval,
-        assigned_district: profileData.assigned_district,
-        patrol_team: profileData.patrol_team
+        check_in_interval: profileData.check_in_interval
+        // ❌ ENTFERNT: assigned_district und patrol_team - nur Admins dürfen diese ändern
       };
       
       // Wenn Admin einen anderen Benutzer bearbeitet
