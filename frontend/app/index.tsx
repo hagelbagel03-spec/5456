@@ -10442,7 +10442,7 @@ Beispielinhalt:
                           {vacation.user_name || vacation.username}
                         </Text>
                         <Text style={[dynamicStyles.profileFormHelperText, { marginBottom: 0 }]}>
-                          {vacation.start_date} bis {vacation.end_date}
+                          📅 {vacation.start_date} bis {vacation.end_date}
                         </Text>
                       </View>
                       <View style={[{
@@ -10453,8 +10453,8 @@ Beispielinhalt:
                                        vacation.status === 'rejected' ? colors.error : colors.warning
                       }]}>
                         <Text style={[{ color: '#FFFFFF', fontSize: 12, fontWeight: '600' }]}>
-                          {vacation.status === 'approved' ? '✅ Genehmigt' : 
-                           vacation.status === 'rejected' ? '❌ Abgelehnt' : '⏳ Ausstehend'}
+                          {vacation.status === 'approved' ? '✅ GENEHMIGT' : 
+                           vacation.status === 'rejected' ? '❌ ABGELEHNT' : '⏳ AUSSTEHEND'}
                         </Text>
                       </View>
                     </View>
@@ -10462,7 +10462,7 @@ Beispielinhalt:
                     {vacation.reason && (
                       <View style={{ marginBottom: 12 }}>
                         <Text style={[dynamicStyles.profileFormHelperText, { fontWeight: '600' }]}>
-                          Grund:
+                          📝 Grund für Urlaub:
                         </Text>
                         <Text style={dynamicStyles.profileFormHelperText}>
                           {vacation.reason}
