@@ -9151,8 +9151,10 @@ const MainApp = ({ appConfig, setAppConfig }) => {
             }]}
             onPress={() => {
               console.log('🗺️ Mein Bezirk clicked in Schichtverwaltung');
-              console.log('📊 Debug - profileData.assigned_district:', profileData.assigned_district);
-              console.log('📊 Debug - user.assigned_district:', user?.assigned_district);
+              console.log('📊 DEBUG - profileData:', profileData);
+              console.log('📊 DEBUG - user:', user);
+              console.log('📊 DEBUG - profileData.assigned_district:', profileData.assigned_district);
+              console.log('📊 DEBUG - user.assigned_district:', user?.assigned_district);
               
               setShowDistrictDetailModal(true);
             }}
@@ -9169,7 +9171,8 @@ const MainApp = ({ appConfig, setAppConfig }) => {
                   <Text style={[dynamicStyles.statusBadgeText, { 
                     color: (profileData.assigned_district || user?.assigned_district) ? colors.success : colors.warning 
                   }]}>
-                    {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
+                    {/* ✅ FIX: Robuste Anzeige mit mehreren Fallbacks */}
+                    {profileData.assigned_district || user?.assigned_district || user?.district || 'Nicht zugewiesen'}
                   </Text>
                 </View>
                 <Ionicons name="chevron-forward" size={20} color={colors.textMuted} />
@@ -9182,7 +9185,8 @@ const MainApp = ({ appConfig, setAppConfig }) => {
                   color: (profileData.assigned_district || user?.assigned_district) ? colors.primary : colors.warning, 
                   fontSize: 14 
                 }]}>
-                  {profileData.assigned_district || user?.assigned_district || 'Nicht zugewiesen'}
+                  {/* ✅ EXTRA FALLBACKS hinzugefügt */}
+                  {profileData.assigned_district || user?.assigned_district || user?.district || 'Nicht zugewiesen'}
                 </Text>
                 <Text style={dynamicStyles.summaryLabel}>Bezirk</Text>
               </View>
