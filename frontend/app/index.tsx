@@ -1,33 +1,15 @@
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
+  TextInput,
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
   Alert,
-  TextInput,
-  ScrollView,
-  KeyboardAvoidingView,
-  Platform,
   ActivityIndicator,
-  Modal,
-  RefreshControl,
-  Switch,
-  Dimensions,
-  Image,
+  ScrollView
 } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import * as Location from 'expo-location';
-import * as ImagePicker from 'expo-image-picker';
-// Map functionality disabled for web compatibility
-import AddUserModal from './components/AddUserModal';
-import DiscordMessages from './components/DiscordMessages';
-import GoogleMapsView from './components/GoogleMapsView';
-import ShiftManagementComponent from './components/ShiftManagementComponent';
 
 const { width, height } = Dimensions.get('window');
 
