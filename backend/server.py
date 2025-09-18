@@ -1421,6 +1421,7 @@ async def user_heartbeat(current_user: User = Depends(get_current_user)):
     user_id = current_user.id
     now = datetime.utcnow()
     
+    # Update in-memory online status
     if user_id in online_users:
         online_users[user_id]["last_seen"] = now
     else:
@@ -1429,6 +1430,15 @@ async def user_heartbeat(current_user: User = Depends(get_current_user)):
             "username": current_user.username,
             "socket_id": None
         }
+    
+    # ✅ FIX: Auch last_activity in Datenbank aktualisieren für bessere Offline-Erkennung
+    try:
+        await db.users.update_one(
+            {"id": user_id},
+            {"$set": {"last_activity": now}}
+        )
+    except Exception as e:
+        print(f"⚠️ Fehler beim Aktualisieren der last_activity für {current_user.username}: {e}")
     
     return {"status": "heartbeat", "timestamp": now}
 
