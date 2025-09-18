@@ -13016,11 +13016,13 @@ Beispielinhalt:
                   style={{
                     flex: 1,
                     backgroundColor: selectedUser && selectedDistrict ? colors.primary : colors.textMuted + '40',
-                    paddingVertical: 14,
+                    paddingVertical: 16,
                     paddingHorizontal: 20,
                     borderRadius: 12,
                     marginLeft: 8,
-                    alignItems: 'center'
+                    alignItems: 'center',
+                    // ✅ Mobile Touch-Optimierung
+                    minHeight: 50
                   }}
                   onPress={async () => {
                     if (!selectedUser || !selectedDistrict) {
@@ -13042,9 +13044,32 @@ Beispielinhalt:
                       setSelectedUser(null);
                       setSelectedDistrict(null);
                       
-                      // User-Liste neu laden
+                      // ✅ FIX: User-Liste UND Übersicht-Daten sofort aktualisieren
                       await loadUsersByStatus();
                       await loadAvailableUsers();
+                      
+                      // ✅ FIX: Wenn der zugeordnete Benutzer der aktuelle Benutzer ist, 
+                      // dann profileData und user-Kontext sofort aktualisieren
+                      if (selectedUser.id === user?.id) {
+                        // User-Profil neu laden
+                        try {
+                          const userResponse = await axios.get(`${API_URL}/api/auth/profile`, config);
+                          await updateUser(userResponse.data);
+                          
+                          // profileData mit neuen Bezirks-Daten aktualisieren
+                          setProfileData(prev => ({
+                            ...prev,
+                            assigned_district: selectedDistrict
+                          }));
+                          
+                          console.log('✅ Eigener Bezirk aktualisiert:', selectedDistrict);
+                        } catch (error) {
+                          console.error('❌ Fehler beim Aktualisieren des eigenen Profils:', error);
+                        }
+                      }
+                      
+                      // ✅ FIX: Auch Übersicht-Daten neu laden für sofortige Anzeige-Updates
+                      await loadData();
                       
                     } catch (error) {
                       console.error('❌ District assignment error:', error);
@@ -13052,6 +13077,7 @@ Beispielinhalt:
                     }
                   }}
                   disabled={!selectedUser || !selectedDistrict}
+                  activeOpacity={0.8}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <Ionicons name="checkmark" size={18} color="#FFFFFF" />
