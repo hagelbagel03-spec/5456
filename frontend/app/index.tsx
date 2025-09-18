@@ -509,8 +509,8 @@ const LoginScreen = ({ appConfig }) => {
 
         <View style={dynamicStyles.footer}>
           <Text style={dynamicStyles.footerText}>Stadtwache Schwelm</Text>
-          <Text style={dynamicStyles.footerSubtext}>
-            Sichere Verbindung • Server: ladrunter.preview.emergentagent.com
+          <Text style={dynamicStyles.footerText}>
+            Sichere Verbindung
           </Text>
         </View>
 
