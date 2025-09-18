@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "1. Mein Bezirk zeigt nicht die richtigen zugeordneten Bezirke aus dem Admin-Dashboard. 2. Urlaubsanträge verschwinden nicht aus der Liste nachdem sie genehmigt/abgelehnt wurden. 3. Team-Erstellung Button wirft ObjectId-Serialisierungsfehler. 4. Anwesenheitsliste zeigt Offline-Status nicht korrekt an. 5. Bezirk wird bei Mein Bezirk nicht angezeigt in Übersicht. 6. Scroll-Design bei Bezirks-Zuordnung modernisieren. 7. Mein Bezirk aus Übersicht entfernen und bei ⏰ Schichtverwaltung hinzufügen."
+user_problem_statement: "1. Mein Bezirk zeigt nicht die richtigen zugeordneten Bezirke aus dem Admin-Dashboard. 2. Urlaubsanträge verschwinden nicht aus der Liste nachdem sie genehmigt/abgelehnt wurden. 3. Team-Erstellung Button wirft ObjectId-Serialisierungsfehler. 4. Anwesenheitsliste zeigt Offline-Status nicht korrekt an. 5. Bezirk wird bei Mein Bezirk nicht angezeigt in Übersicht. 6. Scroll-Design bei Bezirks-Zuordnung modernisieren. 7. Mein Bezirk aus Übersicht entfernen und bei ⏰ Schichtverwaltung hinzufügen. 8. Meine Dienstinfos löschen. 9. Team-Modal mit Team-Member-Anzeige erstellen. 10. Bezirks-Anzeige funktioniert nicht nach Admin-Zuordnung."
 
 backend:
   - task: "Team Creation API ObjectId Fix"
