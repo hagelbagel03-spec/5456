@@ -12474,11 +12474,27 @@ const AppContent = () => {
     loadAppConfig();
   }, []);
 
+  const dynamicStyles = StyleSheet.create({
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: colors.background,
+    },
+    loadingText: {
+      marginTop: 20,
+      fontSize: 18,
+      color: colors.text,
+      fontWeight: '600',
+    },
+  });
+
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text>Loading...</Text>
-      </View>
+      <SafeAreaView style={dynamicStyles.loadingContainer}>
+        <ActivityIndicator size="large" color={colors.primary} />
+        <Text style={dynamicStyles.loadingText}>Stadtwache wird geladen...</Text>
+      </SafeAreaView>
     );
   }
 
