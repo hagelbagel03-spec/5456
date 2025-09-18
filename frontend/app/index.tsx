@@ -14740,83 +14740,437 @@ Beispielinhalt:
         </SafeAreaView>
       </Modal>
 
-      {/* ✅ NEU: Team Assignment Modal */}
+      {/* ✅ TEAM ASSIGNMENT MODAL - VOLLSTÄNDIGE IMPLEMENTIERUNG */}
       <Modal
         visible={showTeamAssignmentModal}
         transparent={true}
         animationType="slide"
         onRequestClose={() => setShowTeamAssignmentModal(false)}
       >
-        <View style={dynamicStyles.shiftModalOverlay}>
-          <View style={dynamicStyles.shiftModalContainer}>
-            {/* Modern Header */}
-            <View style={dynamicStyles.shiftModernModalHeader}>
-              <View style={[dynamicStyles.shiftModernModalIconContainer, { backgroundColor: colors.primary + '20' }]}>
-                <Ionicons name="people" size={28} color={colors.primary} />
-              </View>
-              <View style={dynamicStyles.shiftModernModalTitleContainer}>
-                <Text style={dynamicStyles.shiftModernModalTitle}>👥 Team zuordnen</Text>
-                <Text style={dynamicStyles.shiftModernModalSubtitle}>Benutzer zu Teams zuweisen und Rollen vergeben</Text>
-              </View>
-              <TouchableOpacity
-                style={dynamicStyles.shiftModernModalCloseButton}
-                onPress={() => setShowTeamAssignmentModal(false)}
-              >
-                <Ionicons name="close" size={24} color={colors.text} />
-              </TouchableOpacity>
-            </View>
-
-            <ScrollView 
-              style={dynamicStyles.shiftModernModalContent}
-              showsVerticalScrollIndicator={false}
-            >
-              {/* Team Assignment Content */}
-              <View style={dynamicStyles.shiftModernFormSection}>
-                <Text style={dynamicStyles.shiftModernSectionLabel}>🎯 Team-Zuordnung</Text>
-                
-                <View>
-                  <Text style={dynamicStyles.shiftModernInputLabel}>Verfügbare Benutzer</Text>
-                  <View style={dynamicStyles.shiftModernInputContainer}>
-                    <Ionicons name="people-outline" size={20} color={colors.primary} />
-                    <Text style={[dynamicStyles.shiftModernInput, { color: colors.textMuted }]}>
-                      Benutzer auswählen und Teams zuweisen
-                    </Text>
-                  </View>
-                </View>
-
-                <View>
-                  <Text style={dynamicStyles.shiftModernInputLabel}>Verfügbare Teams</Text>
-                  <View style={dynamicStyles.shiftModernInputContainer}>
-                    <Ionicons name="flag-outline" size={20} color={colors.success} />
-                    <Text style={[dynamicStyles.shiftModernInput, { color: colors.textMuted }]}>
-                      Teams verwalten und Rollen vergeben
-                    </Text>
-                  </View>
-                </View>
-
-                {/* Placeholder für zukünftige Funktionalität */}
-                <View style={[dynamicStyles.shiftModernInputContainer, { 
-                  backgroundColor: colors.warning + '10',
-                  borderColor: colors.warning + '30'
-                }]}>
-                  <Ionicons name="construct-outline" size={20} color={colors.warning} />
-                  <Text style={[dynamicStyles.shiftModernInput, { color: colors.warning }]}>
-                    🚧 In Entwicklung - Team-Zuordnung wird bald verfügbar sein
-                  </Text>
-                </View>
-              </View>
-            </ScrollView>
-
-            {/* Action Buttons */}
-            <View style={dynamicStyles.shiftModernModalActions}>
-              <TouchableOpacity
-                style={[dynamicStyles.shiftModernActionButton, { backgroundColor: colors.textMuted + '20' }]}
-                onPress={() => setShowTeamAssignmentModal(false)}
-              >
-                <Text style={[dynamicStyles.shiftModernActionButtonText, { color: colors.textMuted }]}>
-                  Schließen
+        <KeyboardAvoidingView 
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          style={{ flex: 1 }}
+        >
+          <View style={{ 
+            flex: 1, 
+            backgroundColor: 'rgba(0,0,0,0.5)', 
+            justifyContent: 'center', 
+            alignItems: 'center' 
+          }}>
+            <View style={{
+              backgroundColor: colors.surface,
+              borderRadius: 20,
+              padding: 24,
+              margin: 16,
+              width: '95%',
+              maxHeight: '90%',
+              shadowColor: colors.shadow,
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.3,
+              shadowRadius: 12,
+              elevation: 12
+            }}>
+              
+              {/* Header */}
+              <View style={{ 
+                flexDirection: 'row', 
+                justifyContent: 'space-between', 
+                alignItems: 'center', 
+                marginBottom: 24,
+                paddingBottom: 16,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.border
+              }}>
+                <Text style={{
+                  fontSize: 22,
+                  fontWeight: 'bold',
+                  color: colors.text,
+                  flex: 1
+                }}>
+                  👥 Team-Zuordnung
                 </Text>
-              </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => setShowTeamAssignmentModal(false)}
+                  style={{
+                    padding: 12,
+                    backgroundColor: colors.card,
+                    borderRadius: 12,
+                    minWidth: 44,
+                    minHeight: 44,
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                  activeOpacity={0.7}
+                >
+                  <Ionicons name="close" size={24} color={colors.text} />
+                </TouchableOpacity>
+              </View>
+
+              <ScrollView showsVerticalScrollIndicator={false}>
+                
+                {/* Benutzer-Auswahl - MODERNE VERSION VON BEZIRKS-ZUORDNUNG */}
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: colors.text,
+                  marginBottom: 12
+                }}>
+                  👤 Benutzer auswählen:
+                </Text>
+                
+                <View style={{ 
+                  height: 120, 
+                  marginBottom: 20,
+                  backgroundColor: colors.background,
+                  borderRadius: 16,
+                  padding: 4,
+                  borderWidth: 1,
+                  borderColor: colors.border + '60',
+                  shadowColor: colors.shadow,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 12,
+                  elevation: 6
+                }}>
+                  <ScrollView 
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ 
+                      paddingHorizontal: 8, 
+                      paddingVertical: 8,
+                      alignItems: 'center'
+                    }}
+                    decelerationRate="fast"
+                    snapToInterval={136}
+                    snapToAlignment="center"
+                    bounces={true}
+                    style={{ flex: 1 }}
+                  >
+                    {availableUsers.map((user, index) => (
+                      <TouchableOpacity
+                        key={user.id}
+                        onPress={() => {
+                          setSelectedUser(user);
+                          console.log('👤 Benutzer für Team-Zuordnung ausgewählt:', user.username);
+                        }}
+                        style={{
+                          backgroundColor: selectedUser?.id === user.id ? colors.primary : colors.surface,
+                          padding: 16,
+                          marginHorizontal: 8,
+                          borderRadius: 16,
+                          width: 120,
+                          alignItems: 'center',
+                          borderWidth: selectedUser?.id === user.id ? 3 : 1,
+                          borderColor: selectedUser?.id === user.id ? colors.primary : colors.border + '40',
+                          minHeight: 100,
+                          justifyContent: 'center',
+                          shadowColor: selectedUser?.id === user.id ? colors.primary : colors.shadow,
+                          shadowOffset: { width: 0, height: selectedUser?.id === user.id ? 6 : 2 },
+                          shadowOpacity: selectedUser?.id === user.id ? 0.3 : 0.1,
+                          shadowRadius: selectedUser?.id === user.id ? 8 : 4,
+                          elevation: selectedUser?.id === user.id ? 8 : 3,
+                          transform: selectedUser?.id === user.id ? [{ scale: 1.05 }] : [{ scale: 1 }],
+                          position: 'relative'
+                        }}
+                        activeOpacity={0.7}
+                      >
+                        {selectedUser?.id === user.id && (
+                          <View style={{
+                            position: 'absolute',
+                            top: -2,
+                            right: -2,
+                            backgroundColor: colors.success,
+                            borderRadius: 12,
+                            width: 24,
+                            height: 24,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderWidth: 2,
+                            borderColor: colors.surface,
+                            zIndex: 10
+                          }}>
+                            <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+                          </View>
+                        )}
+                        
+                        <Text style={{
+                          color: selectedUser?.id === user.id ? '#FFFFFF' : colors.text,
+                          fontWeight: '700',
+                          fontSize: 14,
+                          textAlign: 'center',
+                          marginBottom: 6
+                        }}>
+                          {user.username}
+                        </Text>
+                        <Text style={{
+                          color: selectedUser?.id === user.id ? 'rgba(255,255,255,0.9)' : colors.textMuted,
+                          fontSize: 11,
+                          textAlign: 'center',
+                          fontWeight: '500',
+                          backgroundColor: selectedUser?.id === user.id ? 'rgba(255,255,255,0.2)' : colors.card + '80',
+                          paddingHorizontal: 8,
+                          paddingVertical: 4,
+                          borderRadius: 8,
+                          overflow: 'hidden'
+                        }}>
+                          {user.patrol_team || 'Kein Team'}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+
+                {/* Team-Auswahl */}
+                <Text style={{
+                  fontSize: 16,
+                  fontWeight: '600',
+                  color: colors.text,
+                  marginBottom: 12
+                }}>
+                  👥 Team auswählen:
+                </Text>
+                
+                {[
+                  { id: 'alpha', name: 'Team Alpha', description: 'Streifenpolizei - Haupteinsatz', status: 'Aktiv' },
+                  { id: 'bravo', name: 'Team Bravo', description: 'Verkehrspolizei', status: 'Aktiv' },
+                  { id: 'charlie', name: 'Team Charlie', description: 'Ermittlungen', status: 'Aktiv' },
+                  { id: 'delta', name: 'Team Delta', description: 'Sondereinsatz', status: 'Bereitschaft' },
+                  { id: 'echo', name: 'Team Echo', description: 'Nachtschicht', status: 'Aktiv' },
+                  { id: 'foxtrot', name: 'Team Foxtrot', description: 'Wochenende', status: 'Bereitschaft' }
+                ].map((team) => (
+                  <TouchableOpacity
+                    key={team.id}
+                    onPress={() => setSelectedTeam(team)}
+                    style={{
+                      backgroundColor: selectedTeam?.id === team.id ? colors.primary + '20' : colors.card,
+                      padding: 16,
+                      marginVertical: 4,
+                      borderRadius: 12,
+                      borderWidth: 2,
+                      borderColor: selectedTeam?.id === team.id ? colors.primary : colors.border,
+                      flexDirection: 'row',
+                      alignItems: 'center'
+                    }}
+                  >
+                    <Ionicons 
+                      name={selectedTeam?.id === team.id ? "radio-button-on" : "radio-button-off"} 
+                      size={20} 
+                      color={selectedTeam?.id === team.id ? colors.primary : colors.textMuted} 
+                    />
+                    <View style={{ marginLeft: 12, flex: 1 }}>
+                      <Text style={{
+                        color: colors.text,
+                        fontWeight: '600',
+                        fontSize: 16
+                      }}>
+                        {team.name}
+                      </Text>
+                      <Text style={{
+                        color: colors.textMuted,
+                        fontSize: 14,
+                        marginTop: 2
+                      }}>
+                        {team.description}
+                      </Text>
+                    </View>
+                    <View style={{
+                      paddingHorizontal: 8,
+                      paddingVertical: 4,
+                      borderRadius: 8,
+                      backgroundColor: team.status === 'Aktiv' ? colors.success + '20' : colors.warning + '20'
+                    }}>
+                      <Text style={{
+                        fontSize: 12,
+                        fontWeight: '600',
+                        color: team.status === 'Aktiv' ? colors.success : colors.warning
+                      }}>
+                        {team.status}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+
+                {/* Rollen-Auswahl */}
+                {selectedTeam && (
+                  <View style={{ marginTop: 20 }}>
+                    <Text style={{
+                      fontSize: 16,
+                      fontWeight: '600',
+                      color: colors.text,
+                      marginBottom: 12
+                    }}>
+                      🎖️ Rolle im Team zuweisen:
+                    </Text>
+                    
+                    {[
+                      { id: 'leader', name: 'Teamleiter', description: 'Führung und Koordination', icon: 'star' },
+                      { id: 'deputy', name: 'Stellvertreter', description: 'Unterstützung der Führung', icon: 'star-half' },
+                      { id: 'specialist', name: 'Spezialist', description: 'Fachbereich-Experte', icon: 'construct' },
+                      { id: 'officer', name: 'Beamter', description: 'Standard-Teammitglied', icon: 'person' },
+                      { id: 'trainee', name: 'Auszubildender', description: 'In Ausbildung', icon: 'school' }
+                    ].map((role) => (
+                      <TouchableOpacity
+                        key={role.id}
+                        onPress={() => setSelectedRole(role)}
+                        style={{
+                          backgroundColor: selectedRole?.id === role.id ? colors.success + '20' : colors.card,
+                          padding: 12,
+                          marginVertical: 2,
+                          borderRadius: 8,
+                          borderWidth: 1,
+                          borderColor: selectedRole?.id === role.id ? colors.success : colors.border + '40',
+                          flexDirection: 'row',
+                          alignItems: 'center'
+                        }}
+                      >
+                        <Ionicons 
+                          name={role.icon} 
+                          size={18} 
+                          color={selectedRole?.id === role.id ? colors.success : colors.primary} 
+                        />
+                        <View style={{ marginLeft: 10, flex: 1 }}>
+                          <Text style={{
+                            color: colors.text,
+                            fontWeight: '600',
+                            fontSize: 14
+                          }}>
+                            {role.name}
+                          </Text>
+                          <Text style={{
+                            color: colors.textMuted,
+                            fontSize: 12
+                          }}>
+                            {role.description}
+                          </Text>
+                        </View>
+                        <Ionicons 
+                          name={selectedRole?.id === role.id ? "checkmark-circle" : "radio-button-off"} 
+                          size={18} 
+                          color={selectedRole?.id === role.id ? colors.success : colors.textMuted} 
+                        />
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+
+                {/* Aktuelle Zuordnung anzeigen */}
+                {selectedUser && (
+                  <View style={{
+                    backgroundColor: colors.warning + '20',
+                    padding: 16,
+                    marginTop: 16,
+                    borderRadius: 12,
+                    borderWidth: 1,
+                    borderColor: colors.warning
+                  }}>
+                    <Text style={{
+                      color: colors.text,
+                      fontWeight: '600',
+                      marginBottom: 8
+                    }}>
+                      📋 Aktuelle Team-Zuordnung:
+                    </Text>
+                    <Text style={{
+                      color: colors.textSecondary,
+                      fontSize: 14
+                    }}>
+                      <Text style={{ fontWeight: '600' }}>{selectedUser.username}</Text> ist aktuell dem Team{' '}
+                      <Text style={{ fontWeight: '600', color: colors.warning }}>
+                        "{selectedUser.patrol_team || 'Nicht zugewiesen'}"
+                      </Text> zugeordnet.
+                    </Text>
+                  </View>
+                )}
+
+              </ScrollView>
+
+              {/* Action Buttons */}
+              <View style={{ 
+                flexDirection: 'row', 
+                marginTop: 20,
+                paddingTop: 16,
+                borderTopWidth: 1,
+                borderTopColor: colors.border
+              }}>
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    backgroundColor: colors.textMuted + '20',
+                    paddingVertical: 14,
+                    paddingHorizontal: 20,
+                    borderRadius: 12,
+                    marginRight: 8,
+                    alignItems: 'center'
+                  }}
+                  onPress={() => setShowTeamAssignmentModal(false)}
+                >
+                  <Text style={{
+                    color: colors.textMuted,
+                    fontWeight: '600',
+                    fontSize: 16
+                  }}>
+                    Abbrechen
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity
+                  style={{
+                    flex: 1,
+                    backgroundColor: selectedUser && selectedTeam && selectedRole ? colors.primary : colors.textMuted + '40',
+                    paddingVertical: 14,
+                    paddingHorizontal: 20,
+                    borderRadius: 12,
+                    marginLeft: 8,
+                    alignItems: 'center'
+                  }}
+                  onPress={async () => {
+                    if (!selectedUser || !selectedTeam || !selectedRole) {
+                      Alert.alert('⚠️ Fehler', 'Bitte wählen Sie einen Benutzer, ein Team und eine Rolle aus.');
+                      return;
+                    }
+                    
+                    try {
+                      const config = token ? { headers: { Authorization: `Bearer ${token}` } } : {};
+                      
+                      // Team-Zuordnung über User-Update API
+                      await axios.put(`${API_URL}/api/admin/users/${selectedUser.id}/assign`, {
+                        patrol_team: selectedTeam.id,
+                        team_role: selectedRole.id
+                      }, config);
+                      
+                      Alert.alert('✅ Erfolg', `${selectedUser.username} wurde erfolgreich dem Team "${selectedTeam.name}" mit der Rolle "${selectedRole.name}" zugeordnet!`);
+                      
+                      // Modal schließen und Daten neu laden
+                      setShowTeamAssignmentModal(false);
+                      setSelectedUser(null);
+                      setSelectedTeam(null);
+                      setSelectedRole(null);
+                      
+                      // User-Listen neu laden
+                      await loadUsersByStatus();
+                      await loadAvailableUsers();
+                      
+                    } catch (error) {
+                      console.error('❌ Team assignment error:', error);
+                      Alert.alert('❌ Fehler', 'Team-Zuordnung fehlgeschlagen: ' + (error.response?.data?.detail || error.message));
+                    }
+                  }}
+                  disabled={!selectedUser || !selectedTeam || !selectedRole}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Ionicons name="people" size={18} color="#FFFFFF" />
+                    <Text style={{
+                      color: '#FFFFFF',
+                      fontWeight: '600',
+                      fontSize: 16,
+                      marginLeft: 8
+                    }}>
+                      Team zuordnen
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+
             </View>
           </View>
         </KeyboardAvoidingView>
