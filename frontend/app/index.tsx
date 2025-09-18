@@ -2130,11 +2130,13 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       if (response.ok) {
         Alert.alert('✅ Erfolg', `Urlaubsantrag wurde ${action === 'approve' ? 'genehmigt' : 'abgelehnt'}`);
         
-        // WICHTIG: Liste sofort neu laden
-        await loadPendingVacations();
-        
-        // WICHTIG: Entferne den bearbeiteten Antrag aus der UI-Liste
+        // ✅ FIX: Erst den bearbeiteten Antrag aus der UI-Liste entfernen
         setPendingVacations(prev => prev.filter(vacation => vacation.id !== vacationId));
+        
+        // ✅ FIX: Dann Liste neu laden um sicherzustellen, dass keine bearbeiteten Anträge erscheinen
+        setTimeout(async () => {
+          await loadPendingVacations();
+        }, 500); // Kleine Verzögerung für bessere UX
         
       } else {
         const error = await response.json();
