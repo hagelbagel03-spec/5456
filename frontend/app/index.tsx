@@ -12594,6 +12594,8 @@ Beispielinhalt:
               style={dynamicStyles.profileActionCard}
               onPress={() => {
                 console.log('👥 Team zuordnen clicked');
+                // ✅ FIX: Zuerst Benutzer laden, dann Modal öffnen
+                loadAvailableUsers();
                 setShowTeamAssignmentModal(true);
               }}
               activeOpacity={0.7}
