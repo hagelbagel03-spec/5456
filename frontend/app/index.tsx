@@ -1113,6 +1113,10 @@ const MainApp = ({ appConfig, setAppConfig }) => {
       
       // Starte automatische Aktualisierung
       startAutoRefresh();
+    } else {
+      // ✅ FIX: Wenn kein User vorhanden, setze Loading auf false um Login-Screen zu zeigen
+      console.log('⚠️ Kein Benutzer gefunden - zeige Login-Screen');
+      setLoading(false);
     }
     
     return () => {
