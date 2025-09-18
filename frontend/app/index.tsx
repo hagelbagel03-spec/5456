@@ -15163,6 +15163,58 @@ Beispielinhalt:
                       await loadUsersByStatus();
                       await loadAvailableUsers();
                       
+                      // ✅ FIX: Wenn der zugeordnete Benutzer der aktuelle Benutzer ist,
+                      // dann profileData und user-Kontext sofort aktualisieren für "Mein Team"
+                      if (selectedUser.id === user?.id) {
+                        try {
+                          const userResponse = await axios.get(`${API_URL}/api/auth/profile`, config);
+                          console.log('🔄 User-Profil nach Team-Zuordnung neu geladen:', userResponse.data);
+                          
+                          await updateUser(userResponse.data);
+                          
+                          // ✅ CRITICAL FIX: profileData sofort mit Team-Daten synchronisieren
+                          const updatedProfileData = {
+                            username: userResponse.data.username || '',
+                            phone: userResponse.data.phone || '',
+                            service_number: userResponse.data.service_number || '',
+                            rank: userResponse.data.rank || '',
+                            department: userResponse.data.department || '',
+                            photo: userResponse.data.photo || '',
+                            notification_sound: userResponse.data.notification_sound || 'default',
+                            vibration_pattern: userResponse.data.vibration_pattern || 'standard',
+                            battery_saver_mode: userResponse.data.battery_saver_mode || false,
+                            check_in_interval: userResponse.data.check_in_interval || 30,
+                            assigned_district: userResponse.data.assigned_district || '',
+                            // ✅ WICHTIGSTER FIX: patrol_team SOFORT aktualisieren
+                            patrol_team: userResponse.data.patrol_team || selectedTeam.id
+                          };
+                          
+                          setProfileData(updatedProfileData);
+                          console.log('✅ profileData mit Team-Daten aktualisiert:', updatedProfileData);
+                          console.log('✅ Neues patrol_team:', updatedProfileData.patrol_team);
+                          
+                          // ✅ EXTRA FIX: Auch localStorage/AsyncStorage aktualisieren
+                          try {
+                            if (typeof Storage !== 'undefined') {
+                              localStorage.setItem('user_profile', JSON.stringify(updatedProfileData));
+                              console.log('✅ LocalStorage mit Team-Daten aktualisiert');
+                            }
+                          } catch (storageError) {
+                            console.log('⚠️ LocalStorage nicht verfügbar:', storageError);
+                          }
+                          
+                        } catch (error) {
+                          console.error('❌ Fehler beim Aktualisieren des eigenen Team-Profils:', error);
+                          
+                          // ✅ FALLBACK: Wenn Backend-Call fehlschlägt, wenigstens lokale Daten aktualisieren
+                          setProfileData(prev => ({
+                            ...prev,
+                            patrol_team: selectedTeam.id
+                          }));
+                          console.log('✅ Fallback: profileData lokal mit Team aktualisiert:', selectedTeam.id);
+                        }
+                      }
+                      
                     } catch (error) {
                       console.error('❌ Team assignment error:', error);
                       Alert.alert('❌ Fehler', 'Team-Zuordnung fehlgeschlagen: ' + (error.response?.data?.detail || error.message));
