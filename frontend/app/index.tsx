@@ -12484,35 +12484,14 @@ const AppContent = () => {
 
   return user ? <MainApp user={user} token={token} setUser={setUser} appConfig={appConfig} /> : <LoginScreen appConfig={appConfig} />;
 };
-  };
 
-  useEffect(() => {
-    loadAppConfig();
-  }, []);
-
-  const dynamicStyles = StyleSheet.create({
-    loadingContainer: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-      backgroundColor: colors.background,
-    },
-    loadingText: {
-      marginTop: 20,
-      fontSize: 18,
-      color: colors.text,
-      fontWeight: '600',
-    },
-  });
-
-  if (loading) {
-    return (
-      <SafeAreaView style={dynamicStyles.loadingContainer}>
-        <ActivityIndicator size="large" color={colors.primary} />
-        <Text style={dynamicStyles.loadingText}>Stadtwache wird geladen...</Text>
-      </SafeAreaView>
-    );
-  }
-
-  return user ? <MainApp appConfig={appConfig} setAppConfig={setAppConfig} /> : <LoginScreen appConfig={appConfig} />;
-};
+// Main App Component
+export default function App() {
+  return (
+    <ThemeProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </ThemeProvider>
+  );
+}
