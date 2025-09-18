@@ -10348,8 +10348,9 @@ const MainApp = ({ appConfig, setAppConfig }) => {
               </View>
             </View>
 
+            {/* Quick Navigation Links */}
             <View style={dynamicStyles.formGroup}>
-              <Text style={dynamicStyles.formLabel}>🔔 Benachrichtigungseinstellungen</Text>
+              <Text style={dynamicStyles.formLabel}>🚀 Schnellzugriff</Text>
               <View style={dynamicStyles.quickLinksContainer}>
                 <TouchableOpacity 
                   style={dynamicStyles.quickLinkButton}
