@@ -12852,7 +12852,7 @@ Beispielinhalt:
               </View>
 
               <ScrollView showsVerticalScrollIndicator={false}>
-                {/* Benutzer-Auswahl - MOBILE OPTIMIERT */}
+                {/* Benutzer-Auswahl - MODERNES DESIGN */}
                 <Text style={{
                   fontSize: 16,
                   fontWeight: '600',
@@ -12862,21 +12862,36 @@ Beispielinhalt:
                   👤 Benutzer auswählen:
                 </Text>
                 
-                {/* ✅ FIX: Bessere ScrollView für Mobile APK */}
-                <View style={{ height: 100, marginBottom: 20 }}>
+                {/* ✅ MODERNES SCROLL-DESIGN */}
+                <View style={{ 
+                  height: 120, 
+                  marginBottom: 20,
+                  backgroundColor: colors.background,
+                  borderRadius: 16,
+                  padding: 4,
+                  borderWidth: 1,
+                  borderColor: colors.border + '60',
+                  // Moderner Schatten
+                  shadowColor: colors.shadow,
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.1,
+                  shadowRadius: 12,
+                  elevation: 6
+                }}>
                   <ScrollView 
                     horizontal={true}
-                    showsHorizontalScrollIndicator={true}
-                    contentContainerStyle={{ paddingHorizontal: 4, paddingVertical: 8 }}
-                    decelerationRate="fast"
-                    snapToInterval={130} // Snap zu Benutzer-Karten
-                    snapToAlignment="start"
-                    style={{ 
-                      flexGrow: 0,
-                      backgroundColor: colors.card + '40',
-                      borderRadius: 12,
-                      padding: 8
+                    showsHorizontalScrollIndicator={false}
+                    contentContainerStyle={{ 
+                      paddingHorizontal: 8, 
+                      paddingVertical: 8,
+                      alignItems: 'center'
                     }}
+                    decelerationRate="fast"
+                    snapToInterval={136} // Snap zu Benutzer-Karten (120px + 16px margin)
+                    snapToAlignment="center"
+                    bounces={true}
+                    pagingEnabled={false}
+                    style={{ flex: 1 }}
                   >
                     {availableUsers.map((user, index) => (
                       <TouchableOpacity
@@ -12886,45 +12901,125 @@ Beispielinhalt:
                           console.log('👤 Benutzer ausgewählt:', user.username);
                         }}
                         style={{
+                          // ✅ MODERNES CARD-DESIGN
                           backgroundColor: selectedUser?.id === user.id ? colors.primary : colors.surface,
                           padding: 16,
-                          marginHorizontal: 6,
-                          borderRadius: 12,
+                          marginHorizontal: 8,
+                          borderRadius: 16,
                           width: 120,
                           alignItems: 'center',
-                          borderWidth: 2,
-                          borderColor: selectedUser?.id === user.id ? colors.primary : colors.border,
-                          // ✅ Mobile Touch-Optimierung
-                          minHeight: 80,
+                          borderWidth: selectedUser?.id === user.id ? 3 : 1,
+                          borderColor: selectedUser?.id === user.id ? colors.primary : colors.border + '40',
+                          minHeight: 100,
                           justifyContent: 'center',
+                          // Moderner Schatten und Elevation
                           shadowColor: selectedUser?.id === user.id ? colors.primary : colors.shadow,
-                          shadowOffset: { width: 0, height: 2 },
+                          shadowOffset: { width: 0, height: selectedUser?.id === user.id ? 6 : 2 },
                           shadowOpacity: selectedUser?.id === user.id ? 0.3 : 0.1,
-                          shadowRadius: 4,
-                          elevation: selectedUser?.id === user.id ? 6 : 2
+                          shadowRadius: selectedUser?.id === user.id ? 8 : 4,
+                          elevation: selectedUser?.id === user.id ? 8 : 3,
+                          // ✅ Moderne Transformationen
+                          transform: selectedUser?.id === user.id ? [{ scale: 1.05 }] : [{ scale: 1 }],
+                          // ✅ Gradient-ähnlicher Effekt durch Overlay
+                          position: 'relative'
                         }}
                         activeOpacity={0.7}
                       >
+                        {/* ✅ Moderner Selektions-Indikator */}
+                        {selectedUser?.id === user.id && (
+                          <View style={{
+                            position: 'absolute',
+                            top: -2,
+                            right: -2,
+                            backgroundColor: colors.success,
+                            borderRadius: 12,
+                            width: 24,
+                            height: 24,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            borderWidth: 2,
+                            borderColor: colors.surface,
+                            zIndex: 10
+                          }}>
+                            <Ionicons name="checkmark" size={12} color="#FFFFFF" />
+                          </View>
+                        )}
+                        
                         <Text style={{
                           color: selectedUser?.id === user.id ? '#FFFFFF' : colors.text,
-                          fontWeight: '600',
+                          fontWeight: '700',
                           fontSize: 14,
                           textAlign: 'center',
-                          marginBottom: 4
+                          marginBottom: 6
                         }}>
                           {user.username}
                         </Text>
                         <Text style={{
-                          color: selectedUser?.id === user.id ? 'rgba(255,255,255,0.8)' : colors.textMuted,
+                          color: selectedUser?.id === user.id ? 'rgba(255,255,255,0.9)' : colors.textMuted,
                           fontSize: 11,
                           textAlign: 'center',
-                          fontWeight: '500'
+                          fontWeight: '500',
+                          backgroundColor: selectedUser?.id === user.id ? 'rgba(255,255,255,0.2)' : colors.card + '80',
+                          paddingHorizontal: 8,
+                          paddingVertical: 4,
+                          borderRadius: 8,
+                          overflow: 'hidden'
                         }}>
                           {user.assigned_district || 'Kein Bezirk'}
                         </Text>
                       </TouchableOpacity>
                     ))}
+                    
+                    {/* ✅ Moderne Scroll-Indikatoren */}
+                    {availableUsers.length > 2 && (
+                      <>
+                        <View style={{
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          bottom: 0,
+                          width: 20,
+                          backgroundColor: `linear-gradient(90deg, ${colors.background} 0%, transparent 100%)`,
+                          zIndex: 5,
+                          borderTopLeftRadius: 16,
+                          borderBottomLeftRadius: 16
+                        }} />
+                        <View style={{
+                          position: 'absolute',
+                          right: 0,
+                          top: 0,
+                          bottom: 0,
+                          width: 20,
+                          backgroundColor: `linear-gradient(270deg, ${colors.background} 0%, transparent 100%)`,
+                          zIndex: 5,
+                          borderTopRightRadius: 16,
+                          borderBottomRightRadius: 16
+                        }} />
+                      </>
+                    )}
                   </ScrollView>
+                  
+                  {/* ✅ Moderner Scroll-Indikator unten */}
+                  <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: 8,
+                    height: 4
+                  }}>
+                    {availableUsers.map((_, index) => (
+                      <View
+                        key={index}
+                        style={{
+                          width: selectedUser && availableUsers.findIndex(u => u.id === selectedUser.id) === index ? 12 : 4,
+                          height: 4,
+                          borderRadius: 2,
+                          backgroundColor: selectedUser && availableUsers.findIndex(u => u.id === selectedUser.id) === index ? colors.primary : colors.border,
+                          marginHorizontal: 2
+                        }}
+                      />
+                    ))}
+                  </View>
                 </View>
 
                 {/* Bezirk-Auswahl */}
